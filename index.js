@@ -9,7 +9,17 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+
+// Connexion Redis
 const redis = new Redis(process.env.REDIS_URL);
+
+redis.on('connect', () => {
+  console.log('✅ Connecté à Redis');
+});
+
+redis.on('error', (err) => {
+  console.error('❌ Erreur de connexion à Redis:', err);
+});
 
 // Connexion MQTT
 const mqttClient = mqtt.connect(process.env.MQTT_BROKER_URL, {
@@ -19,6 +29,10 @@ const mqttClient = mqtt.connect(process.env.MQTT_BROKER_URL, {
 
 mqttClient.on('connect', () => {
   console.log('✅ Connecté à EMQX MQTT');
+});
+
+mqttClient.on('error', (err) => {
+  console.error('❌ Erreur de connexion à EMQX MQTT:', err);
 });
 
 // Store des topics écoutés
@@ -94,5 +108,5 @@ app.post('/api/desabonner-topic', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Serveur Node.js en écoute sur le port ${PORT}`);
+  console.log(`🚀 Serveur ecouteur MQTT en écoute sur le port ${PORT}`);
 });
