@@ -40,7 +40,7 @@ mqttClient.on('error', (err) => {
 // Store des topics écoutés
 const subscribedTopics = new Set();
 
-// Écouter un topic via l'API
+// Écouter un topic via l'API avec QoS 1 pour une meilleure fiabilité
 app.post('/api/ecouter-topic', (req, res) => {
   const topic = req.body.topic;
 
@@ -48,7 +48,7 @@ app.post('/api/ecouter-topic', (req, res) => {
     return res.status(200).json({ message: 'Déjà en écoute ou invalide' });
   }
 
-  mqttClient.subscribe(topic, (err) => {
+  mqttClient.subscribe(topic, { qos: 1 }, (err) => {
     if (!err) {
       subscribedTopics.add(topic);
       console.log(`🎧 Écoute du topic: ${topic}`);
@@ -59,7 +59,7 @@ app.post('/api/ecouter-topic', (req, res) => {
   });
 });
 
-// Quand un message arrive → stocker dans Redis
+// Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
 mqttClient.on('message', (topic, message) => {
   try {
     const data = JSON.parse(message.toString());
@@ -98,7 +98,7 @@ app.post('/api/desabonner-topic', (req, res) => {
     return res.status(200).json({ message: 'Le topic n\'est pas en écoute' });
   }
 
-  mqttClient.unsubscribe(topic, (err) => {
+  mqttClient.unsubscribe(topic, { qos: 0 }, (err) => {
     if (!err) {
       subscribedTopics.delete(topic);
       console.log(`❌ Désabonnement du topic: ${topic}`);
