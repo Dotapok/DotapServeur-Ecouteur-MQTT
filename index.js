@@ -60,34 +60,33 @@ app.post('/api/ecouter-topic', (req, res) => {
 });
 
 // Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
-mqttClient.on('message', (topic, message) => {
+mqttClient.on('message', async (topic, message) => {
   try {
     const data = JSON.parse(message.toString());
     const chauffeurId = topic.split('/')[1];
 
-    redis.hset('chauffeurs_disponibles', chauffeurId, JSON.stringify({
-      id: chauffeurId,
-      lat: data.lat,
-      lng: data.lng,
-      updated_at: Date.now()
-    }));
+    // 1. Mise à jour de la position GEO
+    await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
 
-    console.log(`📍 Position de ${chauffeurId} mise à jour.`);
+    // 2. Récupérer les statuts en_ligne et en_course
+    const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
+
+    const enLigne = statut.en_ligne === '1';
+    const enCourse = statut.en_course === '1';
+
+    // 3. Déterminer s'il est dispo
+    const disponible = enLigne && !enCourse ? 1 : 0;
+
+    // 4. Mise à jour des infos
+    await redis.hset(`chauffeur:${chauffeurId}`, 
+      'updated_at', Date.now(),
+      'disponible', disponible
+    );
+
+    console.log(`📍 Position GEO de ${chauffeurId} mise à jour. Disponible = ${disponible}`);
   } catch (e) {
     console.error('Erreur de parsing MQTT:', e);
   }
-});
-
-// Endpoint pour récupérer les positions
-app.get('/api/chauffeurs-proches', async (req, res) => {
-  const chauffeurs = await redis.hgetall('chauffeurs_disponibles');
-
-  const data = Object.entries(chauffeurs).map(([id, val]) => {
-    const position = JSON.parse(val);
-    return { id, ...position };
-  });
-
-  res.json(data);
 });
 
 // Endpoint pour se désabonner d'un topic MQTT
