@@ -62,6 +62,7 @@ app.post('/api/ecouter-topic', (req, res) => {
 // Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
 mqttClient.on('message', async (topic, message) => {
   try {
+    console.log(`Message reçu: ${message.toString()}`);
     const data = JSON.parse(message.toString());
     const chauffeurId = topic.split('/')[1];
 
