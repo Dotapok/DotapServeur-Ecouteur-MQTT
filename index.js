@@ -62,33 +62,44 @@ app.post('/api/ecouter-topic', (req, res) => {
 // Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
 mqttClient.on('message', async (topic, message) => {
   try {
-    console.log(`Message reçu: ${message.toString()}`);
-    const data = JSON.parse(message.toString());
+    const payload = message.toString();
+    console.log(`📩 Message reçu: ${payload}`);
+
+    const data = JSON.parse(payload);
     const chauffeurId = topic.split('/')[1];
 
-    // 1. Mise à jour de la position GEO
-    await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
+    // Vérifie que la clé chauffeurs_positions est bien un zset (ou n'existe pas)
+    const keyType = await redis.type('chauffeurs_positions');
+    if (keyType !== 'zset' && keyType !== 'none') {
+      console.warn('⚠️ Clé "chauffeurs_positions" non valide, suppression en cours...');
+      await redis.del('chauffeurs_positions');
+    }
 
-    // 2. Récupérer les statuts en_ligne et en_course
+    // Mise à jour de la position GEO
+    await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
+    console.log(`📍 Position GEO de ${chauffeurId} mise à jour dans chauffeurs_positions.`);
+
+    // Récupérer les statuts en_ligne et en_course
     const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
 
     const enLigne = statut.en_ligne === '1';
     const enCourse = statut.en_course === '1';
 
-    // 3. Déterminer s'il est dispo
+    // Déterminer s'il est dispo
     const disponible = enLigne && !enCourse ? 1 : 0;
 
-    // 4. Mise à jour des infos
-    await redis.hset(`chauffeur:${chauffeurId}`, 
+    // Mise à jour des infos dans le hash chauffeur:<id>
+    await redis.hset(`chauffeur:${chauffeurId}`,
       'updated_at', Date.now(),
       'disponible', disponible
     );
 
-    console.log(`📍 Position GEO de ${chauffeurId} mise à jour. Disponible = ${disponible}`);
+    console.log(`✅ Chauffeur ${chauffeurId} disponible = ${disponible}`);
   } catch (e) {
-    console.error('Erreur de parsing MQTT:', e);
+    console.error('❌ Erreur de traitement MQTT:', e);
   }
 });
+
 
 // Endpoint pour se désabonner d'un topic MQTT
 app.post('/api/desabonner-topic', (req, res) => {
