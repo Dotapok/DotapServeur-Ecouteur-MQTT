@@ -60,7 +60,7 @@ app.post('/api/ecouter-topic', (req, res) => {
 });
 
 // Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
-mqttClient.on('message', async (topic, message) => { 
+mqttClient.on('message', async (topic, message) => {
   try {
     const payload = message.toString();
     console.log(`📩 Message reçu: ${payload}`);
@@ -71,28 +71,24 @@ mqttClient.on('message', async (topic, message) => {
     // Récupération du statut actuel du chauffeur
     const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
 
-    // Si le chauffeur est en ligne, il est disponible par défaut
-    let enLigne = statut.en_ligne === '1';  // Le chauffeur est en ligne si l'état est '1'
-    let enCourse = statut.en_course === '1'; // Si l'état 'en_course' est '1', il est en course
-    let disponible = 0;  // Par défaut, non disponible
+    // Conversions robustes des états
+    let enLigne = String(statut.en_ligne) === '1';
+    let enCourse = String(statut.en_course) === '1';
+    let disponible = 0;
 
-    // Si le chauffeur est en ligne et pas en course, il est disponible
     if (enLigne && !enCourse) {
       disponible = 1;
     }
 
-    // Sauvegarde de la position et des statuts dans Redis
-    // Utilisation de GEOADD pour ajouter ou mettre à jour la position dans le "zset" géospatial
+    // Mise à jour de la position dans le zset GEO
     await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
 
-    // Sauvegarde du statut dans un hash
+    // Mise à jour des infos dans le hash
     await redis.hset(`chauffeur:${chauffeurId}`,
-      'lat', data.lat,       // Position latitude
-      'lng', data.lng,       // Position longitude
-      'updated_at', Date.now(), // Timestamp de mise à jour
-      'disponible', disponible, // Statut de disponibilité
-      'en_ligne', enLigne,     // Statut en ligne
-      'en_course', enCourse    // Statut en course
+      'updated_at', Date.now(),
+      'disponible', disponible,
+      'en_ligne', enLigne ? '1' : '0',
+      'en_course', enCourse ? '1' : '0'
     );
 
     console.log(`✅ Position de ${chauffeurId} mise à jour. Disponible = ${disponible}, en_ligne = ${enLigne}, en_course = ${enCourse}`);
