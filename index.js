@@ -68,22 +68,21 @@ mqttClient.on('message', async (topic, message) => {
     const data = JSON.parse(payload);
     const chauffeurId = topic.split('/')[1];
 
-    // Récupération du statut actuel du chauffeur
+    // 🔍 Récupération du statut actuel (hash)
     const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
+    console.log('🔎 Statut actuel:', statut);
 
-    // Conversions robustes des états
-    let enLigne = String(statut.en_ligne) === '1';
-    let enCourse = String(statut.en_course) === '1';
-    let disponible = 0;
+    // 💡 Valeurs par défaut si non définies en BD
+    const enLigne = statut.en_ligne !== undefined ? statut.en_ligne === '1' : true;  // défaut = 1
+    const enCourse = statut.en_course !== undefined ? statut.en_course === '1' : false; // défaut = 0
 
-    if (enLigne && !enCourse) {
-      disponible = 1;
-    }
+    // 🧠 Logique de disponibilité
+    const disponible = enLigne && !enCourse ? 1 : 0;
 
-    // Mise à jour de la position dans le zset GEO
+    // 📍 Mise à jour géo (ZSET)
     await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
 
-    // Mise à jour des infos dans le hash
+    // 📝 Mise à jour du hash chauffeur
     await redis.hset(`chauffeur:${chauffeurId}`,
       'updated_at', Date.now(),
       'disponible', disponible,
@@ -91,11 +90,14 @@ mqttClient.on('message', async (topic, message) => {
       'en_course', enCourse ? '1' : '0'
     );
 
-    console.log(`✅ Position de ${chauffeurId} mise à jour. Disponible = ${disponible}, en_ligne = ${enLigne}, en_course = ${enCourse}`);
+    console.log(`✅ Position de ${chauffeurId} mise à jour.
+    Disponible = ${disponible}, en_ligne = ${enLigne}, en_course = ${enCourse}`);
+    
   } catch (e) {
     console.error('❌ Erreur de parsing MQTT:', e);
   }
 });
+
 
 // Endpoint pour se désabonner d'un topic MQTT
 app.post('/api/desabonner-topic', (req, res) => {
