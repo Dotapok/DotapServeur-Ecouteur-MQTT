@@ -68,38 +68,41 @@ mqttClient.on('message', async (topic, message) => {
     const data = JSON.parse(payload);
     const chauffeurId = topic.split('/')[1];
 
-    // Vérifie que la clé chauffeurs_positions est bien un zset (ou n'existe pas)
+    // Vérifier que la clé 'chauffeurs_positions' est bien un zset (ou n'existe pas encore)
     const keyType = await redis.type('chauffeurs_positions');
     if (keyType !== 'zset' && keyType !== 'none') {
-      console.warn('⚠️ Clé "chauffeurs_positions" non valide, suppression en cours...');
+      console.warn(`⚠️ Clé "chauffeurs_positions" invalide (type = ${keyType}), suppression...`);
       await redis.del('chauffeurs_positions');
     }
 
-    // Mise à jour de la position GEO
-    await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
-    console.log(`📍 Position GEO de ${chauffeurId} mise à jour dans chauffeurs_positions.`);
+    // Tenter l'ajout GEO de la position du chauffeur
+    try {
+      await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
+      console.log(`📍 Position GEO mise à jour pour chauffeur ${chauffeurId}`);
+    } catch (geoErr) {
+      console.error('❌ Erreur lors du GEOADD:', geoErr);
+      return; // On arrête là si le GEOADD échoue
+    }
 
-    // Récupérer les statuts en_ligne et en_course
+    // Récupération du statut actuel du chauffeur
     const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
-
     const enLigne = statut.en_ligne === '1';
     const enCourse = statut.en_course === '1';
 
-    // Déterminer s'il est dispo
+    // Calcul du statut de disponibilité
     const disponible = enLigne && !enCourse ? 1 : 0;
 
-    // Mise à jour des infos dans le hash chauffeur:<id>
-    await redis.hset(`chauffeur:${chauffeurId}`,
+    // Mise à jour des informations du chauffeur dans son hash
+    await redis.hset(`chauffeur:${chauffeurId}`, 
       'updated_at', Date.now(),
       'disponible', disponible
     );
 
-    console.log(`✅ Chauffeur ${chauffeurId} disponible = ${disponible}`);
+    console.log(`✅ Chauffeur ${chauffeurId} - Disponible: ${disponible}`);
   } catch (e) {
-    console.error('❌ Erreur de traitement MQTT:', e);
+    console.error('❌ Erreur générale de traitement du message MQTT:', e);
   }
 });
-
 
 // Endpoint pour se désabonner d'un topic MQTT
 app.post('/api/desabonner-topic', (req, res) => {
