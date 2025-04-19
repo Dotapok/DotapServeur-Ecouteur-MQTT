@@ -60,7 +60,7 @@ app.post('/api/ecouter-topic', (req, res) => {
 });
 
 // Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
-mqttClient.on('message', async (topic, message) => {
+mqttClient.on('message', async (topic, message) => { 
   try {
     const payload = message.toString();
     console.log(`📩 Message reçu: ${payload}`);
@@ -68,39 +68,36 @@ mqttClient.on('message', async (topic, message) => {
     const data = JSON.parse(payload);
     const chauffeurId = topic.split('/')[1];
 
-    // Vérifier que la clé 'chauffeurs_positions' est bien un zset (ou n'existe pas encore)
-    const keyType = await redis.type('chauffeurs_positions');
-    if (keyType !== 'zset' && keyType !== 'none') {
-      console.warn(`⚠️ Clé "chauffeurs_positions" invalide (type = ${keyType}), suppression...`);
-      await redis.del('chauffeurs_positions');
-    }
-
-    // Tenter l'ajout GEO de la position du chauffeur
-    try {
-      await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
-      console.log(`📍 Position GEO mise à jour pour chauffeur ${chauffeurId}`);
-    } catch (geoErr) {
-      console.error('❌ Erreur lors du GEOADD:', geoErr);
-      return; // On arrête là si le GEOADD échoue
-    }
-
     // Récupération du statut actuel du chauffeur
     const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
-    const enLigne = statut.en_ligne === '1';
-    const enCourse = statut.en_course === '1';
 
-    // Calcul du statut de disponibilité
-    const disponible = enLigne && !enCourse ? 1 : 0;
+    // Si le chauffeur est en ligne, il est disponible par défaut
+    let enLigne = statut.en_ligne === '1';  // Le chauffeur est en ligne si l'état est '1'
+    let enCourse = statut.en_course === '1'; // Si l'état 'en_course' est '1', il est en course
+    let disponible = 0;  // Par défaut, non disponible
 
-    // Mise à jour des informations du chauffeur dans son hash
-    await redis.hset(`chauffeur:${chauffeurId}`, 
-      'updated_at', Date.now(),
-      'disponible', disponible
+    // Si le chauffeur est en ligne et pas en course, il est disponible
+    if (enLigne && !enCourse) {
+      disponible = 1;
+    }
+
+    // Sauvegarde de la position et des statuts dans Redis
+    // Utilisation de GEOADD pour ajouter ou mettre à jour la position dans le "zset" géospatial
+    await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
+
+    // Sauvegarde du statut dans un hash
+    await redis.hset(`chauffeur:${chauffeurId}`,
+      'lat', data.lat,       // Position latitude
+      'lng', data.lng,       // Position longitude
+      'updated_at', Date.now(), // Timestamp de mise à jour
+      'disponible', disponible, // Statut de disponibilité
+      'en_ligne', enLigne,     // Statut en ligne
+      'en_course', enCourse    // Statut en course
     );
 
-    console.log(`✅ Chauffeur ${chauffeurId} - Disponible: ${disponible}`);
+    console.log(`✅ Position de ${chauffeurId} mise à jour. Disponible = ${disponible}, en_ligne = ${enLigne}, en_course = ${enCourse}`);
   } catch (e) {
-    console.error('❌ Erreur générale de traitement du message MQTT:', e);
+    console.error('❌ Erreur de parsing MQTT:', e);
   }
 });
 
