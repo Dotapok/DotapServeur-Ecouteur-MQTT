@@ -72,25 +72,24 @@ mqttClient.on('message', async (topic, message) => {
     const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
     console.log('🔎 Statut actuel:', statut);
 
-    // 💡 Valeurs par défaut si non définies en BD
-    const enLigne = statut.en_ligne !== undefined ? statut.en_ligne === '1' : true;  // défaut = 1
-    const enCourse = statut.en_course !== undefined ? statut.en_course === '1' : false; // défaut = 0
+    // 💡 Valeurs par défaut si non définies
+    const enLigne = statut.en_ligne !== undefined ? statut.en_ligne === '1' : true;
+    const enCourse = statut.en_course !== undefined ? statut.en_course === '1' : false;
 
     // 🧠 Logique de disponibilité
     const disponible = enLigne && !enCourse ? 1 : 0;
 
-    // 📍 Mise à jour géo (ZSET)
-    await redis.geoadd('chauffeurs_positions', data.lng, data.lat, chauffeurId);
-
-    // 📝 Mise à jour du hash chauffeur
-    await redis.hset(`chauffeur:${chauffeurId}`,
+    // 📝 Mise à jour des informations dans le hash chauffeur
+    await redis.hset(`chauffeur:${chauffeurId}`, 
+      'latitude', data.lat,
+      'longitude', data.lng,
       'updated_at', Date.now(),
       'disponible', disponible,
       'en_ligne', enLigne ? '1' : '0',
       'en_course', enCourse ? '1' : '0'
     );
 
-    console.log(`✅ Position de ${chauffeurId} mise à jour.
+    console.log(`✅ Position enregistrée pour ${chauffeurId} (sans geoadd).
     Disponible = ${disponible}, en_ligne = ${enLigne}, en_course = ${enCourse}`);
     
   } catch (e) {
