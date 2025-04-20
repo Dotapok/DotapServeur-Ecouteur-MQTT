@@ -9,8 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
-console.log('URL Redis:', process.env.REDIS_URL);
-console.log('URL MQTT:', process.env.MQTT_BROKER_URL);
 
 // Connexion Redis
 const redis = new Redis(process.env.REDIS_URL);
