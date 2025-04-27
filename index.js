@@ -3,6 +3,30 @@ const express = require('express');
 const mqtt = require('mqtt');
 const Redis = require('ioredis');
 const cors = require('cors');
+const axios = require('axios');
+const { createLogger, format, transports } = require('winston');
+require('winston-daily-rotate-file');
+
+const fileRotateTransport = new transports.DailyRotateFile({
+  dirname: './logs',
+  filename: '%DATE%.log',
+  datePattern: 'YYYY-MM-DD',
+  maxFiles: '14d',
+  level: 'info',
+});
+
+const logger = createLogger({
+  format: format.combine(
+    format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    format.printf(({ timestamp, level, message, ...meta }) =>
+      `${timestamp} [${level.toUpperCase()}] ${message} ${Object.keys(meta).length ? JSON.stringify(meta) : ''}`
+    )
+  ),
+  transports: [
+    new transports.Console({ level: 'debug' }),
+    fileRotateTransport
+  ]
+});
 
 const app = express();
 app.use(cors());
@@ -10,35 +34,23 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
 
-// Connexion Redis
+// Initialisation Redis
 const redis = new Redis(process.env.REDIS_URL);
+redis.on('connect', () => console.log('✅ Connecté à Redis'));
+redis.on('error', err => console.error('❌ Erreur Redis:', err));
 
-redis.on('connect', () => {
-  console.log('✅ Connecté à Redis');
-});
-
-redis.on('error', (err) => {
-  console.error('❌ Erreur de connexion à Redis:', err);
-});
-
-// Connexion MQTT
+// Initialisation MQTT
 const mqttClient = mqtt.connect(process.env.MQTT_BROKER_URL, {
   username: process.env.MQTT_USERNAME,
   password: process.env.MQTT_PASSWORD,
 });
-
-mqttClient.on('connect', () => {
-  console.log('✅ Connecté à EMQX MQTT');
-});
-
-mqttClient.on('error', (err) => {
-  console.error('❌ Erreur de connexion à EMQX MQTT:', err);
-});
+mqttClient.on('connect', () => console.log('✅ Connecté à MQTT'));
+mqttClient.on('error', err => console.error('❌ Erreur de connexion à MQTT:', err));
 
 // Store des topics écoutés
 const subscribedTopics = new Set();
 
-// Écouter un topic via l'API avec QoS 1 pour une meilleure fiabilité
+// Endpoint Écouter un topic via l'API avec QoS 1 pour une meilleure fiabilité
 app.post('/api/ecouter-topic', (req, res) => {
   const topic = req.body.topic;
 
@@ -57,63 +69,106 @@ app.post('/api/ecouter-topic', (req, res) => {
   });
 });
 
-// Quand un message arrive → stocker dans Redis (on pourrait envisager QoS 2 ici si nécessaire)
-mqttClient.on('message', async (topic, message) => {
-  try {
-    const payload = message.toString();
-    console.log(`📩 Message reçu: ${payload}`);
-
-    const data = JSON.parse(payload);
-    const chauffeurId = topic.split('/')[1];
-
-    // 🔍 Récupération du statut actuel (hash)
-    const statut = await redis.hgetall(`chauffeur:${chauffeurId}`);
-    console.log('🔎 Statut actuel:', statut);
-
-    // 💡 Valeurs par défaut si non définies
-    const enLigne = statut.en_ligne !== undefined ? statut.en_ligne === '1' : true;
-    const enCourse = statut.en_course !== undefined ? statut.en_course === '1' : false;
-
-    // 🧠 Logique de disponibilité
-    const disponible = enLigne && !enCourse ? 1 : 0;
-
-    // 📝 Mise à jour des informations dans le hash chauffeur
-    await redis.hset(`chauffeur:${chauffeurId}`, 
-      'latitude', data.lat,
-      'longitude', data.lng,
-      'updated_at', Date.now(),
-      'disponible', disponible,
-      'en_ligne', enLigne ? '1' : '0',
-      'en_course', enCourse ? '1' : '0'
-    );
-
-    console.log(`✅ Position enregistrée pour ${chauffeurId} (sans geoadd).
-    Disponible = ${disponible}, en_ligne = ${enLigne}, en_course = ${enCourse}`);
-    
-  } catch (e) {
-    console.error('❌ Erreur de parsing MQTT:', e);
-  }
-});
-
-
 // Endpoint pour se désabonner d'un topic MQTT
 app.post('/api/desabonner-topic', (req, res) => {
-  const topic = req.body.topic;
-
-  if (!topic || !subscribedTopics.has(topic)) {
-    return res.status(200).json({ message: 'Le topic n\'est pas en écoute' });
+  const { topic } = req.body;
+  if (!topic || !subscribed.has(topic)) {
+    return res.status(200).json({ message: 'Topic non abonné' });
   }
-
-  mqttClient.unsubscribe(topic, { qos: 0 }, (err) => {
-    if (!err) {
-      subscribedTopics.delete(topic);
-      console.log(`❌ Désabonnement du topic: ${topic}`);
-      res.status(200).json({ message: `Désabonnement du topic ${topic} effectué.` });
-    } else {
-      res.status(500).json({ message: 'Erreur lors du désabonnement du topic' });
+  mqttClient.unsubscribe(topic, {}, err => {
+    if (err) {
+      console.error('Erreur désabonnement:', err);
+      return res.status(500).json({ message: 'Erreur désabonnement MQTT' });
     }
+    subscribed.delete(topic);
+    console.log(`❌ Désabonné de ${topic}`);
+    res.json({ message: `Désabonnement de ${topic} réussi` });
   });
 });
+
+// Capteur de messages MQTT
+mqttClient.on('message', async (topic, message) => {
+  let data;
+  try {
+    data = JSON.parse(message.toString());
+  } catch (err) {
+    return console.error('❌ Payload non JSON:', err);
+  }
+
+  const [ , chauffeurId, event ] = topic.split('/');
+
+  try {
+    switch (event) {
+      case 'position':
+        await handlePosition(chauffeurId, data);
+        break;
+      case 'acceptation':
+        await notifyLaravel('/reservation/acceptation', {
+          chauffeur_id: chauffeurId,
+          resa_id: data.resa_id,
+        });
+        break;
+      case 'debutCourse':
+        await notifyLaravel('/reservation/debut', { resa_id: data.resa_id });
+        await updateStatut(chauffeurId, { en_course: true });
+        break;
+      case 'finCourse':
+        await notifyLaravel('/reservation/fin', { resa_id: data.resa_id });
+        await updateStatut(chauffeurId, { en_course: false });
+        break;
+      default:
+        console.log(`🔍 Topic non géré: ${topic}`);
+    }
+  } 
+  catch (err) {
+    console.error('❌ Erreur gestion message:', err);
+  }
+
+});
+
+// Fonctions utilitaires
+
+/** Envoi POST à Laravel avec token unique */
+async function notifyLaravel(endpoint, token, payload) {
+  try {
+    await axios.post(`${process.env.LARAVEL_API_URL}${endpoint}`, payload, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    logger.info(`✅ Notification envoyée vers ${endpoint}`);
+  } catch (err) {
+    logger.error(`❌ Erreur appel Laravel ${endpoint}:`, err.response ? err.response.data : err.message);
+  }
+}
+
+/**
+ * Mise à jour du statut chauffeur dans Redis
+ */
+async function updateStatut(chauffeurId, fields) {
+  const key = `chauffeur:${chauffeurId}`;
+  const mapping = {};
+  Object.entries(fields).forEach(([k, v]) => mapping[k] = v ? '1' : '0');
+  mapping.updated_at = Date.now();
+  await redis.hset(key, mapping);
+  console.log(`🔄 Statut mis à jour pour ${chauffeurId}:`, fields);
+}
+
+/**
+ * Gestion de la position GPS
+ */
+async function handlePosition(chauffeurId, { lat, lng }) {
+  const key = `chauffeur:${chauffeurId}`;
+  const statut = await redis.hgetall(key);
+  const enLigne = statut.en_ligne === '1';
+  const enCourse = statut.en_course === '1';
+  const disponible = enLigne && !enCourse ? '1' : '0';
+  await redis.hset(key, {
+    latitude: lat,
+    longitude: lng,
+    disponible,
+    updated_at: Date.now(),
+  });
+  console.log(`📍 Position de ${chauffeurId} enregistrée. Disponible=${disponible}`);
+}
 
 app.listen(PORT, () => {
   console.log(`🚀 Serveur ecouteur MQTT en écoute sur le port ${PORT}`);
