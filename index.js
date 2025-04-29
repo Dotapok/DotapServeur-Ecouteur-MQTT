@@ -88,42 +88,51 @@ app.post('/api/desabonner-topic', (req, res) => {
 
 // Capteur de messages MQTT
 mqttClient.on('message', async (topic, message) => {
+  const [ , chauffeurId, channel ] = topic.split('/');
   let data;
+
   try {
     data = JSON.parse(message.toString());
   } catch (err) {
-    return console.error('❌ Payload non JSON:', err);
+    return logger.error('Payload invalide', { error: err.message });
   }
 
-  const [ , chauffeurId, event ] = topic.split('/');
-
   try {
-    switch (event) {
+    switch (data.type) {
       case 'position':
-        await handlePosition(chauffeurId, data);
+        await handlePosition(chauffeurId, data.data);
         break;
+      
       case 'acceptation':
         await notifyLaravel('/reservation/acceptation', {
           chauffeur_id: chauffeurId,
-          resa_id: data.resa_id,
+          resa_id: data.data.resa_id,
         });
         break;
-      case 'debutCourse':
-        await notifyLaravel('/reservation/debut', { resa_id: data.resa_id });
+
+      case 'debut':
+        await notifyLaravel('/reservation/debut', { 
+          resa_id: data.data.resa_id 
+        });
         await updateStatut(chauffeurId, { en_course: true });
         break;
-      case 'finCourse':
-        await notifyLaravel('/reservation/fin', { resa_id: data.resa_id });
+
+      case 'fin':
+        await notifyLaravel('/reservation/fin', { 
+          resa_id: data.data.resa_id 
+        });
         await updateStatut(chauffeurId, { en_course: false });
         break;
-      default:
-        console.log(`🔍 Topic non géré: ${topic}`);
-    }
-  } 
-  catch (err) {
-    console.error('❌ Erreur gestion message:', err);
-  }
 
+      default:
+        logger.warn('Type non géré', { type: data.type });
+    }
+  } catch (err) {
+    logger.error('Erreur traitement', { 
+      error: err.message,
+      stack: err.stack 
+    });
+  }
 });
 
 // Fonctions utilitaires
