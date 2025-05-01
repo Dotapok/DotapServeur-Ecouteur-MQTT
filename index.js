@@ -82,6 +82,21 @@ app.post('/api/desabonner-topic', (req, res) => {
     }
     subscribedTopics.delete(topic);
     console.log(`❌ Désabonné de ${topic}`);
+    // Extraction du chauffeurId depuis le topic
+    const parts = topic.split('/');
+    if (parts.length >= 3) {
+      const chauffeurId = parts[1];
+      try {
+        await updateStatut(chauffeurId, { 
+          disponible: false,
+          en_ligne: false,
+          en_course: false
+        });
+      } catch (error) {
+        console.error('Erreur mise à jour statut:', error);
+      }
+    }
+
     res.json({ message: `Désabonnement de ${topic} réussi` });
   });
 });
@@ -108,6 +123,11 @@ mqttClient.on('message', async (topic, message) => {
           chauffeur_id: chauffeurId,
           resa_id: data.data.resa_id,
         });
+        await updateStatut(chauffeurId, { 
+          en_ligne: true,
+          en_course: true,
+          disponible: false
+        });
         break;
 
       case 'debut':
@@ -121,7 +141,10 @@ mqttClient.on('message', async (topic, message) => {
         await notifyLaravel('/reservation/fin', { 
           resa_id: data.data.resa_id 
         });
-        await updateStatut(chauffeurId, { en_course: false });
+        await updateStatut(chauffeurId, { 
+          en_course: false,
+          disponible: true
+        });
         break;
 
       default:
