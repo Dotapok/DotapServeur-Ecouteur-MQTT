@@ -75,7 +75,7 @@ app.post('/api/desabonner-topic', (req, res) => {
   if (!topic || !subscribedTopics.has(topic)) {
     return res.status(200).json({ message: 'Topic non abonné' });
   }
-  mqttClient.unsubscribe(topic, {}, err => {
+  mqttClient.unsubscribe(topic, {}, async (err) => {
     if (err) {
       console.error('Erreur désabonnement:', err);
       return res.status(500).json({ message: 'Erreur désabonnement MQTT' });
