@@ -187,32 +187,23 @@ async function updateStatut(chauffeurId, fields) {
 /**
  * Gestion de la position GPS
  */
-async function handlePosition(chauffeurId, { lat, lng }) {
-  const key = `chauffeur:${chauffeurId}`;
+async function handlePosition(id, { lat, lng }) {
+  const key = `chauffeur:${id}`;
   const statut = await redis.hgetall(key);
 
-  // Si jamais en_ligne est à false, on le passe à true
-  if (statut.en_ligne !== '1') {
-    await updateStatut(chauffeurId, {
-      en_ligne: true,
-      en_course: false,
-      disponible: true
-    });
-    console.log(`🟢 Chauffeur ${chauffeurId} automatiquement mis en ligne`);
-  }
-
-  // Calcul normal de la position
-  const enLigne   = statut.en_ligne === '1';
+  // Supposons qu’on considère désormais le chauffeur comme en ligne
+  const enLigne   = true;
   const enCourse  = statut.en_course === '1';
   const disponible= enLigne && !enCourse;
 
   await redis.hset(key, {
     latitude:   lat,
     longitude:  lng,
+    en_ligne:   '1',
     disponible: disponible ? '1' : '0',
     updated_at: Date.now()
   });
-  console.log(`📍 Position de ${chauffeurId} enregistrée. Disponible=${disponible}`);
+  console.log(`📍 Position de ${id} enregistrée. Disponible=${disponible}`);
 }
 
 app.listen(PORT, () => {
