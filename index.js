@@ -98,10 +98,10 @@ if (MQTT_ENABLED) {
     username: MQTT_USERNAME,
     password: MQTT_PASSWORD,
     clientId: 'ktur_status_publisher',
-    reconnectPeriod: 0, // Désactiver la reconnexion automatique
+    reconnectPeriod: 5000, // Reconnexion automatique toutes les 5 secondes
     connectTimeout: 30000,
     clean: true,
-    keepalive: 120, // Augmenter le keepalive
+    keepalive: 60, // Keepalive standard
     rejectUnauthorized: false,
     will: {
       topic: 'ktur/server/status',
@@ -118,6 +118,9 @@ if (MQTT_ENABLED) {
       status: 'online', 
       timestamp: new Date().toISOString() 
     }), { qos: 1, retain: true });
+    
+    // Traiter la file d'attente des messages différés
+    processPendingMessages();
   });
 
   mqttPublisher.on('error', err => {
@@ -127,12 +130,31 @@ if (MQTT_ENABLED) {
 
   mqttPublisher.on('close', (hadError) => {
     console.log(`🔌 Publisher MQTT fermé${hadError ? ' avec erreur' : ''}`);
-    // Ne pas essayer de se reconnecter automatiquement
+    // La reconnexion automatique se fera grâce à reconnectPeriod
+  });
+
+  mqttPublisher.on('reconnect', () => {
+    console.log('🔄 Reconnexion Publisher MQTT...');
   });
 
   mqttPublisher.on('offline', () => {
     console.log('📴 Publisher MQTT hors ligne');
   });
+
+  // Heartbeat pour maintenir la connexion active (toutes les 30 secondes)
+  const heartbeatInterval = setInterval(() => {
+    if (mqttPublisher && mqttPublisher.connected) {
+      mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
+        timestamp: new Date().toISOString() 
+      }), { qos: 0, retain: false });
+    }
+  }, 30000);
+
+  // Nettoyer l'intervalle lors de la fermeture
+  mqttPublisher.on('close', () => {
+    clearInterval(heartbeatInterval);
+  });
+
   } else {
     console.log('⚠️  Publisher MQTT désactivé');
   }
@@ -142,6 +164,36 @@ if (MQTT_ENABLED) {
 
 // Store des topics écoutés
 const subscribedTopics = new Set();
+
+// File d'attente pour les messages différés quand le publisher n'est pas connecté
+const pendingMessages = [];
+const MAX_PENDING_MESSAGES = 100; // Limite pour éviter l'accumulation excessive
+
+// Fonction pour traiter la file d'attente des messages différés
+function processPendingMessages() {
+  if (!mqttPublisher || !mqttPublisher.connected) {
+    return;
+  }
+  
+  console.log(`📤 Traitement de ${pendingMessages.length} messages en attente...`);
+  
+  while (pendingMessages.length > 0) {
+    const message = pendingMessages.shift();
+    try {
+      mqttPublisher.publish(message.topic, message.payload, message.options);
+      logger.info(`📡 Message différé publié: ${message.type} pour ${message.topic}`);
+    } catch (error) {
+      logger.error('Erreur publication message différé:', error);
+      // Remettre le message en file d'attente si erreur
+      pendingMessages.unshift(message);
+      break;
+    }
+  }
+  
+  if (pendingMessages.length === 0) {
+    console.log('✅ Tous les messages différés ont été traités');
+  }
+}
 
 // Fonction pour reconnecter manuellement le publisher
 function reconnectPublisher() {
@@ -165,10 +217,10 @@ function reconnectPublisher() {
     username: MQTT_USERNAME,
     password: MQTT_PASSWORD,
     clientId: 'ktur_status_publisher',
-    reconnectPeriod: 0,
+    reconnectPeriod: 5000, // Reconnexion automatique toutes les 5 secondes
     connectTimeout: 30000,
     clean: true,
-    keepalive: 120,
+    keepalive: 60, // Keepalive standard
     rejectUnauthorized: false,
     will: {
       topic: 'ktur/server/status',
@@ -184,6 +236,9 @@ function reconnectPublisher() {
       status: 'online', 
       timestamp: new Date().toISOString() 
     }), { qos: 1, retain: true });
+    
+    // Traiter la file d'attente des messages différés
+    processPendingMessages();
   });
 
   mqttPublisher.on('error', err => {
@@ -196,6 +251,20 @@ function reconnectPublisher() {
 
   mqttPublisher.on('offline', () => {
     console.log('📴 Publisher MQTT hors ligne');
+  });
+
+  // Heartbeat pour maintenir la connexion active (toutes les 30 secondes)
+  const heartbeatInterval = setInterval(() => {
+    if (mqttPublisher && mqttPublisher.connected) {
+      mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
+        timestamp: new Date().toISOString() 
+      }), { qos: 0, retain: false });
+    }
+  }, 30000);
+
+  // Nettoyer l'intervalle lors de la fermeture
+  mqttPublisher.on('close', () => {
+    clearInterval(heartbeatInterval);
   });
 }
 
@@ -224,6 +293,20 @@ app.post('/api/ecouter-topic', (req, res) => {
       res.status(500).json({ message: 'Erreur abonnement topic' });
     }
   });
+});
+
+// Endpoint pour vérifier l'état de la connexion MQTT
+app.get('/api/mqtt/status', (req, res) => {
+  const status = {
+    mqtt_enabled: MQTT_ENABLED,
+    publisher_enabled: MQTT_PUBLISHER_ENABLED,
+    listener_connected: mqttClient ? mqttClient.connected : false,
+    publisher_connected: mqttPublisher ? mqttPublisher.connected : false,
+    pending_messages: pendingMessages.length,
+    subscribed_topics: Array.from(subscribedTopics)
+  };
+  
+  res.json(status);
 });
 
 // Endpoint pour reconnecter manuellement le publisher MQTT
@@ -426,11 +509,6 @@ async function publishChauffeurStatus(chauffeurId) {
       return;
     }
     
-    if (!mqttPublisher.connected) {
-      logger.warn('Publisher MQTT non connecté, publication différée');
-      return;
-    }
-
     const key = `chauffeur:${chauffeurId}`;
     const statut = await redis.hgetall(key);
     
@@ -446,9 +524,26 @@ async function publishChauffeurStatus(chauffeurId) {
         timestamp: new Date().toISOString()
       };
       
-      // Publication sur le topic spécifique du chauffeur
-      mqttPublisher.publish(`${STATUS_TOPIC}/${chauffeurId}`, JSON.stringify(statusData), { qos: 1 });
+      const message = {
+        topic: `${STATUS_TOPIC}/${chauffeurId}`,
+        payload: JSON.stringify(statusData),
+        options: { qos: 1 },
+        type: 'status'
+      };
       
+      if (!mqttPublisher.connected) {
+        // Ajouter à la file d'attente si pas connecté
+        if (pendingMessages.length < MAX_PENDING_MESSAGES) {
+          pendingMessages.push(message);
+          logger.warn(`Publisher MQTT non connecté, statut de ${chauffeurId} mis en file d'attente`);
+        } else {
+          logger.warn('File d\'attente pleine, message ignoré');
+        }
+        return;
+      }
+      
+      // Publication immédiate si connecté
+      mqttPublisher.publish(message.topic, message.payload, message.options);
       logger.info(`📡 Statut publié pour chauffeur ${chauffeurId}`);
     }
   } catch (error) {
@@ -467,11 +562,6 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
       return;
     }
     
-    if (!mqttPublisher.connected) {
-      logger.warn('Publisher MQTT non connecté, publication différée');
-      return;
-    }
-
     const positionData = {
       chauffeur_id: chauffeurId,
       latitude: lat,
@@ -479,9 +569,26 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
       timestamp: new Date().toISOString()
     };
     
-    // Publication sur le topic de position
-    mqttPublisher.publish(`${POSITION_TOPIC}/${chauffeurId}`, JSON.stringify(positionData), { qos: 1 });
+    const message = {
+      topic: `${POSITION_TOPIC}/${chauffeurId}`,
+      payload: JSON.stringify(positionData),
+      options: { qos: 1 },
+      type: 'position'
+    };
     
+    if (!mqttPublisher.connected) {
+      // Ajouter à la file d'attente si pas connecté
+      if (pendingMessages.length < MAX_PENDING_MESSAGES) {
+        pendingMessages.push(message);
+        logger.warn(`Publisher MQTT non connecté, position de ${chauffeurId} mise en file d'attente`);
+      } else {
+        logger.warn('File d\'attente pleine, message ignoré');
+      }
+      return;
+    }
+    
+    // Publication immédiate si connecté
+    mqttPublisher.publish(message.topic, message.payload, message.options);
     logger.info(`📍 Position publiée pour chauffeur ${chauffeurId}`);
   } catch (error) {
     logger.error('Erreur publication position MQTT:', error);
