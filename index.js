@@ -618,6 +618,7 @@ async function handlePosition(id, { lat, lng }) {
   
   // Publication de la position via MQTT
   await publishChauffeurPosition(id, lat, lng);
+  await publishChauffeurStatus(id);
 }
 
 
