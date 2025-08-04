@@ -72,7 +72,18 @@ if (MQTT_ENABLED) {
 
   mqttClient.on('connect', () => {
     console.log('✅ Connecté à MQTT (Listener)');
-    // S'abonner aux topics par défaut si nécessaire
+    // S'abonner au topic des réservations récentes si non abonné
+    const topic = 'ktur/reservations/recentes';
+    if (!subscribedTopics.has(topic)) {
+      mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+        if (!err) {
+          subscribedTopics.add(topic);
+          console.log(`🎧 Écoute du topic: ${topic}`);
+        } else {
+          console.error(`❌ Erreur abonnement au topic ${topic}:`, err);
+        }
+      });
+    }
   });
 
   mqttClient.on('error', err => {
@@ -95,66 +106,60 @@ if (MQTT_ENABLED) {
   // Initialisation MQTT Publisher (pour propager les statuts vers les clients)
   if (MQTT_PUBLISHER_ENABLED) {
     mqttPublisher = mqtt.connect(MQTT_BROKER_URL, {
-    username: MQTT_USERNAME,
-    password: MQTT_PASSWORD,
-    clientId: 'ktur_status_publisher',
-    reconnectPeriod: 5000, // Reconnexion automatique toutes les 5 secondes
-    connectTimeout: 30000,
-    clean: true,
-    keepalive: 60, // Keepalive standard
-    rejectUnauthorized: false,
-    will: {
-      topic: 'ktur/server/status',
-      payload: JSON.stringify({ status: 'offline', timestamp: new Date().toISOString() }),
-      qos: 1,
-      retain: false
-    }
-  });
+      username: MQTT_USERNAME,
+      password: MQTT_PASSWORD,
+      clientId: 'ktur_status_publisher',
+      reconnectPeriod: 5000,
+      connectTimeout: 30000,
+      clean: true,
+      keepalive: 60,
+      rejectUnauthorized: false,
+      will: {
+        topic: 'ktur/server/status',
+        payload: JSON.stringify({ status: 'offline', timestamp: new Date().toISOString() }),
+        qos: 1,
+        retain: false
+      }
+    });
 
-  mqttPublisher.on('connect', () => {
-    console.log('✅ Publisher MQTT connecté');
-    // Publier un message de statut en ligne
-    mqttPublisher.publish('ktur/server/status', JSON.stringify({ 
-      status: 'online', 
-      timestamp: new Date().toISOString() 
-    }), { qos: 1, retain: true });
-    
-    // Traiter la file d'attente des messages différés
-    processPendingMessages();
-  });
-
-  mqttPublisher.on('error', err => {
-    console.error('❌ Erreur Publisher MQTT:', err.message);
-    console.error('   Code:', err.code);
-  });
-
-  mqttPublisher.on('close', (hadError) => {
-    console.log(`🔌 Publisher MQTT fermé${hadError ? ' avec erreur' : ''}`);
-    // La reconnexion automatique se fera grâce à reconnectPeriod
-  });
-
-  mqttPublisher.on('reconnect', () => {
-    console.log('🔄 Reconnexion Publisher MQTT...');
-  });
-
-  mqttPublisher.on('offline', () => {
-    console.log('📴 Publisher MQTT hors ligne');
-  });
-
-  // Heartbeat pour maintenir la connexion active (toutes les 30 secondes)
-  const heartbeatInterval = setInterval(() => {
-    if (mqttPublisher && mqttPublisher.connected) {
-      mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
+    mqttPublisher.on('connect', () => {
+      console.log('✅ Publisher MQTT connecté');
+      mqttPublisher.publish('ktur/server/status', JSON.stringify({ 
+        status: 'online', 
         timestamp: new Date().toISOString() 
-      }), { qos: 0, retain: false });
-    }
-  }, 30000);
+      }), { qos: 1, retain: true });
+      
+      processPendingMessages();
+    });
 
-  // Nettoyer l'intervalle lors de la fermeture
-  mqttPublisher.on('close', () => {
-    clearInterval(heartbeatInterval);
-  });
+    mqttPublisher.on('error', err => {
+      console.error('❌ Erreur Publisher MQTT:', err.message);
+      console.error('   Code:', err.code);
+    });
 
+    mqttPublisher.on('close', (hadError) => {
+      console.log(`🔌 Publisher MQTT fermé${hadError ? ' avec erreur' : ''}`);
+    });
+
+    mqttPublisher.on('reconnect', () => {
+      console.log('🔄 Reconnexion Publisher MQTT...');
+    });
+
+    mqttPublisher.on('offline', () => {
+      console.log('📴 Publisher MQTT hors ligne');
+    });
+
+    const heartbeatInterval = setInterval(() => {
+      if (mqttPublisher && mqttPublisher.connected) {
+        mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
+          timestamp: new Date().toISOString() 
+        }), { qos: 0, retain: false });
+      }
+    }, 30000);
+
+    mqttPublisher.on('close', () => {
+      clearInterval(heartbeatInterval);
+    });
   } else {
     console.log('⚠️  Publisher MQTT désactivé');
   }
@@ -167,7 +172,7 @@ const subscribedTopics = new Set();
 
 // File d'attente pour les messages différés quand le publisher n'est pas connecté
 const pendingMessages = [];
-const MAX_PENDING_MESSAGES = 100; // Limite pour éviter l'accumulation excessive
+const MAX_PENDING_MESSAGES = 100;
 
 // Fonction pour traiter la file d'attente des messages différés
 function processPendingMessages() {
@@ -184,7 +189,6 @@ function processPendingMessages() {
       logger.info(`📡 Message différé publié: ${message.type} pour ${message.topic}`);
     } catch (error) {
       logger.error('Erreur publication message différé:', error);
-      // Remettre le message en file d'attente si erreur
       pendingMessages.unshift(message);
       break;
     }
@@ -217,10 +221,10 @@ function reconnectPublisher() {
     username: MQTT_USERNAME,
     password: MQTT_PASSWORD,
     clientId: 'ktur_status_publisher',
-    reconnectPeriod: 5000, // Reconnexion automatique toutes les 5 secondes
+    reconnectPeriod: 5000,
     connectTimeout: 30000,
     clean: true,
-    keepalive: 60, // Keepalive standard
+    keepalive: 60,
     rejectUnauthorized: false,
     will: {
       topic: 'ktur/server/status',
@@ -237,7 +241,6 @@ function reconnectPublisher() {
       timestamp: new Date().toISOString() 
     }), { qos: 1, retain: true });
     
-    // Traiter la file d'attente des messages différés
     processPendingMessages();
   });
 
@@ -253,7 +256,6 @@ function reconnectPublisher() {
     console.log('📴 Publisher MQTT hors ligne');
   });
 
-  // Heartbeat pour maintenir la connexion active (toutes les 30 secondes)
   const heartbeatInterval = setInterval(() => {
     if (mqttPublisher && mqttPublisher.connected) {
       mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
@@ -262,13 +264,13 @@ function reconnectPublisher() {
     }
   }, 30000);
 
-  // Nettoyer l'intervalle lors de la fermeture
   mqttPublisher.on('close', () => {
     clearInterval(heartbeatInterval);
   });
 }
 
 // Configuration des topics de diffusion
+const RESERVATIONS_RECENTES_TOPIC = 'ktur/reservations/recentes';
 const STATUS_TOPIC = 'ktur/chauffeurs/status';
 const POSITION_TOPIC = 'ktur/chauffeurs/position';
 
@@ -338,7 +340,6 @@ app.post('/api/desabonner-topic', (req, res) => {
     }
     subscribedTopics.delete(topic);
     console.log(`❌ Désabonné de ${topic}`);
-    // Extraction du chauffeurId depuis le topic
     const parts = topic.split('/');
     if (parts.length >= 3) {
       const chauffeurId = parts[1];
@@ -409,65 +410,63 @@ app.get('/api/chauffeurs/:id/status', async (req, res) => {
 // Capteur de messages MQTT
 if (mqttClient) {
   mqttClient.on('message', async (topic, message) => {
-  const [ , chauffeurId, channel ] = topic.split('/');
-  let data;
+    const [ , chauffeurId, channel ] = topic.split('/');
+    let data;
 
-  try {
-    data = JSON.parse(message.toString());
-  } catch (err) {
-    return logger.error('Payload invalide', { error: err.message });
-  }
-
-  try {
-    switch (data.type) {
-      case 'position':
-        await handlePosition(chauffeurId, data.data);
-        break;
-      
-      case 'acceptation':
-        await notifyLaravel('/reservation/acceptation', {
-          chauffeur_id: chauffeurId,
-          resa_id: data.data.resa_id,
-        });
-        await updateStatut(chauffeurId, { 
-          en_ligne: true,
-          en_course: true,
-          disponible: false
-        });
-        break;
-
-      case 'debut':
-        await notifyLaravel('/reservation/debut', { 
-          resa_id: data.data.resa_id 
-        });
-        await updateStatut(chauffeurId, { en_course: true });
-        break;
-
-      case 'fin':
-        await notifyLaravel('/reservation/fin', { 
-          resa_id: data.data.resa_id 
-        });
-        await updateStatut(chauffeurId, { 
-          en_course: false,
-          disponible: true
-        });
-        break;
-
-      default:
-        logger.warn('Type non géré', { type: data.type });
+    try {
+      data = JSON.parse(message.toString());
+    } catch (err) {
+      return logger.error('Payload invalide', { error: err.message });
     }
-  } catch (err) {
-    logger.error('Erreur traitement', { 
-      error: err.message,
-      stack: err.stack 
-    });
-  }
+
+    try {
+      switch (data.type) {
+        case 'position':
+          await handlePosition(chauffeurId, data.data);
+          break;
+        
+        case 'acceptation':
+          await notifyLaravel('/reservation/acceptation', {
+            chauffeur_id: chauffeurId,
+            resa_id: data.data.resa_id,
+          });
+          await updateStatut(chauffeurId, { 
+            en_ligne: true,
+            en_course: true,
+            disponible: false
+          });
+          break;
+
+        case 'debut':
+          await notifyLaravel('/reservation/debut', { 
+            resa_id: data.data.resa_id 
+          });
+          await updateStatut(chauffeurId, { en_course: true });
+          break;
+
+        case 'fin':
+          await notifyLaravel('/reservation/fin', { 
+            resa_id: data.data.resa_id 
+          });
+          await updateStatut(chauffeurId, { 
+            en_course: false,
+            disponible: true
+          });
+          break;
+
+        default:
+          logger.warn('Type non géré', { type: data.type });
+      }
+    } catch (err) {
+      logger.error('Erreur traitement', { 
+        error: err.message,
+        stack: err.stack 
+      });
+    }
   });
 }
 
 // Fonctions utilitaires
-
-/** Envoi POST à Laravel */
 async function notifyLaravel(endpoint, payload) {
   try {
     await axios.post(`${process.env.LARAVEL_API_URL}${endpoint}`, payload, {
@@ -482,9 +481,6 @@ async function notifyLaravel(endpoint, payload) {
   }
 }
 
-/**
- * Mise à jour du statut chauffeur dans Redis et publication MQTT
- */
 async function updateStatut(chauffeurId, fields) {
   const key = `chauffeur:${chauffeurId}`;
   const mapping = {};
@@ -494,16 +490,11 @@ async function updateStatut(chauffeurId, fields) {
   await redis.hset(key, mapping);
   console.log(`🔄 Statut mis à jour pour ${chauffeurId}:`, fields);
   
-  // Publication du statut mis à jour via MQTT
   await publishChauffeurStatus(chauffeurId);
 }
 
-/**
- * Publication du statut d'un chauffeur via MQTT
- */
 async function publishChauffeurStatus(chauffeurId) {
   try {
-    // Vérifier que MQTT est activé et que le publisher est connecté
     if (!MQTT_ENABLED || !mqttPublisher) {
       logger.warn('MQTT non disponible, publication ignorée');
       return;
@@ -532,7 +523,6 @@ async function publishChauffeurStatus(chauffeurId) {
       };
       
       if (!mqttPublisher.connected) {
-        // Ajouter à la file d'attente si pas connecté
         if (pendingMessages.length < MAX_PENDING_MESSAGES) {
           pendingMessages.push(message);
           logger.warn(`Publisher MQTT non connecté, statut de ${chauffeurId} mis en file d'attente`);
@@ -542,7 +532,6 @@ async function publishChauffeurStatus(chauffeurId) {
         return;
       }
       
-      // Publication immédiate si connecté
       mqttPublisher.publish(message.topic, message.payload, message.options);
       logger.info(`📡 Statut publié pour chauffeur ${chauffeurId}`);
     }
@@ -551,12 +540,8 @@ async function publishChauffeurStatus(chauffeurId) {
   }
 }
 
-/**
- * Publication de la position d'un chauffeur via MQTT
- */
 async function publishChauffeurPosition(chauffeurId, lat, lng) {
   try {
-    // Vérifier que MQTT est activé et que le publisher est connecté
     if (!MQTT_ENABLED || !mqttPublisher) {
       logger.warn('MQTT non disponible, publication ignorée');
       return;
@@ -577,7 +562,6 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
     };
     
     if (!mqttPublisher.connected) {
-      // Ajouter à la file d'attente si pas connecté
       if (pendingMessages.length < MAX_PENDING_MESSAGES) {
         pendingMessages.push(message);
         logger.warn(`Publisher MQTT non connecté, position de ${chauffeurId} mise en file d'attente`);
@@ -587,7 +571,6 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
       return;
     }
     
-    // Publication immédiate si connecté
     mqttPublisher.publish(message.topic, message.payload, message.options);
     logger.info(`📍 Position publiée pour chauffeur ${chauffeurId}`);
   } catch (error) {
@@ -595,14 +578,10 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
   }
 }
 
-/**
- * Gestion de la position GPS
- */
 async function handlePosition(id, { lat, lng }) {
   const key = `chauffeur:${id}`;
   const statut = await redis.hgetall(key);
 
-  // Supposons qu'on considère désormais le chauffeur comme en ligne
   const enLigne   = true;
   const enCourse  = statut.en_course === '1';
   const disponible= enLigne && !enCourse;
@@ -616,21 +595,18 @@ async function handlePosition(id, { lat, lng }) {
   });
   console.log(`📍 Position de ${id} enregistrée. Disponible=${disponible}`);
   
-  // Publication de la position via MQTT
   await publishChauffeurPosition(id, lat, lng);
   await publishChauffeurStatus(id);
 }
-
-
 
 app.listen(PORT, () => {
   console.log(`🚀 Serveur ecouteur MQTT en écoute sur le port ${PORT}`);
   console.log(`📡 Topics de diffusion:`);
   console.log(`   - ${STATUS_TOPIC}/[chauffeur_id] : Statut individuel`);
   console.log(`   - ${POSITION_TOPIC}/[chauffeur_id] : Position individuelle`);
+  console.log(`   - ${RESERVATIONS_RECENTES_TOPIC} : Nouvelles réservations`);
 });
 
-// Gestion propre de la fermeture du serveur
 process.on('SIGINT', () => {
   console.log('\n🛑 Arrêt du serveur...');
   if (mqttClient) mqttClient.end();
@@ -647,7 +623,6 @@ process.on('SIGTERM', () => {
   process.exit(0);
 });
 
-// Gestion des erreurs non capturées
 process.on('uncaughtException', (err) => {
   console.error('❌ Erreur non capturée:', err);
   process.exit(1);
