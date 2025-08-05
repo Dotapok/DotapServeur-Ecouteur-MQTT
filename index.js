@@ -407,64 +407,177 @@ app.get('/api/chauffeurs/:id/status', async (req, res) => {
   }
 });
 
+// === AJOUT : Endpoints API pour la communication par réservation ===
+app.post('/api/reservation/subscribe', (req, res) => {
+  const { reservation_id } = req.body;
+  const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
+  if (!subscribedTopics.has(topic)) {
+    mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+      if (!err) {
+        subscribedTopics.add(topic);
+        console.log(`🎧 Écoute du topic: ${topic}`);
+        res.json({ message: `Abonné au topic de réservation ${reservation_id}` });
+      } else {
+        res.status(500).json({ error: 'Erreur abonnement topic' });
+      }
+    });
+  } else {
+    res.json({ message: `Déjà abonné au topic de réservation ${reservation_id}` });
+  }
+});
+
+app.post('/api/reservation/send-message', async (req, res) => {
+  const { reservation_id, message } = req.body;
+  const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
+  try {
+    mqttPublisher.publish(topic, JSON.stringify({
+      type: 'chat',
+      from: message.from,
+      content: message.content // Doit être chiffré côté client
+    }), { qos: 1 });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur envoi message' });
+  }
+});
+// === END AJOUT ===
+
 // Capteur de messages MQTT
 if (mqttClient) {
   mqttClient.on('message', async (topic, message) => {
-    const [ , chauffeurId, channel ] = topic.split('/');
-    let data;
-
     try {
-      data = JSON.parse(message.toString());
-    } catch (err) {
-      return logger.error('Payload invalide', { error: err.message });
-    }
-
-    try {
-      switch (data.type) {
-        case 'position':
-          await handlePosition(chauffeurId, data.data);
-          break;
-        
-        case 'acceptation':
-          await notifyLaravel('/reservation/acceptation', {
-            chauffeur_id: chauffeurId,
-            resa_id: data.data.resa_id,
-          });
-          await updateStatut(chauffeurId, { 
-            en_ligne: true,
-            en_course: true,
-            disponible: false
-          });
-          break;
-
-        case 'debut':
-          await notifyLaravel('/reservation/debut', { 
-            resa_id: data.data.resa_id 
-          });
-          await updateStatut(chauffeurId, { en_course: true });
-          break;
-
-        case 'fin':
-          await notifyLaravel('/reservation/fin', { 
-            resa_id: data.data.resa_id 
-          });
-          await updateStatut(chauffeurId, { 
-            en_course: false,
-            disponible: true
-          });
-          break;
-
-        default:
-          logger.warn('Type non géré', { type: data.type });
+      const data = JSON.parse(message.toString());
+      if (topic === RESERVATIONS_RECENTES_TOPIC) {
+        await handleNewReservation(data);
+      } else if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
+        const reservationId = topic.split('/')[2];
+        await handleReservationMessage(reservationId, data);
+      } else if (topic.startsWith(STATUS_TOPIC)) {
+        // ... gestion statuts chauffeurs existante ...
+      } else if (topic.startsWith(POSITION_TOPIC)) {
+        // ... gestion positions chauffeurs existante ...
       }
     } catch (err) {
-      logger.error('Erreur traitement', { 
-        error: err.message,
-        stack: err.stack 
-      });
+      logger.error('Erreur traitement message', { error: err.message, topic });
     }
   });
 }
+
+// Nouvelle réservation reçue
+async function handleNewReservation(data) {
+  console.log(`Nouvelle réservation reçue: ${data.reservation_id}`);
+  // Ici vous pouvez notifier les chauffeurs disponibles
+}
+
+// Gestion des messages sur topic de réservation
+async function handleReservationMessage(reservationId, data) {
+  switch (data.type) {
+    case 'chat':
+      await handleChatMessage(reservationId, data);
+      break;
+    case 'position':
+      await handleReservationPosition(reservationId, data);
+      break;
+    case 'acceptation':
+      await handleReservationAcceptance(reservationId, data);
+      break;
+    case 'debut':
+    case 'fin':
+      await handleReservationStatusChange(reservationId, data);
+      break;
+    default:
+      logger.warn('Type de message non géré', { type: data.type });
+  }
+}
+
+// Chat par réservation
+async function handleChatMessage(reservationId, data) {
+  const key = `chat:${reservationId}:messages`;
+  await redis.lpush(key, JSON.stringify({
+    from: data.from,
+    content: data.content, // Contenu déjà chiffré côté client
+    timestamp: new Date().toISOString()
+  }));
+  const messageCount = await redis.llen(key);
+  if (messageCount >= CHAT_MAX_MESSAGES) {
+    await archiveChatMessages(reservationId);
+  }
+}
+
+async function archiveChatMessages(reservationId) {
+  const key = `chat:${reservationId}:messages`;
+  const messages = await redis.lrange(key, 0, -1);
+  try {
+    await axios.post(`${process.env.LARAVEL_API_URL}/api/chat/archive`, {
+      reservation_id: reservationId,
+      messages: messages.map(msg => JSON.parse(msg))
+    });
+    await redis.del(key);
+    logger.info(`📦 Chat archivé pour la réservation ${reservationId}`);
+  } catch (err) {
+    logger.error('Erreur archivage chat', { error: err.message });
+  }
+}
+
+async function handleReservationPosition(reservationId, data) {
+  const key = `reservation:${reservationId}:position`;
+  await redis.hset(key, {
+    lat: data.lat,
+    lng: data.lng,
+    updated_at: Date.now()
+  });
+}
+
+async function handleReservationAcceptance(reservationId, data) {
+  // Créer le topic dédié à cette réservation
+  const reservationTopic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
+  if (!subscribedTopics.has(reservationTopic)) {
+    mqttClient.subscribe(reservationTopic, { qos: 1 }, (err) => {
+      if (!err) {
+        subscribedTopics.add(reservationTopic);
+        console.log(`🎧 Écoute du topic: ${reservationTopic}`);
+      } else {
+        console.error(`❌ Erreur abonnement ${reservationTopic}:`, err);
+      }
+    });
+  }
+  // Notifier Laravel et mettre à jour le statut
+  await notifyLaravel('/reservation/acceptation', {
+    reservation_id: reservationId,
+    chauffeur_id: data.chauffeur_id
+  });
+  await updateStatut(data.chauffeur_id, {
+    en_ligne: true,
+    en_course: true,
+    disponible: false
+  });
+}
+
+async function handleReservationStatusChange(reservationId, data) {
+  const endpoint = data.type === 'debut' ? '/reservation/debut' : '/reservation/fin';
+  await notifyLaravel(endpoint, { reservation_id: reservationId });
+  if (data.type === 'fin') {
+    await cleanupReservation(reservationId);
+  }
+}
+
+async function cleanupReservation(reservationId) {
+  // Archivage final du chat
+  const chatKey = `chat:${reservationId}:messages`;
+  if (await redis.exists(chatKey)) {
+    await archiveChatMessages(reservationId);
+  }
+  // Suppression des données Redis
+  await redis.del(`reservation:${reservationId}:position`);
+  // Désabonnement du topic (optionnel)
+  const topic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
+  if (subscribedTopics.has(topic)) {
+    mqttClient.unsubscribe(topic);
+    subscribedTopics.delete(topic);
+  }
+}
+
+// === END AJOUT ===
 
 // Fonctions utilitaires
 async function notifyLaravel(endpoint, payload) {
