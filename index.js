@@ -271,6 +271,7 @@ function reconnectPublisher() {
 
 // Configuration des topics de diffusion
 const RESERVATIONS_RECENTES_TOPIC = 'ktur/reservations/recentes';
+const RESERVATION_TOPIC_PREFIX = 'ktur/reservations/'; // Format: ktur/reservations/{reservation_id}
 const STATUS_TOPIC = 'ktur/chauffeurs/status';
 const POSITION_TOPIC = 'ktur/chauffeurs/position';
 
