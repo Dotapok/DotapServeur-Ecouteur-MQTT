@@ -460,7 +460,11 @@ app.post('/api/reservation/send-message', async (req, res) => {
 if (mqttClient) {
   mqttClient.on('message', async (topic, message) => {
     try {
-      const data = JSON.parse(message.toString());
+      const payload = message.toString();
+      const data = JSON.parse(payload);
+
+      // Debug: Inspecter la structure réelle des messages
+      logger.info(`Message brut sur ${topic}:`, { payload });
       if (topic === RESERVATIONS_RECENTES_TOPIC) {
         await handleNewReservation(data);
       } else if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
