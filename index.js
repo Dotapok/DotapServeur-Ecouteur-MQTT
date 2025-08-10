@@ -466,10 +466,10 @@ if (mqttClient) {
       } else if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
         const reservationId = topic.split('/')[2];
         await handleReservationMessage(reservationId, data);
-      } else if (topic.startsWith(STATUS_TOPIC)) {
+      } else if (topic.match(/^chauffeur\/.+\/status$/)) {
         const chauffeurId = topic.split('/')[1];
         await handleStatusUpdate(chauffeurId, data);
-      } else if (topic.startsWith(POSITION_TOPIC)) {
+      } else if (topic.match(/^chauffeur\/.+\/position$/)) {
         const chauffeurId = topic.split('/')[1];
         await handlePosition(chauffeurId, data);
       }
@@ -708,6 +708,7 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
 
 async function handlePosition(id, { lat, lng }) {
   const key = `chauffeur:${id}`;
+  logger.info(`📍 Position recu pour ${id}: lat=${lat}, lng=${lng}`);
   const statut = await redis.hgetall(key);
 
   const enLigne   = true;
@@ -743,8 +744,8 @@ async function handleStatusUpdate(chauffeurId, data) {
 app.listen(PORT, () => {
   console.log(`🚀 Serveur ecouteur MQTT en écoute sur le port ${PORT}`);
   console.log(`📡 Topics de diffusion:`);
-  console.log(`   - ${STATUS_TOPIC}/[chauffeur_id] : Statut individuel`);
-  console.log(`   - ${POSITION_TOPIC}/[chauffeur_id] : Position individuelle`);
+  console.log(`   - ${STATUS_TOPIC} : Statut individuel`);
+  console.log(`   - ${POSITION_TOPIC} : Position individuelle`);
   console.log(`   - ${RESERVATIONS_RECENTES_TOPIC} : Nouvelles réservations`);
 });
 
