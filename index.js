@@ -35,15 +35,23 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 
 // Configuration MQTT avec valeurs par défaut
-const MQTT_BROKER_URL = process.env.MQTT_BROKER_URL || 'mqtt://localhost:1883';
-const MQTT_USERNAME = process.env.MQTT_USERNAME || '';
-const MQTT_PASSWORD = process.env.MQTT_PASSWORD || '';
+const MQTT_BROKER_URL = process.env.MQTT_BROKER_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'mqtt://pbb16a10.ala.us-east-1.emqxsl.com:8883'  // Broker privé en production
+    : 'mqtt://test.mosquitto.org:1883');               // Broker public en développement
+
+const MQTT_USERNAME = process.env.MQTT_USERNAME || 
+  (process.env.NODE_ENV === 'production' ? 'Ktur_brocker' : '');
+const MQTT_PASSWORD = process.env.MQTT_PASSWORD || 
+  (process.env.NODE_ENV === 'production' ? 'Ktur_brocker#2025' : '');
 const MQTT_ENABLED = process.env.MQTT_ENABLED !== 'false'; // Désactiver avec MQTT_ENABLED=false
 const MQTT_PUBLISHER_ENABLED = process.env.MQTT_PUBLISHER_ENABLED !== 'false'; // Désactiver publisher avec MQTT_PUBLISHER_ENABLED=false
 
 console.log('🔧 Configuration MQTT:');
 console.log(`   Broker: ${MQTT_BROKER_URL}`);
 console.log(`   Username: ${MQTT_USERNAME || 'non défini'}`);
+console.log(`   Password: ${MQTT_PASSWORD ? '***' : 'non défini'}`);
+console.log(`   Mode: ${process.env.NODE_ENV || 'development'}`);
 console.log(`   Activé: ${MQTT_ENABLED}`);
 console.log(`   Publisher: ${MQTT_PUBLISHER_ENABLED}`);
 
@@ -272,7 +280,7 @@ function reconnectPublisher() {
 // Configuration des topics de diffusion
 const RESERVATIONS_RECENTES_TOPIC = 'ktur/reservations/recentes';
 const RESERVATION_TOPIC_PREFIX = 'ktur/reservations/'; // Format: ktur/reservations/{reservation_id}
-const STATUS_TOPIC = 'ktur/chauffeurs/status';
+const STATUS_TOPIC = 'chauffeur/+/status';
 const POSITION_TOPIC = 'chauffeur/+/position';
 
 // Endpoint Écouter un topic via l'API avec QoS 1 pour une meilleure fiabilité
@@ -630,7 +638,7 @@ async function publishChauffeurStatus(chauffeurId) {
       };
       
       const message = {
-        topic: `${STATUS_TOPIC}/${chauffeurId}`,
+        topic: `chauffeur/${chauffeurId}/status`,
         payload: JSON.stringify(statusData),
         options: { qos: 1 },
         type: 'status'
@@ -669,7 +677,7 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
     };
     
     const message = {
-      topic: `${POSITION_TOPIC}/${chauffeurId}`,
+      topic: `chauffeur/${chauffeurId}/position`,
       payload: JSON.stringify(positionData),
       options: { qos: 1 },
       type: 'position'
