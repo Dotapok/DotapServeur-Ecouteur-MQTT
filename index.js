@@ -37,16 +37,16 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 
 // Configuration MQTT avec valeurs par défaut (développement par défaut)
 const MQTT_BROKER_URL =
-  NODE_ENV === 'production'
+  NODE_ENV === 'development'
     ? (process.env.MQTT_BROKER_URL || 'mqtts://pbb16a10.ala.us-east-1.emqxsl.com:8883') // Broker privé en production
     : (process.env.MQTT_BROKER_URL_DEV || 'mqtt://test.mosquitto.org:1883');             // Broker public en développement
 
 const MQTT_USERNAME =
-  NODE_ENV === 'production'
+  NODE_ENV === 'development'
     ? (process.env.MQTT_USERNAME || 'Ktur_brocker')
     : (process.env.MQTT_USERNAME_DEV || '');
 const MQTT_PASSWORD =
-  NODE_ENV === 'production'
+  NODE_ENV === 'development'
     ? (process.env.MQTT_PASSWORD || 'Ktur_brocker#2025')
     : (process.env.MQTT_PASSWORD_DEV || '');
 const MQTT_ENABLED = process.env.MQTT_ENABLED !== 'false'; // Désactiver avec MQTT_ENABLED=false
