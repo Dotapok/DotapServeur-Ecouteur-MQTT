@@ -475,7 +475,7 @@ if (mqttClient) {
         await handleStatusUpdate(chauffeurId, data);
       } else if (topic.match(/^chauffeur\/.+\/position$/)) {
         const chauffeurId = topic.split('/')[1];
-        await handlePosition(chauffeurId, data);
+        await handlePosition(chauffeurId, data.data);
       }
     } catch (err) {
       logger.error('Erreur traitement message', { error: err.message, topic });
@@ -710,26 +710,45 @@ async function publishChauffeurPosition(chauffeurId, lat, lng) {
   }
 }
 
-async function handlePosition(id, { lat, lng }) {
+async function handlePosition(id, positionData) {
+  // Validation renforcée
+  if (!positionData || typeof positionData.lat !== 'number' || typeof positionData.lng !== 'number') {
+    logger.error('Données de position invalides', { id, received: positionData });
+    return;
+  }
+
   const key = `chauffeur:${id}`;
-  logger.info(`📍 Position recu pour ${id}: lat=${lat}, lng=${lng}`);
-  const statut = await redis.hgetall(key);
+  try {
+    const previous = await redis.hgetall(key);
+    
+    // Nouveaux champs à stocker
+    const update = {
+      latitude: positionData.lat,
+      longitude: positionData.lng,
+      accuracy: positionData.accuracy || null,
+      speed: positionData.speed || null,
+      heading: positionData.heading || null,
+      updated_at: Date.now()
+    };
 
-  const enLigne   = true;
-  const enCourse  = statut.en_course === '1';
-  const disponible= enLigne && !enCourse;
+    // Éviter les écritures inutiles
+    if (previous.latitude === update.latitude.toString() && 
+        previous.longitude === update.longitude.toString()) {
+      logger.silly(`Position identique pour ${id} - ignorée`);
+      return;
+    }
 
-  await redis.hset(key, {
-    latitude:   lat,
-    longitude:  lng,
-    en_ligne:   '1',
-    disponible: disponible ? '1' : '0',
-    updated_at: Date.now()
-  });
-  console.log(`📍 Position de ${id} enregistrée. Disponible=${disponible}`);
-  
-  await publishChauffeurPosition(id, lat, lng);
-  await publishChauffeurStatus(id);
+    await redis.hset(key, update);
+    logger.debug(`Position mise à jour pour ${id}`, {
+      lat: positionData.lat,
+      lng: positionData.lng,
+      accuracy: positionData.accuracy
+    });
+
+    await publishChauffeurPosition(id, positionData.lat, positionData.lng);
+  } catch (err) {
+    logger.error('Erreur Redis', { id, error: err.message });
+  }
 }
 
 async function handleStatusUpdate(chauffeurId, data) {
