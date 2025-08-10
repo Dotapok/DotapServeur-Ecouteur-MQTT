@@ -33,17 +33,22 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
-// Configuration MQTT avec valeurs par défaut
-const MQTT_BROKER_URL = process.env.MQTT_BROKER_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? 'mqtt://pbb16a10.ala.us-east-1.emqxsl.com:8883'  // Broker privé en production
-    : 'mqtt://test.mosquitto.org:1883');               // Broker public en développement
+// Configuration MQTT avec valeurs par défaut (développement par défaut)
+const MQTT_BROKER_URL =
+  NODE_ENV === 'production'
+    ? (process.env.MQTT_BROKER_URL || 'mqtts://pbb16a10.ala.us-east-1.emqxsl.com:8883') // Broker privé en production
+    : (process.env.MQTT_BROKER_URL_DEV || 'mqtt://test.mosquitto.org:1883');             // Broker public en développement
 
-const MQTT_USERNAME = process.env.MQTT_USERNAME || 
-  (process.env.NODE_ENV === 'production' ? 'Ktur_brocker' : '');
-const MQTT_PASSWORD = process.env.MQTT_PASSWORD || 
-  (process.env.NODE_ENV === 'production' ? 'Ktur_brocker#2025' : '');
+const MQTT_USERNAME =
+  NODE_ENV === 'production'
+    ? (process.env.MQTT_USERNAME || 'Ktur_brocker')
+    : (process.env.MQTT_USERNAME_DEV || '');
+const MQTT_PASSWORD =
+  NODE_ENV === 'production'
+    ? (process.env.MQTT_PASSWORD || 'Ktur_brocker#2025')
+    : (process.env.MQTT_PASSWORD_DEV || '');
 const MQTT_ENABLED = process.env.MQTT_ENABLED !== 'false'; // Désactiver avec MQTT_ENABLED=false
 const MQTT_PUBLISHER_ENABLED = process.env.MQTT_PUBLISHER_ENABLED !== 'false'; // Désactiver publisher avec MQTT_PUBLISHER_ENABLED=false
 
@@ -51,7 +56,7 @@ console.log('🔧 Configuration MQTT:');
 console.log(`   Broker: ${MQTT_BROKER_URL}`);
 console.log(`   Username: ${MQTT_USERNAME || 'non défini'}`);
 console.log(`   Password: ${MQTT_PASSWORD ? '***' : 'non défini'}`);
-console.log(`   Mode: ${process.env.NODE_ENV || 'development'}`);
+console.log(`   Mode: ${NODE_ENV}`);
 console.log(`   Activé: ${MQTT_ENABLED}`);
 console.log(`   Publisher: ${MQTT_PUBLISHER_ENABLED}`);
 
