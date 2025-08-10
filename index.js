@@ -56,7 +56,7 @@ console.log('🔧 Configuration MQTT:');
 console.log(`   Broker: ${MQTT_BROKER_URL}`);
 console.log(`   Username: ${MQTT_USERNAME || 'non défini'}`);
 console.log(`   Password: ${MQTT_PASSWORD ? '***' : 'non défini'}`);
-console.log(`   Mode: ${NODE_ENV}`);
+//console.log(`   Mode: ${NODE_ENV}`);
 console.log(`   Activé: ${MQTT_ENABLED}`);
 console.log(`   Publisher: ${MQTT_PUBLISHER_ENABLED}`);
 
