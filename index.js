@@ -467,9 +467,11 @@ if (mqttClient) {
         const reservationId = topic.split('/')[2];
         await handleReservationMessage(reservationId, data);
       } else if (topic.startsWith(STATUS_TOPIC)) {
-        // ... gestion statuts chauffeurs existante ...
+        const chauffeurId = topic.split('/')[1];
+        await handleStatusUpdate(chauffeurId, data);
       } else if (topic.startsWith(POSITION_TOPIC)) {
-        // ... gestion positions chauffeurs existante ...
+        const chauffeurId = topic.split('/')[1];
+        await handlePosition(chauffeurId, data);
       }
     } catch (err) {
       logger.error('Erreur traitement message', { error: err.message, topic });
@@ -480,7 +482,6 @@ if (mqttClient) {
 // Nouvelle réservation reçue
 async function handleNewReservation(data) {
   console.log(`Nouvelle réservation reçue: ${data.reservation_id}`);
-  // Ici vous pouvez notifier les chauffeurs disponibles
 }
 
 // Gestion des messages sur topic de réservation
@@ -724,6 +725,19 @@ async function handlePosition(id, { lat, lng }) {
   
   await publishChauffeurPosition(id, lat, lng);
   await publishChauffeurStatus(id);
+}
+
+async function handleStatusUpdate(chauffeurId, data) {
+  const key = `chauffeur:${chauffeurId}`;
+  
+  await redis.hset(key, {
+    disponible: data.disponible ? '1' : '0',
+    en_ligne: data.en_ligne ? '1' : '0',
+    en_course: data.en_course ? '1' : '0',
+    updated_at: Date.now()
+  });
+  
+  logger.info(`🔄 Statut mis à jour pour ${chauffeurId}`, data);
 }
 
 app.listen(PORT, () => {
