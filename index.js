@@ -54,7 +54,6 @@ const MQTT_PUBLISHER_ENABLED = process.env.MQTT_PUBLISHER_ENABLED !== 'false';
 
 console.log('🔧 Configuration MQTT:');
 console.log(`   Broker: ${MQTT_BROKER_URL}`);
-console.log(`   Username: ${MQTT_USERNAME || 'non défini'}`);
 console.log(`   Activé: ${MQTT_ENABLED}`);
 console.log(`   Publisher: ${MQTT_PUBLISHER_ENABLED}`);
 
