@@ -375,6 +375,31 @@ app.post('/api/desabonner-topic', (req, res) => {
   });
 });
 
+// 🔥 NOUVEAU : Endpoint pour s'abonner au topic de statut d'un chauffeur
+app.post('/api/chauffeur/:id/subscribe-status', (req, res) => {
+  const { id } = req.params;
+  const statusTopic = `chauffeur/${id}/status`;
+  
+  if (!MQTT_ENABLED || !mqttClient) {
+    return res.status(503).json({ message: 'MQTT non disponible' });
+  }
+  
+  if (subscribedTopics.has(statusTopic)) {
+    return res.status(200).json({ message: `Déjà abonné au topic de statut de ${id}` });
+  }
+  
+  mqttClient.subscribe(statusTopic, { qos: 1 }, (err) => {
+    if (!err) {
+      subscribedTopics.add(statusTopic);
+      logger.info(`🎧 Abonnement manuel au topic de statut: ${statusTopic}`);
+      res.json({ message: `Abonné au topic de statut de ${id}`, topic: statusTopic });
+    } else {
+      logger.error(`❌ Erreur abonnement au topic de statut ${statusTopic}:`, err);
+      res.status(500).json({ message: 'Erreur abonnement topic de statut' });
+    }
+  });
+});
+
 // Nouveaux endpoints pour la gestion des statuts
 app.get('/api/chauffeurs/status', async (req, res) => {
   try {
@@ -871,6 +896,19 @@ async function handlePosition(id, positionData) {
       accuracy: positionData.accuracy,
       is_in_reservation: false
     });
+
+    // 🔥 NOUVEAU : S'abonner automatiquement au topic de statut du chauffeur
+    const statusTopic = `chauffeur/${id}/status`;
+    if (!subscribedTopics.has(statusTopic)) {
+      mqttClient.subscribe(statusTopic, { qos: 1 }, (err) => {
+        if (!err) {
+          subscribedTopics.add(statusTopic);
+          logger.info(`🎧 Abonnement automatique au topic de statut: ${statusTopic}`);
+        } else {
+          logger.error(`❌ Erreur abonnement au topic de statut ${statusTopic}:`, err);
+        }
+      });
+    }
 
     // Publier la position générale du chauffeur
     await publishChauffeurPosition(id, positionData.lat, positionData.lng);
