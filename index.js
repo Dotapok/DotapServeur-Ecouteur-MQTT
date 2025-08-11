@@ -402,24 +402,30 @@ app.get('/api/chauffeurs/status', async (req, res) => {
   }
 });
 
-app.get('/api/chauffeurs/:id/status', async (req, res) => {
+app.post('/api/chauffeurs/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const status = req.body;
+
+  // Validation
+  if (typeof status.disponible !== 'boolean' || 
+      typeof status.en_ligne !== 'boolean') {
+    return res.status(400).json({ error: 'Statut invalide' });
+  }
+
   try {
-    const { id } = req.params;
-    const statut = await redis.hgetall(`chauffeur:${id}`);
-    
-    if (!statut || Object.keys(statut).length === 0) {
-      return res.status(404).json({ error: 'Chauffeur non trouvé' });
-    }
-    
-    res.json({
-      id,
-      ...statut,
-      disponible: statut.disponible === '1',
-      en_ligne: statut.en_ligne === '1',
-      en_course: statut.en_course === '1'
+    const key = `chauffeur:${id}`;
+    await redis.hset(key, {
+      disponible: status.disponible ? '1' : '0',
+      en_ligne: status.en_ligne ? '1' : '0',
+      en_course: status.en_course ? '1' : '0',
+      updated_at: Date.now()
     });
+
+    const current = await redis.hgetall(key);
+    logger.debug('Statut confirmé:', current);
+    res.json(current);
   } catch (error) {
-    logger.error('Erreur récupération statut chauffeur:', error);
+    logger.error('Erreur statut', error);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
@@ -476,7 +482,7 @@ if (mqttClient) {
       } else if (topic.match(/^chauffeur\/.+\/status$/)) {
         const chauffeurId = topic.split('/')[1];
         await handleStatusUpdate(chauffeurId, data);
-      } else if (topic.match(/^chauffeur\/.+\/position$/)) {
+      } else if (topic.endsWith('/position') && payload.toString().includes('"type":"position"')) {
         const chauffeurId = topic.split('/')[1];
         await handlePosition(chauffeurId, data.data);
       } else if (topic.match(/^ktur\/reservations\/.+\/position$/)) {
