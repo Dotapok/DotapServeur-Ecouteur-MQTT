@@ -690,13 +690,24 @@ async function notifyLaravel(endpoint, payload) {
 
 async function updateStatut(chauffeurId, fields) {
   const key = `chauffeur:${chauffeurId}`;
-  const mapping = {};
-  Object.entries(fields).forEach(([k, v]) => mapping[k] = v ? '1' : '0');
-  mapping.updated_at = Date.now();
   
+  // Debug: Log avant modification
+  const before = await redis.hgetall(key);
+  logger.debug('Statut AVANT mise à jour', { chauffeurId, before, newValues: fields });
+
+  const mapping = {
+    disponible: fields.disponible ? '1' : '0',
+    en_ligne: fields.en_ligne ? '1' : '0',
+    en_course: fields.en_course ? '1' : '0',
+    updated_at: Date.now()
+  };
+
   await redis.hset(key, mapping);
-  console.log(`🔄 Statut mis à jour pour ${chauffeurId}:`, fields);
   
+  // Debug: Log après modification
+  const after = await redis.hgetall(key);
+  logger.debug('Statut APRÈS mise à jour', { chauffeurId, after });
+
   await publishChauffeurStatus(chauffeurId);
 }
 
