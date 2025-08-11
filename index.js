@@ -474,6 +474,7 @@ if (mqttClient) {
 
       // Debug: Inspecter la structure réelle des messages
       logger.info(`Message brut sur ${topic}:`, { payload });
+      
       if (topic === RESERVATIONS_RECENTES_TOPIC) {
         await handleNewReservation(data);
       } else if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
@@ -488,6 +489,14 @@ if (mqttClient) {
       } else if (topic.match(/^ktur\/reservations\/.+\/position$/)) {
         const reservationId = topic.split('/')[2];
         await handleReservationPosition(reservationId, data);
+      } else if (topic.match(/^chauffeur\/.+\/status$/)) {
+        // 🔥 NOUVEAU : Traiter les statuts publiés par les chauffeurs
+        const chauffeurId = topic.split('/')[1];
+        await handleChauffeurStatusUpdate(chauffeurId, data);
+      } else if (topic.match(/^chauffeur\/.+\/.*$/)) {
+        // 🔥 NOUVEAU : Traiter les messages généraux des chauffeurs (statut, position, etc.)
+        const chauffeurId = topic.split('/')[1];
+        await handleChauffeurGeneralMessage(chauffeurId, data);
       }
     } catch (err) {
       logger.error('Erreur traitement message', { error: err.message, topic });
@@ -883,6 +892,61 @@ async function handleStatusUpdate(chauffeurId, data) {
   });
   
   logger.info(`🔄 Statut mis à jour pour ${chauffeurId}`, data);
+}
+
+// 🔥 NOUVELLE FONCTION : Traiter les statuts publiés par les chauffeurs
+async function handleChauffeurStatusUpdate(chauffeurId, data) {
+  try {
+    const key = `chauffeur:${chauffeurId}`;
+    
+    // Extraire le statut du message MQTT
+    const isOnline = data.statut === 1;
+    
+    // Mettre à jour Redis avec le statut reçu
+    await redis.hset(key, {
+      en_ligne: isOnline ? '1' : '0',
+      disponible: isOnline ? '1' : '0', // Si en ligne, disponible par défaut
+      en_course: '0', // Pas en course lors du changement de statut
+      updated_at: Date.now()
+    });
+    
+    // Si une position est fournie, l'enregistrer aussi
+    if (data.position && data.position.latitude && data.position.longitude) {
+      await redis.hset(key, {
+        latitude: data.position.latitude.toString(),
+        longitude: data.position.longitude.toString(),
+        updated_at: Date.now()
+      });
+    }
+    
+    logger.info(`🔄 Statut chauffeur ${chauffeurId} mis à jour via MQTT: ${isOnline ? 'EN LIGNE' : 'HORS LIGNE'}`);
+    
+    // Publier le statut mis à jour pour informer tous les clients
+    await publishChauffeurStatus(chauffeurId);
+    
+  } catch (error) {
+    logger.error(`❌ Erreur lors de la mise à jour du statut chauffeur ${chauffeurId}:`, error);
+  }
+}
+
+// 🔥 NOUVELLE FONCTION : Traiter les messages généraux des chauffeurs
+async function handleChauffeurGeneralMessage(chauffeurId, data) {
+  try {
+    // Si c'est un message de statut avec position
+    if (data.statut !== undefined) {
+      await handleChauffeurStatusUpdate(chauffeurId, data);
+    }
+    // Si c'est un message de position
+    else if (data.position) {
+      await handlePosition(chauffeurId, data.position);
+    }
+    // Autres types de messages
+    else {
+      logger.debug(`📨 Message général reçu de ${chauffeurId}:`, data);
+    }
+  } catch (error) {
+    logger.error(`❌ Erreur lors du traitement du message général de ${chauffeurId}:`, error);
+  }
 }
 
 app.listen(PORT, () => {
