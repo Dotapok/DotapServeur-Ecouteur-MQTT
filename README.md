@@ -284,3 +284,4 @@ CMD ["npm", "start"]
 **Version** : 2.0.0  
 **Dernière mise à jour** : Janvier 2024  
 **Maintenu par** : Équipe KTUR
+

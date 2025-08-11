@@ -855,6 +855,8 @@ async function handlePosition(id, positionData) {
 
 async function handleStatusUpdate(chauffeurId, data) {
   const key = `chauffeur:${chauffeurId}`;
+
+  logger.debug('Données statut reçues:', { chauffeurId, data });
   
   await redis.hset(key, {
     disponible: data.disponible ? '1' : '0',
