@@ -672,16 +672,17 @@ async function handleReservationAcceptance(reservationId, data) {
       chauffeur_id: data.chauffeur_id
     });
     
+    // 🔥 NOUVEAU : Mettre à jour automatiquement le statut du chauffeur
     await updateStatut(data.chauffeur_id, {
       en_ligne: true,
       en_course: true,
-      disponible: false
+      disponible: false  // Plus disponible car en course
     });
 
     // 4. Publier le statut mis à jour pour informer tous les clients
     await publishChauffeurStatus(data.chauffeur_id);
     
-    logger.info(`✅ Réservation ${reservationId} acceptée par chauffeur ${data.chauffeur_id}`);
+    logger.info(`✅ Réservation ${reservationId} acceptée par chauffeur ${data.chauffeur_id} - Statut: en_ligne=1, en_course=1, disponible=0`);
   } catch (error) {
     logger.error(`❌ Erreur lors de l'acceptation de réservation ${reservationId}:`, error);
   }
@@ -897,6 +898,20 @@ async function handlePosition(id, positionData) {
       is_in_reservation: false
     });
 
+    // 🔥 NOUVEAU : Mettre à jour automatiquement le statut basé sur la position
+    // Si on reçoit une position, le chauffeur est forcément en ligne
+    const currentStatus = await redis.hgetall(key);
+    const isEnCourse = currentStatus.en_course === '1';
+    
+    // Mettre à jour le statut : en ligne = 1, disponible = 1 (sauf si en course)
+    await redis.hset(key, {
+      en_ligne: '1',
+      disponible: isEnCourse ? '0' : '1', // Disponible = 0 si en course, sinon 1
+      updated_at: Date.now()
+    });
+    
+    logger.info(`🔄 Statut automatique mis à jour pour ${id}: en_ligne=1, disponible=${isEnCourse ? '0' : '1'}`);
+
     // 🔥 NOUVEAU : S'abonner automatiquement au topic de statut du chauffeur
     const statusTopic = `chauffeur/${id}/status`;
     if (!subscribedTopics.has(statusTopic)) {
@@ -912,6 +927,10 @@ async function handlePosition(id, positionData) {
 
     // Publier la position générale du chauffeur
     await publishChauffeurPosition(id, positionData.lat, positionData.lng);
+    
+    // 🔥 NOUVEAU : Publier automatiquement le statut mis à jour
+    await publishChauffeurStatus(id);
+    
   } catch (err) {
     logger.error('Erreur Redis', { id, error: err.message });
   }
@@ -986,6 +1005,46 @@ async function handleChauffeurGeneralMessage(chauffeurId, data) {
     logger.error(`❌ Erreur lors du traitement du message général de ${chauffeurId}:`, error);
   }
 }
+
+// 🔥 NOUVELLE FONCTION : Gérer automatiquement le statut hors ligne
+// Cette fonction sera appelée périodiquement pour détecter les chauffeurs inactifs
+async function checkInactiveChauffeurs() {
+  try {
+    const keys = await redis.keys('chauffeur:*');
+    const now = Date.now();
+    const INACTIVITY_THRESHOLD = 5 * 60 * 1000; // 5 minutes d'inactivité
+    
+    for (const key of keys) {
+      const chauffeurId = key.split(':')[1];
+      const chauffeur = await redis.hgetall(key);
+      
+      if (chauffeur.updated_at) {
+        const lastUpdate = parseInt(chauffeur.updated_at);
+        const timeSinceLastUpdate = now - lastUpdate;
+        
+        // Si le chauffeur n'a pas publié de position depuis 5 minutes
+        if (timeSinceLastUpdate > INACTIVITY_THRESHOLD && chauffeur.en_ligne === '1') {
+          logger.info(`🕐 Chauffeur ${chauffeurId} inactif depuis ${Math.round(timeSinceLastUpdate / 1000)}s - Passage hors ligne`);
+          
+          // Mettre le chauffeur hors ligne
+          await redis.hset(key, {
+            en_ligne: '0',
+            disponible: '0',
+            updated_at: now
+          });
+          
+          // Publier le statut mis à jour
+          await publishChauffeurStatus(chauffeurId);
+        }
+      }
+    }
+  } catch (error) {
+    logger.error('Erreur lors de la vérification des chauffeurs inactifs:', error);
+  }
+}
+
+// 🔥 Démarrer la vérification périodique des chauffeurs inactifs
+setInterval(checkInactiveChauffeurs, 60000); // Vérifier toutes les minutes
 
 app.listen(PORT, () => {
   console.log(`🚀 Serveur ecouteur MQTT en écoute sur le port ${PORT}`);
