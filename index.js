@@ -653,8 +653,8 @@ async function handleReservationAcceptance(reservationId, data) {
       disponible: false
     });
 
-    // Publier le statut mis à jour
-    await publishChauffeurStatus(data.chauffeur_id);
+    // ✅ MODIFIER : Publier le statut mis à jour avec source 'server'
+    await publishChauffeurStatus(data.chauffeur_id, { source: 'server' });
     
     logger.info(`✅ Réservation ${reservationId} acceptée par chauffeur ${data.chauffeur_id}`);
   } catch (error) {
@@ -729,7 +729,7 @@ async function updateStatut(chauffeurId, fields) {
   await publishChauffeurStatus(chauffeurId);
 }
 
-async function publishChauffeurStatus(chauffeurId) {
+async function publishChauffeurStatus(chauffeurId, options = {}) {
   try {
     if (!MQTT_ENABLED || !mqttPublisher) {
       logger.warn('MQTT non disponible, publication ignorée');
@@ -748,7 +748,9 @@ async function publishChauffeurStatus(chauffeurId) {
         latitude: parseFloat(statut.latitude) || null,
         longitude: parseFloat(statut.longitude) || null,
         updated_at: parseInt(statut.updated_at) || Date.now(),
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        // ✅ AJOUTER : Flag pour identifier les messages du serveur
+        source: options.source || 'client'
       };
       
       const message = {
@@ -769,7 +771,7 @@ async function publishChauffeurStatus(chauffeurId) {
       }
       
       mqttPublisher.publish(message.topic, message.payload, message.options);
-      logger.info(`📡 Statut publié pour chauffeur ${chauffeurId}`);
+      logger.info(`📡 Statut publié pour chauffeur ${chauffeurId} (source: ${options.source || 'client'})`);
     }
   } catch (error) {
     logger.error('Erreur publication statut MQTT:', error);
@@ -879,9 +881,9 @@ async function handlePosition(id, positionData) {
       });
     }
 
-    // Publier la position et le statut
+    // ✅ MODIFIER : Publier la position et le statut avec source 'server'
     await publishChauffeurPosition(id, positionData.lat, positionData.lng);
-    await publishChauffeurStatus(id);
+    await publishChauffeurStatus(id, { source: 'server' });
     
   } catch (err) {
     logger.error('Erreur Redis', { id, error: err.message });
@@ -894,6 +896,17 @@ async function handlePosition(id, positionData) {
 async function handleChauffeurStatusUpdate(chauffeurId, data) {
   try {
     const key = `chauffeur:${chauffeurId}`;
+    
+    // ✅ AJOUTER : Vérifier si c'est un message du serveur lui-même
+    const currentStatus = await redis.hgetall(key);
+    const isServerMessage = data.source === 'server' || data.is_server_message;
+    
+    // Éviter de traiter les messages du serveur pour éviter la boucle infinie
+    if (isServerMessage) {
+      logger.debug(`📤 Message serveur ignoré pour éviter la boucle infinie - chauffeur ${chauffeurId}`);
+      return;
+    }
+    
     const isOnline = data.statut === 1;
     
     await redis.hset(key, {
@@ -913,7 +926,9 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
     }
     
     logger.info(`🔄 Statut chauffeur ${chauffeurId} mis à jour via MQTT: ${isOnline ? 'EN LIGNE' : 'HORS LIGNE'}`);
-    await publishChauffeurStatus(chauffeurId);
+    
+    // ✅ MODIFIER : Publier le statut avec un flag pour éviter la boucle
+    await publishChauffeurStatus(chauffeurId, { source: 'server' });
     
   } catch (error) {
     logger.error(`❌ Erreur lors de la mise à jour du statut chauffeur ${chauffeurId}:`, error);
@@ -959,7 +974,8 @@ async function checkInactiveChauffeurs() {
             updated_at: now
           });
           
-          await publishChauffeurStatus(chauffeurId);
+          // ✅ MODIFIER : Publier le statut avec source 'server'
+          await publishChauffeurStatus(chauffeurId, { source: 'server' });
         }
       }
     }
