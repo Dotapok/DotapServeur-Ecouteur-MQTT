@@ -471,6 +471,43 @@ app.post('/api/reservation/send-message', async (req, res) => {
   }
 });
 
+// Endpoint pour récupérer l'historique des messages de chat
+app.get('/api/chat/history/:reservationId', async (req, res) => {
+  const { reservationId } = req.params;
+  
+  try {
+    const key = `chat:${reservationId}:messages`;
+    const messages = await redis.lrange(key, 0, -1);
+    
+    const formattedMessages = messages.map(msg => {
+      try {
+        const parsed = JSON.parse(msg);
+        return {
+          id: parsed.id || Date.now().toString(),
+          content: parsed.content,
+          from: parsed.from,
+          timestamp: parsed.timestamp,
+          type: 'chat'
+        };
+      } catch (e) {
+        logger.error('Erreur parsing message chat:', e);
+        return null;
+      }
+    }).filter(msg => msg !== null);
+    
+    res.json({ 
+      messages: formattedMessages,
+      reservation_id: reservationId,
+      count: formattedMessages.length
+    });
+    
+    logger.info(`📋 Historique chat récupéré pour ${reservationId}: ${formattedMessages.length} messages`);
+  } catch (error) {
+    logger.error('Erreur récupération historique chat:', error);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
 // Capteur de messages MQTT
 if (mqttClient) {
   mqttClient.on('message', async (topic, message) => {
@@ -909,8 +946,6 @@ async function handlePosition(id, positionData) {
     logger.error('Erreur Redis', { id, error: err.message });
   }
 }
-
-
 
 // Fonction pour traiter les statuts publiés par les chauffeurs
 async function handleChauffeurStatusUpdate(chauffeurId, data) {
