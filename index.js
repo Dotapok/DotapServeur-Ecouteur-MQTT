@@ -480,6 +480,20 @@ if (mqttClient) {
 
       logger.info(`Message reçu sur ${topic}:`, { payload });
       
+      // ✅ AJOUTER : Fonction pour extraire l'ID du chauffeur du topic
+      function extractChauffeurIdFromTopic(topic, data) {
+        // Si chauffeur_id est "unknown", l'extraire du topic
+        if (data.chauffeur_id === 'unknown' || !data.chauffeur_id) {
+          const topicParts = topic.split('/');
+          if (topicParts.length >= 2 && topicParts[0] === 'chauffeur') {
+            const extractedId = topicParts[1];
+            logger.info(`🔄 ID chauffeur extrait du topic: ${extractedId} (était: ${data.chauffeur_id})`);
+            return extractedId;
+          }
+        }
+        return data.chauffeur_id;
+      }
+      
       // Traitement des différents types de topics
       if (topic === RESERVATIONS_RECENTES_TOPIC) {
         await handleNewReservation(data);
@@ -488,17 +502,23 @@ if (mqttClient) {
         await handleReservationMessage(reservationId, data);
       } else if (topic.match(/^chauffeur\/.+\/status$/)) {
         const chauffeurId = topic.split('/')[1];
-        await handleChauffeurStatusUpdate(chauffeurId, data);
+        // ✅ CORRIGER : Extraire l'ID du topic si nécessaire
+        const actualChauffeurId = extractChauffeurIdFromTopic(topic, data);
+        await handleChauffeurStatusUpdate(actualChauffeurId, data);
       } else if (topic.match(/^chauffeur\/.+\/position$/)) {
         const chauffeurId = topic.split('/')[1];
-        await handlePosition(chauffeurId, data.data || data);
+        // ✅ CORRIGER : Extraire l'ID du topic si nécessaire
+        const actualChauffeurId = extractChauffeurIdFromTopic(topic, data);
+        await handlePosition(actualChauffeurId, data.data || data);
       } else if (topic.match(/^ktur\/reservations\/.+\/position$/)) {
         const reservationId = topic.split('/')[2];
         await handleReservationPosition(reservationId, data);
       } else if (topic.match(/^chauffeur\/.+\/.*$/)) {
         // Traitement des messages généraux des chauffeurs
         const chauffeurId = topic.split('/')[1];
-        await handleChauffeurGeneralMessage(chauffeurId, data);
+        // ✅ CORRIGER : Extraire l'ID du topic si nécessaire
+        const actualChauffeurId = extractChauffeurIdFromTopic(topic, data);
+        await handleChauffeurGeneralMessage(actualChauffeurId, data);
       }
     } catch (err) {
       logger.error('Erreur traitement message', { error: err.message, topic });
