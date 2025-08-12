@@ -7,16 +7,19 @@ const axios = require('axios');
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 
-// Configuration du logger avec rotation des fichiers
+// ---------------------- Logger ----------------------
+const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
+
 const fileRotateTransport = new transports.DailyRotateFile({
   dirname: './logs',
   filename: '%DATE%.log',
   datePattern: 'YYYY-MM-DD',
   maxFiles: '14d',
-  level: 'info',
+  level: LOG_LEVEL,
 });
 
 const logger = createLogger({
+  level: LOG_LEVEL,
   format: format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     format.printf(({ timestamp, level, message, ...meta }) =>
@@ -24,11 +27,12 @@ const logger = createLogger({
     )
   ),
   transports: [
-    new transports.Console({ level: 'debug' }),
+    new transports.Console({ level: LOG_LEVEL }),
     fileRotateTransport
   ]
 });
 
+// ---------------------- App / Config ----------------------
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -36,571 +40,236 @@ app.use(express.json());
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
-// Configuration MQTT simplifiée
-const MQTT_BROKER_URL = NODE_ENV === 'development'
-  ? (process.env.MQTT_BROKER_URL || 'mqtts://pbb16a10.ala.us-east-1.emqxsl.com:8883')
-  : (process.env.MQTT_BROKER_URL_DEV || 'mqtt://test.mosquitto.org:1883');
-
-const MQTT_USERNAME = NODE_ENV === 'development'
-  ? (process.env.MQTT_USERNAME || 'Ktur_brocker')
-  : (process.env.MQTT_USERNAME_DEV || '');
-
-const MQTT_PASSWORD = NODE_ENV === 'development'
-  ? (process.env.MQTT_PASSWORD || 'Ktur_brocker#2025')
-  : (process.env.MQTT_PASSWORD_DEV || '');
-
 const MQTT_ENABLED = process.env.MQTT_ENABLED !== 'false';
 const MQTT_PUBLISHER_ENABLED = process.env.MQTT_PUBLISHER_ENABLED !== 'false';
 
-console.log('🔧 Configuration MQTT:');
-console.log(`   Broker: ${MQTT_BROKER_URL}`);
-console.log(`   Activé: ${MQTT_ENABLED}`);
-console.log(`   Publisher: ${MQTT_PUBLISHER_ENABLED}`);
+const MQTT_BROKER_URL = process.env.MQTT_BROKER_URL || 'mqtt://test.mosquitto.org:1883';
+const MQTT_USERNAME = process.env.MQTT_USERNAME || '';
+const MQTT_PASSWORD = process.env.MQTT_PASSWORD || '';
 
-// Variables pour les clients MQTT
+const POSITION_THROTTLE_MS = parseInt(process.env.POSITION_THROTTLE_MS || '1000', 10); // min interval
+const INACTIVITY_THRESHOLD_MS = parseInt(process.env.INACTIVITY_THRESHOLD_MS || (5 * 60 * 1000), 10);
+const MAX_PENDING_MESSAGES = parseInt(process.env.MAX_PENDING_MESSAGES || '500', 10);
+
+// ---------------------- Redis ----------------------
+const redis = new Redis(process.env.REDIS_URL);
+redis.on('connect', () => logger.info('Connecté à Redis'));
+redis.on('error', err => logger.error('Erreur Redis:', err.message));
+
+// ---------------------- MQTT / State ----------------------
 let mqttClient = null;
 let mqttPublisher = null;
+const pendingMessages = []; // FIFO
+const subscribedReservationTopics = new Set(); // on track uniquement des topics de réservation spécifiques
 
-// Initialisation Redis
-const redis = new Redis(process.env.REDIS_URL);
-redis.on('connect', () => console.log('✅ Connecté à Redis'));
-redis.on('error', err => console.error('❌ Erreur Redis:', err));
+// caches en mémoire pour limiter accès Redis
+const lastPositionCache = new Map(); // chauffeurId -> { lat, lng, ts }
+const lastStatusPublishTs = new Map(); // chauffeurId -> timestamp
 
-// Store des topics écoutés
-const subscribedTopics = new Set();
+// Topics (centralisé, pas de doublons)
+const RESERVATIONS_RECENTES_TOPIC = 'ktur/reservations/recentes';
+const RESERVATION_TOPIC_PREFIX = 'ktur/reservations/'; // + id
+const STATUS_TOPIC_WILDCARD = 'chauffeur/+/status';
+const POSITION_TOPIC_WILDCARD = 'chauffeur/+/position';
+const RESERVATION_POSITION_TOPIC_WILDCARD = 'ktur/reservations/+/position';
 
-// File d'attente pour les messages différés
-const pendingMessages = [];
-const MAX_PENDING_MESSAGES = 100;
+// ---------------------- Helpers ----------------------
+function safeJsonParse(buf) {
+  try {
+    return JSON.parse(buf.toString());
+  } catch (e) {
+    return null;
+  }
+}
 
-// Fonction pour traiter la file d'attente des messages différés
+function distanceChanged(a, b) {
+  // compare stringified numbers to avoid float jitter; can be improved (haversine) if besoin
+  return (!a || a.lat !== b.lat || a.lng !== b.lng);
+}
+
+async function scanKeys(matchPattern) {
+  const found = [];
+  let cursor = '0';
+  do {
+    const [nextCursor, keys] = await redis.scan(cursor, 'MATCH', matchPattern, 'COUNT', 100);
+    cursor = nextCursor;
+    if (keys && keys.length) found.push(...keys);
+  } while (cursor !== '0');
+  return found;
+}
+
+// Redis write helper (pipeline)
+async function redisHSetMulti(key, obj) {
+  const pipeline = redis.multi();
+  pipeline.hmset(key, obj);
+  await pipeline.exec();
+}
+
+// ---------------------- MQTT publisher queue ----------------------
+function enqueuePending(topic, payload, options = { qos: 1, retain: false }) {
+  if (pendingMessages.length >= MAX_PENDING_MESSAGES) {
+    // drop oldest to keep memory bounded
+    pendingMessages.shift();
+    logger.warn('File d\'attente MQTT pleine - suppression du plus ancien');
+  }
+  pendingMessages.push({ topic, payload, options });
+}
+
 function processPendingMessages() {
-  if (!mqttPublisher?.connected) return;
-  
-  console.log(`📤 Traitement de ${pendingMessages.length} messages en attente...`);
-  
-  while (pendingMessages.length > 0) {
-    const message = pendingMessages.shift();
+  if (!mqttPublisher || !mqttPublisher.connected) return;
+  while (pendingMessages.length) {
+    const m = pendingMessages.shift();
     try {
-      mqttPublisher.publish(message.topic, message.payload, message.options);
-      logger.info(`📡 Message différé publié: ${message.type} pour ${message.topic}`);
-    } catch (error) {
-      logger.error('Erreur publication message différé:', error);
-      pendingMessages.unshift(message);
+      mqttPublisher.publish(m.topic, m.payload, m.options);
+    } catch (err) {
+      logger.error('Erreur publication message différé:', err.message);
+      // remonter en tête et sortir (retry plus tard)
+      pendingMessages.unshift(m);
       break;
     }
   }
-  
-  if (pendingMessages.length === 0) {
-    console.log('✅ Tous les messages différés ont été traités');
-  }
 }
 
-// Fonction pour reconnecter manuellement le publisher
-function reconnectPublisher() {
-  if (!MQTT_ENABLED || !MQTT_PUBLISHER_ENABLED) {
-    console.log('⚠️  Impossible de reconnecter - MQTT ou Publisher désactivé');
-    return;
-  }
-  
-  if (mqttPublisher?.connected) {
-    console.log('ℹ️  Publisher déjà connecté');
-    return;
-  }
-  
-  console.log('🔄 Reconnexion manuelle du Publisher MQTT...');
-  
-  if (mqttPublisher) {
-    mqttPublisher.end();
-  }
-  
-  // Réutiliser la configuration commune
-  const mqttConfig = {
-    username: MQTT_USERNAME,
-    password: MQTT_PASSWORD,
-    clientId: 'ktur_status_publisher',
+// ---------------------- MQTT init ----------------------
+function createMqttClient(clientIdSuffix, extra = {}) {
+  return mqtt.connect(MQTT_BROKER_URL, {
+    username: MQTT_USERNAME || undefined,
+    password: MQTT_PASSWORD || undefined,
     reconnectPeriod: 5000,
     connectTimeout: 30000,
-    clean: true,
     keepalive: 60,
-    rejectUnauthorized: false,
-    will: {
-      topic: 'ktur/server/status',
-      payload: JSON.stringify({ status: 'offline', timestamp: new Date().toISOString() }),
-      qos: 1,
-      retain: false
-    }
-  };
+    clean: true,
+    clientId: `ktur_${clientIdSuffix}_${Math.random().toString(16).slice(2,8)}`,
+    ...extra
+  });
+}
 
-  mqttPublisher = mqtt.connect(MQTT_BROKER_URL, mqttConfig);
+function initializeMQTT() {
+  if (!MQTT_ENABLED) {
+    logger.warn('MQTT désactivé');
+    return;
+  }
 
-  mqttPublisher.on('connect', () => {
-    console.log('✅ Publisher MQTT reconnecté');
-    mqttPublisher.publish('ktur/server/status', JSON.stringify({ 
-      status: 'online', 
-      timestamp: new Date().toISOString() 
-    }), { qos: 1, retain: true });
-    
+  // Listener (s'abonne aux wildcards utiles)
+  mqttClient = createMqttClient('listener');
+  mqttClient.on('connect', () => {
+    logger.info('MQTT Listener connecté');
+    // abonnements "génériques"
+    mqttClient.subscribe([RESERVATIONS_RECENTES_TOPIC, STATUS_TOPIC_WILDCARD, POSITION_TOPIC_WILDCARD], { qos: 1 }, (err) => {
+      if (err) logger.error('Erreur abonnement wildcard MQTT:', err.message);
+      else logger.info('Abonnements wildcard MQTT effectués');
+    });
     processPendingMessages();
   });
 
-  mqttPublisher.on('error', err => console.error('❌ Erreur Publisher MQTT:', err.message));
-  mqttPublisher.on('close', () => console.log('🔌 Publisher MQTT fermé'));
-  mqttPublisher.on('offline', () => console.log('📴 Publisher MQTT hors ligne'));
+  mqttClient.on('message', onMqttMessage);
+  mqttClient.on('error', e => logger.error('MQTT Listener err:', e.message));
+  mqttClient.on('close', () => logger.info('MQTT Listener fermé'));
+  mqttClient.on('offline', () => logger.warn('MQTT Listener hors ligne'));
 
-  // Heartbeat pour le publisher reconnecté
-  const heartbeatInterval = setInterval(() => {
-    if (mqttPublisher?.connected) {
-      mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
-        timestamp: new Date().toISOString() 
-      }), { qos: 0, retain: false });
-    }
-  }, 30000);
-
-  mqttPublisher.on('close', () => clearInterval(heartbeatInterval));
-}
-
-// Configuration des topics
-const RESERVATIONS_RECENTES_TOPIC = 'ktur/reservations/recentes';
-const RESERVATION_TOPIC_PREFIX = 'ktur/reservations/';
-const STATUS_TOPIC = 'chauffeur/+/status';
-const POSITION_TOPIC = 'chauffeur/+/position';
-const RESERVATION_POSITION_TOPIC = 'ktur/reservations/+/position';
-const CHAUFFEUR_GENERAL_POSITION_TOPIC = 'chauffeur/+/position';
-
-// Fonction d'initialisation MQTT simplifiée
-function initializeMQTT() {
-  if (!MQTT_ENABLED) {
-    console.log('⚠️  MQTT désactivé - les fonctionnalités MQTT ne seront pas disponibles');
-    return;
-  }
-
-  // Configuration commune MQTT
-  const mqttConfig = {
-    username: MQTT_USERNAME,
-    password: MQTT_PASSWORD,
-    reconnectPeriod: 5000,
-    connectTimeout: 30000,
-    clean: true,
-    keepalive: 60,
-    rejectUnauthorized: false
-  };
-
-  // Initialisation MQTT Client (Listener)
-  mqttClient = mqtt.connect(MQTT_BROKER_URL, {
-    ...mqttConfig,
-    clientId: 'ktur_listener_client'
-  });
-
-  mqttClient.on('connect', () => {
-    console.log('✅ Connecté à MQTT (Listener)');
-    // S'abonner au topic des réservations récentes
-    const topic = RESERVATIONS_RECENTES_TOPIC;
-    if (!subscribedTopics.has(topic)) {
-      mqttClient.subscribe(topic, { qos: 1 }, (err) => {
-        if (!err) {
-          subscribedTopics.add(topic);
-          console.log(`🎧 Écoute du topic: ${topic}`);
-        } else {
-          console.error(`❌ Erreur abonnement au topic ${topic}:`, err);
-        }
-      });
-    }
-  });
-
-  mqttClient.on('error', err => console.error('❌ Erreur MQTT Listener:', err.message));
-  mqttClient.on('close', () => console.log('🔌 Connexion MQTT Listener fermée'));
-  mqttClient.on('reconnect', () => console.log('🔄 Reconnexion MQTT Listener...'));
-  mqttClient.on('offline', () => console.log('📴 MQTT Listener hors ligne'));
-
-  // Initialisation MQTT Publisher
+  // Publisher (séparé pour statut/position)
   if (MQTT_PUBLISHER_ENABLED) {
-    mqttPublisher = mqtt.connect(MQTT_BROKER_URL, {
-      ...mqttConfig,
-      clientId: 'ktur_status_publisher',
+    mqttPublisher = createMqttClient('publisher', {
       will: {
         topic: 'ktur/server/status',
-        payload: JSON.stringify({ status: 'offline', timestamp: new Date().toISOString() }),
+        payload: JSON.stringify({ status: 'offline', timestamp: Date.now() }),
         qos: 1,
-        retain: false
+        retain: true
       }
     });
 
     mqttPublisher.on('connect', () => {
-      console.log('✅ Publisher MQTT connecté');
-      mqttPublisher.publish('ktur/server/status', JSON.stringify({ 
-        status: 'online', 
-        timestamp: new Date().toISOString() 
-      }), { qos: 1, retain: true });
-      
+      logger.info('MQTT Publisher connecté');
+      mqttPublisher.publish('ktur/server/status', JSON.stringify({ status: 'online', timestamp: Date.now() }), { qos: 1, retain: true });
       processPendingMessages();
     });
 
-    mqttPublisher.on('error', err => console.error('❌ Erreur Publisher MQTT:', err.message));
-    mqttPublisher.on('close', () => console.log('🔌 Publisher MQTT fermé'));
-    mqttPublisher.on('reconnect', () => console.log('🔄 Reconnexion Publisher MQTT...'));
-    mqttPublisher.on('offline', () => console.log('📴 Publisher MQTT hors ligne'));
-
-    // Heartbeat simplifié
-    const heartbeatInterval = setInterval(() => {
-      if (mqttPublisher?.connected) {
-        mqttPublisher.publish('ktur/server/heartbeat', JSON.stringify({ 
-          timestamp: new Date().toISOString() 
-        }), { qos: 0, retain: false });
-      }
-    }, 30000);
-
-    mqttPublisher.on('close', () => clearInterval(heartbeatInterval));
+    mqttPublisher.on('error', e => logger.error('MQTT Publisher err:', e.message));
+    mqttPublisher.on('close', () => logger.info('MQTT Publisher fermé'));
+    mqttPublisher.on('offline', () => logger.warn('MQTT Publisher hors ligne'));
   } else {
-    console.log('⚠️  Publisher MQTT désactivé');
+    logger.warn('Publisher MQTT désactivé');
   }
 }
 
-// Initialiser MQTT
-initializeMQTT();
-
-// Endpoint Écouter un topic via l'API avec QoS 1 pour une meilleure fiabilité
-app.post('/api/ecouter-topic', (req, res) => {
-  const topic = req.body.topic;
-
-  if (!MQTT_ENABLED || !mqttClient) {
-    return res.status(503).json({ message: 'MQTT non disponible' });
-  }
-
-  if (!topic || subscribedTopics.has(topic)) {
-    return res.status(200).json({ message: 'Déjà en écoute ou invalide' });
-  }
-
-  mqttClient.subscribe(topic, { qos: 1 }, (err) => {
-    if (!err) {
-      subscribedTopics.add(topic);
-      console.log(`🎧 Écoute du topic: ${topic}`);
-      res.status(200).json({ message: `Topic ${topic} abonné avec succès.` });
-    } else {
-      res.status(500).json({ message: 'Erreur abonnement topic' });
-    }
-  });
-});
-
-// Endpoint pour vérifier l'état de la connexion MQTT
-app.get('/api/mqtt/status', (req, res) => {
-  const status = {
-    mqtt_enabled: MQTT_ENABLED,
-    publisher_enabled: MQTT_PUBLISHER_ENABLED,
-    listener_connected: mqttClient?.connected || false,
-    publisher_connected: mqttPublisher?.connected || false,
-    pending_messages: pendingMessages.length,
-    subscribed_topics: Array.from(subscribedTopics)
-  };
-  
-  res.json(status);
-});
-
-// Endpoint pour reconnecter manuellement le publisher MQTT
-app.post('/api/reconnect-publisher', (req, res) => {
-  try {
-    reconnectPublisher();
-    res.json({ message: 'Reconnexion du publisher initiée' });
-  } catch (error) {
-    console.error('Erreur reconnexion publisher:', error);
-    res.status(500).json({ message: 'Erreur reconnexion publisher' });
-  }
-});
-
-// Endpoint pour se désabonner d'un topic MQTT
-app.post('/api/desabonner-topic', (req, res) => {
-  const { topic } = req.body;
-  
-  if (!MQTT_ENABLED || !mqttClient) {
-    return res.status(503).json({ message: 'MQTT non disponible' });
-  }
-  
-  if (!topic || !subscribedTopics.has(topic)) {
-    return res.status(200).json({ message: 'Topic non abonné' });
-  }
-
-  mqttClient.unsubscribe(topic, {}, async (err) => {
-    if (err) {
-      console.error('Erreur désabonnement:', err);
-      return res.status(500).json({ message: 'Erreur désabonnement MQTT' });
-    }
-    
-    subscribedTopics.delete(topic);
-    console.log(`❌ Désabonné de ${topic}`);
-    
-    // Mettre à jour le statut du chauffeur si c'est un topic de chauffeur
-    const parts = topic.split('/');
-    if (parts.length >= 3 && parts[0] === 'chauffeur') {
-      const chauffeurId = parts[1];
-      try {
-        await updateStatut(chauffeurId, { 
-          disponible: false,
-          en_ligne: false,
-          en_course: false
-        });
-      } catch (error) {
-        console.error('Erreur mise à jour statut:', error);
-      }
-    }
-
-    res.json({ message: `Désabonnement de ${topic} réussi` });
-  });
-});
-
-// Endpoint pour s'abonner au topic de statut d'un chauffeur
-app.post('/api/chauffeur/:id/subscribe-status', (req, res) => {
-  const { id } = req.params;
-  const statusTopic = `chauffeur/${id}/status`;
-  
-  if (!MQTT_ENABLED || !mqttClient) {
-    return res.status(503).json({ message: 'MQTT non disponible' });
-  }
-  
-  if (subscribedTopics.has(statusTopic)) {
-    return res.status(200).json({ message: `Déjà abonné au topic de statut de ${id}` });
-  }
-  
-  mqttClient.subscribe(statusTopic, { qos: 1 }, (err) => {
-    if (!err) {
-      subscribedTopics.add(statusTopic);
-      logger.info(`🎧 Abonnement manuel au topic de statut: ${statusTopic}`);
-      res.json({ message: `Abonné au topic de statut de ${id}`, topic: statusTopic });
-    } else {
-      logger.error(`❌ Erreur abonnement au topic de statut ${statusTopic}:`, err);
-      res.status(500).json({ message: 'Erreur abonnement topic de statut' });
-    }
-  });
-});
-
-// Endpoints pour la gestion des statuts des chauffeurs
-app.get('/api/chauffeurs/status', async (req, res) => {
-  try {
-    const keys = await redis.keys('chauffeur:*');
-    const chauffeurs = [];
-    
-    for (const key of keys) {
-      const chauffeurId = key.split(':')[1];
-      const statut = await redis.hgetall(key);
-      if (statut && Object.keys(statut).length > 0) {
-        chauffeurs.push({
-          id: chauffeurId,
-          ...statut,
-          disponible: statut.disponible === '1',
-          en_ligne: statut.en_ligne === '1',
-          en_course: statut.en_course === '1'
-        });
-      }
-    }
-    
-    res.json({ chauffeurs });
-  } catch (error) {
-    logger.error('Erreur récupération statuts:', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
-
-app.post('/api/chauffeurs/:id/status', async (req, res) => {
-  const { id } = req.params;
-  const status = req.body;
-
-  // Validation
-  if (typeof status.disponible !== 'boolean' || 
-      typeof status.en_ligne !== 'boolean') {
-    return res.status(400).json({ error: 'Statut invalide' });
+// ---------------------- Message handling ----------------------
+async function onMqttMessage(topic, messageBuf) {
+  const data = safeJsonParse(messageBuf);
+  if (!data) {
+    logger.warn('Message MQTT non JSON ignoré', { topic });
+    return;
   }
 
   try {
-    const key = `chauffeur:${id}`;
-    await redis.hset(key, {
-      disponible: status.disponible ? '1' : '0',
-      en_ligne: status.en_ligne ? '1' : '0',
-      en_course: status.en_course ? '1' : '0',
-      updated_at: Date.now()
-    });
-
-    const current = await redis.hgetall(key);
-    logger.debug('Statut confirmé:', current);
-    res.json(current);
-  } catch (error) {
-    logger.error('Erreur statut', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
-
-// Endpoints pour la communication par réservation
-app.post('/api/reservation/subscribe', (req, res) => {
-  const { reservation_id } = req.body;
-  const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
-  
-  if (!MQTT_ENABLED || !mqttClient) {
-    return res.status(503).json({ message: 'MQTT non disponible' });
-  }
-  
-  if (subscribedTopics.has(topic)) {
-    return res.json({ message: `Déjà abonné au topic de réservation ${reservation_id}` });
-  }
-  
-  mqttClient.subscribe(topic, { qos: 1 }, (err) => {
-    if (!err) {
-      subscribedTopics.add(topic);
-      console.log(`🎧 Écoute du topic: ${topic}`);
-      res.json({ message: `Abonné au topic de réservation ${reservation_id}` });
-    } else {
-      res.status(500).json({ error: 'Erreur abonnement topic' });
+    // shortcuts to avoid repeated work
+    if (topic === RESERVATIONS_RECENTES_TOPIC) {
+      await handleNewReservation(data);
+      return;
     }
-  });
-});
 
-app.post('/api/reservation/send-message', async (req, res) => {
-  const { reservation_id, message } = req.body;
-  const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
-  
-  if (!MQTT_PUBLISHER_ENABLED || !mqttPublisher?.connected) {
-    return res.status(503).json({ error: 'Publisher MQTT non disponible' });
-  }
-  
-  try {
-    mqttPublisher.publish(topic, JSON.stringify({
-      type: 'chat',
-      from: message.from,
-      content: message.content
-    }), { qos: 1 });
-    res.json({ success: true });
+    if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
+      const parts = topic.split('/');
+      const reservationId = parts[2];
+      await handleReservationMessage(reservationId, data);
+      return;
+    }
+
+    // chauffeur topics (wildcards cover many cases)
+    if (/^chauffeur\/.+\/status$/.test(topic)) {
+      const chauffeurId = topic.split('/')[1];
+      await handleChauffeurStatusUpdate(chauffeurId, data);
+      return;
+    }
+
+    if (/^chauffeur\/.+\/position$/.test(topic)) {
+      const chauffeurId = topic.split('/')[1];
+      const position = data.data || data;
+      await handlePosition(chauffeurId, position);
+      return;
+    }
+
+    if (/^ktur\/reservations\/.+\/position$/.test(topic)) {
+      const reservationId = topic.split('/')[2];
+      await handleReservationPosition(reservationId, data);
+      return;
+    }
+
+    // fallback: log as debug only
+    logger.debug('Topic MQTT inconnu reçu', { topic });
   } catch (err) {
-    res.status(500).json({ error: 'Erreur envoi message' });
+    logger.error('Erreur traitement message MQTT', err.message || err);
   }
-});
-
-// Endpoint pour récupérer l'historique des messages de chat
-app.get('/api/chat/history/:reservationId', async (req, res) => {
-  const { reservationId } = req.params;
-  
-  try {
-    const key = `chat:${reservationId}:messages`;
-    const messages = await redis.lrange(key, 0, -1);
-    
-    const formattedMessages = messages.map(msg => {
-      try {
-        const parsed = JSON.parse(msg);
-        return {
-          id: parsed.id || Date.now().toString(),
-          content: parsed.content,
-          from: parsed.from,
-          timestamp: parsed.timestamp,
-          type: 'chat'
-        };
-      } catch (e) {
-        logger.error('Erreur parsing message chat:', e);
-        return null;
-      }
-    }).filter(msg => msg !== null);
-    
-    res.json({ 
-      messages: formattedMessages,
-      reservation_id: reservationId,
-      count: formattedMessages.length
-    });
-    
-    logger.info(`📋 Historique chat récupéré pour ${reservationId}: ${formattedMessages.length} messages`);
-  } catch (error) {
-    logger.error('Erreur récupération historique chat:', error);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
-
-// Capteur de messages MQTT
-if (mqttClient) {
-  mqttClient.on('message', async (topic, message) => {
-    try {
-      const payload = message.toString();
-      const data = JSON.parse(payload);
-
-      logger.info(`Message reçu sur ${topic}:`, { payload });
-      
-      // ✅ AJOUTER : Fonction pour extraire l'ID du chauffeur du topic
-      function extractChauffeurIdFromTopic(topic, data) {
-        // Si chauffeur_id est "unknown", l'extraire du topic
-        if (data.chauffeur_id === 'unknown' || !data.chauffeur_id) {
-          const topicParts = topic.split('/');
-          if (topicParts.length >= 2 && topicParts[0] === 'chauffeur') {
-            const extractedId = topicParts[1];
-            logger.info(`🔄 ID chauffeur extrait du topic: ${extractedId} (était: ${data.chauffeur_id})`);
-            return extractedId;
-          }
-        }
-        return data.chauffeur_id;
-      }
-      
-      // Traitement des différents types de topics
-      if (topic === RESERVATIONS_RECENTES_TOPIC) {
-        await handleNewReservation(data);
-      } else if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
-        const reservationId = topic.split('/')[2];
-        await handleReservationMessage(reservationId, data);
-      } else if (topic.match(/^chauffeur\/.+\/status$/)) {
-        const chauffeurId = topic.split('/')[1];
-        // ✅ CORRIGER : Extraire l'ID du topic si nécessaire
-        const actualChauffeurId = extractChauffeurIdFromTopic(topic, data);
-        await handleChauffeurStatusUpdate(actualChauffeurId, data);
-      } else if (topic.match(/^chauffeur\/.+\/position$/)) {
-        const chauffeurId = topic.split('/')[1];
-        // ✅ CORRIGER : Extraire l'ID du topic si nécessaire
-        const actualChauffeurId = extractChauffeurIdFromTopic(topic, data);
-        await handlePosition(actualChauffeurId, data.data || data);
-      } else if (topic.match(/^ktur\/reservations\/.+\/position$/)) {
-        const reservationId = topic.split('/')[2];
-        await handleReservationPosition(reservationId, data);
-      } else if (topic.match(/^chauffeur\/.+\/.*$/)) {
-        // Traitement des messages généraux des chauffeurs
-        const chauffeurId = topic.split('/')[1];
-        // ✅ CORRIGER : Extraire l'ID du topic si nécessaire
-        const actualChauffeurId = extractChauffeurIdFromTopic(topic, data);
-        await handleChauffeurGeneralMessage(actualChauffeurId, data);
-      }
-    } catch (err) {
-      logger.error('Erreur traitement message', { error: err.message, topic });
-    }
-  });
 }
 
-// Nouvelle réservation reçue
+// ---------------------- Handlers (essentiels) ----------------------
 async function handleNewReservation(data) {
-  console.log(`Nouvelle réservation reçue: ${data.reservation_id}`);
+  logger.info(`Nouvelle réservation reçue: ${data.reservation_id || 'unknown'}`);
+  // conserve comportement minimal pour compatibilité
 }
 
-// Gestion des messages sur topic de réservation
 async function handleReservationMessage(reservationId, data) {
   switch (data.type) {
-    case 'chat':
-      await handleChatMessage(reservationId, data);
-      break;
+    case 'chat': await handleChatMessage(reservationId, data); break;
     case 'position':
-    case 'reservation_position':
-      await handleReservationPosition(reservationId, data);
-      break;
-    case 'acceptation':
-      await handleReservationAcceptance(reservationId, data);
-      break;
+    case 'reservation_position': await handleReservationPosition(reservationId, data); break;
+    case 'acceptation': await handleReservationAcceptance(reservationId, data); break;
     case 'debut':
-    case 'fin':
-      await handleReservationStatusChange(reservationId, data);
-      break;
+    case 'fin': await handleReservationStatusChange(reservationId, data); break;
     default:
-      logger.warn('Type de message non géré', { type: data.type, reservation_id: reservationId });
+      logger.warn('Type message réservation non géré', { reservationId, type: data.type });
   }
 }
 
-// Chat par réservation
 async function handleChatMessage(reservationId, data) {
   const key = `chat:${reservationId}:messages`;
+  // push en tête (fast), on archive plus tard si trop long
   await redis.lpush(key, JSON.stringify({
     from: data.from,
     content: data.content,
-    timestamp: new Date().toISOString()
+    timestamp: Date.now()
   }));
-  
-  const messageCount = await redis.llen(key);
-  if (messageCount >= 100) {
+  const len = await redis.llen(key);
+  if (len >= 100) {
     await archiveChatMessages(reservationId);
   }
 }
@@ -608,472 +277,454 @@ async function handleChatMessage(reservationId, data) {
 async function archiveChatMessages(reservationId) {
   const key = `chat:${reservationId}:messages`;
   const messages = await redis.lrange(key, 0, -1);
-  
   try {
     await axios.post(`${process.env.LARAVEL_API_URL}/api/chat/archive`, {
       reservation_id: reservationId,
-      messages: messages.map(msg => JSON.parse(msg))
-    });
+      messages: messages.map(m => JSON.parse(m))
+    }, { headers: { 'Content-Type': 'application/json' }});
     await redis.del(key);
-    logger.info(`📦 Chat archivé pour la réservation ${reservationId}`);
+    logger.info('Chat archivé', { reservationId });
   } catch (err) {
-    logger.error('Erreur archivage chat', { error: err.message });
+    logger.error('Erreur archivage chat', err.message || err);
   }
 }
 
 async function handleReservationPosition(reservationId, data) {
   const key = `reservation:${reservationId}:position`;
-  
   const positionData = {
     lat: data.lat,
     lng: data.lng,
     chauffeur_id: data.chauffeur_id,
     reservation_status: data.reservation_status || 'active',
-    is_in_reservation: true,
+    is_in_reservation: '1',
     updated_at: Date.now(),
-    accuracy: data.accuracy || null,
-    speed: data.speed || null,
-    heading: data.heading || null
+    accuracy: data.accuracy || '',
+    speed: data.speed || '',
+    heading: data.heading || ''
   };
-  
-  await redis.hset(key, positionData);
-  
-  logger.info(`📍 Position de réservation mise à jour`, {
+  await redisHSetMulti(key, positionData);
+
+  // publier (si possible) mais sans flooding de logs
+  const topic = `ktur/reservations/${reservationId}/position`;
+  const payload = JSON.stringify({
+    type: 'reservation_position',
     reservation_id: reservationId,
     chauffeur_id: data.chauffeur_id,
-    lat: data.lat,
-    lng: data.lng
+    position: { lat: data.lat, lng: data.lng, accuracy: data.accuracy },
+    timestamp: Date.now()
   });
-  
-  // Publier la position de réservation
-  if (mqttPublisher?.connected) {
-    const topic = `ktur/reservations/${reservationId}/position`;
-    const payload = JSON.stringify({
-      type: 'reservation_position',
-      reservation_id: reservationId,
-      chauffeur_id: data.chauffeur_id,
-      position: {
-        lat: data.lat,
-        lng: data.lng,
-        accuracy: data.accuracy,
-        speed: data.speed,
-        heading: data.heading
-      },
-      timestamp: Date.now()
-    });
-    
+  if (!mqttPublisher || !mqttPublisher.connected) {
+    enqueuePending(topic, payload);
+  } else {
     mqttPublisher.publish(topic, payload, { qos: 1 });
-    logger.debug(`📡 Position de réservation publiée sur ${topic}`);
   }
 }
 
 async function handleReservationAcceptance(reservationId, data) {
   try {
-    // Créer le topic dédié à cette réservation
     const reservationTopic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
-    if (!subscribedTopics.has(reservationTopic)) {
+    if (!subscribedReservationTopics.has(reservationTopic)) {
+      // on garde ces subscriptions uniquement pour chats/reservations spécifiques
       mqttClient.subscribe(reservationTopic, { qos: 1 }, (err) => {
         if (!err) {
-          subscribedTopics.add(reservationTopic);
-          console.log(`🎧 Écoute du topic: ${reservationTopic}`);
-        } else {
-          console.error(`❌ Erreur abonnement ${reservationTopic}:`, err);
-        }
+          subscribedReservationTopics.add(reservationTopic);
+          logger.info('Abonné au topic réservation', reservationTopic);
+        } else logger.error('Erreur abonnement reservation topic', err.message);
       });
     }
 
-    // Publier le message MQTT pour OneSignal
-    if (mqttPublisher?.connected) {
-      const onesignalTopic = 'ktur/reservations/onesignal/acceptation';
-      const onesignalPayload = JSON.stringify({
-        type: 'reservation_accepted',
-        reservation_id: reservationId,
-        chauffeur_id: data.chauffeur_id,
-        action: 'hide_notification',
-        timestamp: Date.now()
-      });
-      
-      mqttPublisher.publish(onesignalTopic, onesignalPayload, { qos: 1 });
-      logger.info(`📱 Message OneSignal publié pour masquer les notifications`);
-    }
+    // notifier Laravel
+    await notifyLaravel('/reservation/acceptation', { reservation_id: reservationId, chauffeur_id: data.chauffeur_id });
 
-    // Notifier Laravel et mettre à jour le statut
-    await notifyLaravel('/reservation/acceptation', {
-      reservation_id: reservationId,
-      chauffeur_id: data.chauffeur_id
-    });
-    
-    // Mettre à jour automatiquement le statut du chauffeur
-    await updateStatut(data.chauffeur_id, {
-      en_ligne: true,
-      en_course: true,
-      disponible: false
-    });
+    // mettre à jour statut
+    await updateStatut(data.chauffeur_id, { en_ligne: true, en_course: true, disponible: false });
 
-    // ✅ MODIFIER : Publier le statut mis à jour avec source 'server'
+    // publication serveur (évite boucle car publish handler ignore source:server)
     await publishChauffeurStatus(data.chauffeur_id, { source: 'server' });
-    
-    logger.info(`✅ Réservation ${reservationId} acceptée par chauffeur ${data.chauffeur_id}`);
-  } catch (error) {
-    logger.error(`❌ Erreur lors de l'acceptation de réservation ${reservationId}:`, error);
+
+    logger.info('Réservation acceptée', { reservationId, chauffeur: data.chauffeur_id });
+  } catch (err) {
+    logger.error('Erreur acceptation réservation', err.message);
   }
 }
 
 async function handleReservationStatusChange(reservationId, data) {
   const endpoint = data.type === 'debut' ? '/reservation/debut' : '/reservation/fin';
   await notifyLaravel(endpoint, { reservation_id: reservationId });
-  
   if (data.type === 'fin') {
     await cleanupReservation(reservationId);
   }
 }
 
 async function cleanupReservation(reservationId) {
-  // Archivage final du chat
   const chatKey = `chat:${reservationId}:messages`;
-  if (await redis.exists(chatKey)) {
-    await archiveChatMessages(reservationId);
-  }
-  
-  // Suppression des données Redis
+  if (await redis.exists(chatKey)) await archiveChatMessages(reservationId);
   await redis.del(`reservation:${reservationId}:position`);
-  
-  // Désabonnement du topic
   const topic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
-  if (subscribedTopics.has(topic)) {
-    mqttClient.unsubscribe(topic);
-    subscribedTopics.delete(topic);
+  if (subscribedReservationTopics.has(topic)) {
+    mqttClient.unsubscribe(topic, () => {});
+    subscribedReservationTopics.delete(topic);
   }
 }
 
-// === END AJOUT ===
-
-// Fonctions utilitaires
+// ---------------------- notify/update/publish helpers ----------------------
 async function notifyLaravel(endpoint, payload) {
   try {
     await axios.post(`${process.env.LARAVEL_API_URL}${endpoint}`, payload, {
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     });
-    logger.info(`✅ Notification envoyée vers ${endpoint}`);
+    logger.debug('Notification envoyée à Laravel', { endpoint });
   } catch (err) {
-    logger.error(`❌ Erreur appel Laravel ${endpoint}:`, err.response ? err.response.data : err.message);
+    logger.error('Erreur appel Laravel', err.response ? err.response.data : err.message);
   }
 }
 
 async function updateStatut(chauffeurId, fields) {
   const key = `chauffeur:${chauffeurId}`;
-  
-  // Debug: Log avant modification
-  const before = await redis.hgetall(key);
-  logger.debug('Statut AVANT mise à jour', { chauffeurId, before, newValues: fields });
-
   const mapping = {
-    disponible: fields.disponible ? '1' : '0',
-    en_ligne: fields.en_ligne ? '1' : '0',
-    en_course: fields.en_course ? '1' : '0',
+    disponible: fields.disponible ? '1' : (fields.disponible === false ? '0' : undefined),
+    en_ligne: fields.en_ligne ? '1' : (fields.en_ligne === false ? '0' : undefined),
+    en_course: fields.en_course ? '1' : (fields.en_course === false ? '0' : undefined),
     updated_at: Date.now()
   };
-
-  await redis.hset(key, mapping);
-  
-  // Debug: Log après modification
-  const after = await redis.hgetall(key);
-  logger.debug('Statut APRÈS mise à jour', { chauffeurId, after });
-
-  await publishChauffeurStatus(chauffeurId);
+  // clean undefined
+  Object.keys(mapping).forEach(k => mapping[k] === undefined && delete mapping[k]);
+  await redisHSetMulti(key, mapping);
+  await publishChauffeurStatus(chauffeurId, { source: 'server' });
 }
 
 async function publishChauffeurStatus(chauffeurId, options = {}) {
-  try {
-    if (!MQTT_ENABLED || !mqttPublisher) {
-      logger.warn('MQTT non disponible, publication ignorée');
+  if (!MQTT_ENABLED) return;
+  const now = Date.now();
+  const lastTs = lastStatusPublishTs.get(chauffeurId) || 0;
+  // throttle status publications (ex: 1s)
+  if (now - lastTs < 500) return;
+  lastStatusPublishTs.set(chauffeurId, now);
+
+  const key = `chauffeur:${chauffeurId}`;
+  const statut = await redis.hgetall(key);
+  if (!statut || Object.keys(statut).length === 0) return;
+
+  const statusData = {
+    chauffeur_id: chauffeurId,
+    disponible: statut.disponible === '1',
+    en_ligne: statut.en_ligne === '1',
+    en_course: statut.en_course === '1',
+    latitude: parseFloat(statut.latitude) || null,
+    longitude: parseFloat(statut.longitude) || null,
+    updated_at: parseInt(statut.updated_at) || Date.now(),
+    timestamp: new Date().toISOString(),
+    source: options.source || 'client'
+  };
+
+  const topic = `chauffeur/${chauffeurId}/status`;
+  const payload = JSON.stringify(statusData);
+  if (!mqttPublisher || !mqttPublisher.connected) {
+    enqueuePending(topic, payload);
+  } else {
+    mqttPublisher.publish(topic, payload, { qos: 1 });
+  }
+}
+
+// Generic publisher used elsewhere
+async function publishMQTTMessage(topic, payload, options = { qos: 1, retain: false }) {
+  if (!mqttPublisher || !mqttPublisher.connected) {
+    enqueuePending(topic, payload, options);
+  } else {
+    mqttPublisher.publish(topic, payload, options);
+  }
+}
+
+// Publier position générique (avec throttling en mémoire)
+async function publishChauffeurPosition(chauffeurId, lat, lng) {
+  const now = Date.now();
+  const cached = lastPositionCache.get(chauffeurId);
+  const newPos = { lat: String(lat), lng: String(lng), ts: now };
+
+  if (cached) {
+    if (!distanceChanged(cached, newPos) && (now - cached.ts) < POSITION_THROTTLE_MS) {
+      // pas de changement significatif, on ignorer
       return;
     }
-    
-    const key = `chauffeur:${chauffeurId}`;
-    const statut = await redis.hgetall(key);
-    
-    if (statut && Object.keys(statut).length > 0) {
-      const statusData = {
-        chauffeur_id: chauffeurId,
-        disponible: statut.disponible === '1',
-        en_ligne: statut.en_ligne === '1',
-        en_course: statut.en_course === '1',
-        latitude: parseFloat(statut.latitude) || null,
-        longitude: parseFloat(statut.longitude) || null,
-        updated_at: parseInt(statut.updated_at) || Date.now(),
-        timestamp: new Date().toISOString(),
-        // ✅ AJOUTER : Flag pour identifier les messages du serveur
-        source: options.source || 'client'
-      };
-      
-      const message = {
-        topic: `chauffeur/${chauffeurId}/status`,
-        payload: JSON.stringify(statusData),
-        options: { qos: 1 },
-        type: 'status'
-      };
-      
-      if (!mqttPublisher.connected) {
-        if (pendingMessages.length < MAX_PENDING_MESSAGES) {
-          pendingMessages.push(message);
-          logger.warn(`Publisher MQTT non connecté, statut de ${chauffeurId} mis en file d'attente`);
-        } else {
-          logger.warn('File d\'attente pleine, message ignoré');
-        }
-        return;
-      }
-      
-      mqttPublisher.publish(message.topic, message.payload, message.options);
-      logger.info(`📡 Statut publié pour chauffeur ${chauffeurId} (source: ${options.source || 'client'})`);
-    }
-  } catch (error) {
-    logger.error('Erreur publication statut MQTT:', error);
   }
-}
+  lastPositionCache.set(chauffeurId, newPos);
 
-// Fonction générique pour publier des messages MQTT avec gestion de la file d'attente
-async function publishMQTTMessage(topic, payload, options = { qos: 1, retain: false }) {
-  if (!mqttPublisher?.connected) {
-    if (pendingMessages.length < MAX_PENDING_MESSAGES) {
-      pendingMessages.push({ topic, payload, options });
-      logger.debug(`📋 Message en attente pour ${topic}`);
-    } else {
-      logger.warn('File d\'attente pleine, message ignoré');
-    }
-    return;
-  }
-  
-  mqttPublisher.publish(topic, payload, options);
-  logger.debug(`📡 Message publié sur ${topic}`);
-}
-
-// Publier la position d'un chauffeur (générale)
-async function publishChauffeurPosition(chauffeurId, lat, lng) {
   const topic = `chauffeur/${chauffeurId}/position`;
-  const payload = JSON.stringify({
-    type: 'general_position',
-    chauffeur_id: chauffeurId,
-    data: { lat, lng, timestamp: Date.now() }
-  });
-  
+  const payload = JSON.stringify({ type: 'general_position', chauffeur_id: chauffeurId, data: { lat, lng, timestamp: now } });
   await publishMQTTMessage(topic, payload);
-  logger.info(`📍 Position générale publiée pour chauffeur ${chauffeurId}`);
 }
 
-// Publier la position d'un chauffeur pendant une réservation
-async function publishReservationPosition(reservationId, chauffeurId, lat, lng, additionalData = {}) {
-  const topic = `ktur/reservations/${reservationId}/position`;
-  const payload = JSON.stringify({
-    type: 'reservation_position',
-    reservation_id: reservationId,
-    chauffeur_id: chauffeurId,
-    position: { lat, lng, ...additionalData },
-    timestamp: Date.now()
-  });
-  
-  await publishMQTTMessage(topic, payload);
-  logger.info(`📍 Position de réservation publiée pour ${reservationId}`);
-}
-
+// ---------------------- Position handler ----------------------
 async function handlePosition(id, positionData) {
-  // Validation des données
   if (!positionData || typeof positionData.lat !== 'number' || typeof positionData.lng !== 'number') {
-    logger.error('Données de position invalides', { id, received: positionData });
+    logger.warn('Position invalide ignorée', { id });
     return;
   }
 
-  const key = `chauffeur:${id}`;
   try {
-    const previous = await redis.hgetall(key);
-    
-    const update = {
+    const prev = lastPositionCache.get(id);
+    const newPos = { lat: String(positionData.lat), lng: String(positionData.lng) };
+    if (prev && !distanceChanged(prev, newPos) && (Date.now() - prev.ts) < POSITION_THROTTLE_MS) {
+      // éviter écritures/redondances
+      return;
+    }
+
+    // pipeline Redis
+    const key = `chauffeur:${id}`;
+    await redisHSetMulti(key, {
       latitude: positionData.lat,
       longitude: positionData.lng,
-      accuracy: positionData.accuracy || null,
-      speed: positionData.speed || null,
-      heading: positionData.heading || null,
-      is_in_reservation: false,
-      updated_at: Date.now()
-    };
-
-    // Éviter les écritures inutiles
-    if (previous.latitude === update.latitude.toString() && 
-        previous.longitude === update.longitude.toString()) {
-      return;
-    }
-
-    await redis.hset(key, update);
-    logger.debug(`📍 Position générale mise à jour pour ${id}`, {
-      lat: positionData.lat,
-      lng: positionData.lng,
-      accuracy: positionData.accuracy
-    });
-
-    // Mettre à jour automatiquement le statut
-    const currentStatus = await redis.hgetall(key);
-    const isEnCourse = currentStatus.en_course === '1';
-    
-    await redis.hset(key, {
-      en_ligne: '1',
-      disponible: isEnCourse ? '0' : '1',
+      accuracy: positionData.accuracy || '',
+      speed: positionData.speed || '',
+      heading: positionData.heading || '',
+      is_in_reservation: '0',
       updated_at: Date.now()
     });
-    
-    logger.info(`🔄 Statut automatique mis à jour pour ${id}: en_ligne=1, disponible=${isEnCourse ? '0' : '1'}`);
 
-    // S'abonner automatiquement au topic de statut du chauffeur
-    const statusTopic = `chauffeur/${id}/status`;
-    if (!subscribedTopics.has(statusTopic)) {
-      mqttClient.subscribe(statusTopic, { qos: 1 }, (err) => {
-        if (!err) {
-          subscribedTopics.add(statusTopic);
-          logger.info(`🎧 Abonnement automatique au topic de statut: ${statusTopic}`);
-        } else {
-          logger.error(`❌ Erreur abonnement au topic de statut ${statusTopic}:`, err);
-        }
-      });
-    }
-
-    // ✅ MODIFIER : Publier la position et le statut avec source 'server'
+    // mettre cache et publier
+    lastPositionCache.set(id, { ...newPos, ts: Date.now() });
     await publishChauffeurPosition(id, positionData.lat, positionData.lng);
     await publishChauffeurStatus(id, { source: 'server' });
-    
   } catch (err) {
-    logger.error('Erreur Redis', { id, error: err.message });
+    logger.error('Erreur handlePosition', err.message || err);
   }
 }
 
-// Fonction pour traiter les statuts publiés par les chauffeurs
+// ---------------------- Status update from chauffeurs ----------------------
 async function handleChauffeurStatusUpdate(chauffeurId, data) {
   try {
-    const key = `chauffeur:${chauffeurId}`;
-    
-    // ✅ AJOUTER : Vérifier si c'est un message du serveur lui-même
-    const currentStatus = await redis.hgetall(key);
-    const isServerMessage = data.source === 'server' || data.is_server_message;
-    
-    // Éviter de traiter les messages du serveur pour éviter la boucle infinie
-    if (isServerMessage) {
-      logger.debug(`📤 Message serveur ignoré pour éviter la boucle infinie - chauffeur ${chauffeurId}`);
-      return;
-    }
-    
-    const isOnline = data.statut === 1;
-    
-    await redis.hset(key, {
+    // ignorer messages provenant du serveur
+    if (data.source === 'server' || data.is_server_message) return;
+
+    const isOnline = data.statut === 1 || data.en_ligne === true;
+    await redisHSetMulti(`chauffeur:${chauffeurId}`, {
       en_ligne: isOnline ? '1' : '0',
       disponible: isOnline ? '1' : '0',
       en_course: '0',
       updated_at: Date.now()
     });
-    
-    // Si une position est fournie, l'enregistrer aussi
-    if (data.position?.latitude && data.position?.longitude) {
-      await redis.hset(key, {
-        latitude: data.position.latitude.toString(),
-        longitude: data.position.longitude.toString(),
+
+    if (data.position && data.position.latitude && data.position.longitude) {
+      await redisHSetMulti(`chauffeur:${chauffeurId}`, {
+        latitude: data.position.latitude,
+        longitude: data.position.longitude,
         updated_at: Date.now()
       });
     }
-    
-    logger.info(`🔄 Statut chauffeur ${chauffeurId} mis à jour via MQTT: ${isOnline ? 'EN LIGNE' : 'HORS LIGNE'}`);
-    
-    // ✅ MODIFIER : Publier le statut avec un flag pour éviter la boucle
+
+    // republier depuis le server pour synchronisation (throttled inside)
     await publishChauffeurStatus(chauffeurId, { source: 'server' });
-    
-  } catch (error) {
-    logger.error(`❌ Erreur lors de la mise à jour du statut chauffeur ${chauffeurId}:`, error);
+  } catch (err) {
+    logger.error('Erreur handleChauffeurStatusUpdate', err.message || err);
   }
 }
 
-// Fonction pour traiter les messages généraux des chauffeurs
-async function handleChauffeurGeneralMessage(chauffeurId, data) {
-  try {
-    if (data.statut !== undefined) {
-      await handleChauffeurStatusUpdate(chauffeurId, data);
-    } else if (data.position) {
-      await handlePosition(chauffeurId, data.position);
-    } else {
-      logger.debug(`📨 Message général reçu de ${chauffeurId}:`, data);
-    }
-  } catch (error) {
-    logger.error(`❌ Erreur lors du traitement du message général de ${chauffeurId}:`, error);
-  }
-}
-
-// Fonction pour gérer automatiquement le statut hors ligne des chauffeurs inactifs
+// ---------------------- Inactive check (scan-based, non bloquant) ----------------------
 async function checkInactiveChauffeurs() {
   try {
-    const keys = await redis.keys('chauffeur:*');
+    const keys = await scanKeys('chauffeur:*');
     const now = Date.now();
-    const INACTIVITY_THRESHOLD = 5 * 60 * 1000; // 5 minutes d'inactivité
-    
     for (const key of keys) {
-      const chauffeurId = key.split(':')[1];
+      const [, chauffeurId] = key.split(':');
       const chauffeur = await redis.hgetall(key);
-      
-      if (chauffeur.updated_at && chauffeur.en_ligne === '1') {
-        const lastUpdate = parseInt(chauffeur.updated_at);
-        const timeSinceLastUpdate = now - lastUpdate;
-        
-        if (timeSinceLastUpdate > INACTIVITY_THRESHOLD) {
-          logger.info(`🕐 Chauffeur ${chauffeurId} inactif depuis ${Math.round(timeSinceLastUpdate / 1000)}s - Passage hors ligne`);
-          
-          await redis.hset(key, {
-            en_ligne: '0',
-            disponible: '0',
-            updated_at: now
-          });
-          
-          // ✅ MODIFIER : Publier le statut avec source 'server'
-          await publishChauffeurStatus(chauffeurId, { source: 'server' });
-        }
+      if (!chauffeur || Object.keys(chauffeur).length === 0) continue;
+      const last = parseInt(chauffeur.updated_at || '0', 10);
+      if (chauffeur.en_ligne === '1' && (now - last) > INACTIVITY_THRESHOLD_MS) {
+        await redisHSetMulti(key, { en_ligne: '0', disponible: '0', updated_at: now });
+        await publishChauffeurStatus(chauffeurId, { source: 'server' });
+        logger.info('Chauffeur passé hors ligne pour inactivité', { chauffeurId });
       }
     }
-  } catch (error) {
-    logger.error('Erreur lors de la vérification des chauffeurs inactifs:', error);
+  } catch (err) {
+    logger.error('Erreur checkInactiveChauffeurs', err.message || err);
   }
 }
 
-// Démarrer la vérification périodique des chauffeurs inactifs
-setInterval(checkInactiveChauffeurs, 60000);
+setInterval(checkInactiveChauffeurs, 60 * 1000);
 
-app.listen(PORT, () => {
-  console.log(`🚀 Serveur ecouteur MQTT en écoute sur le port ${PORT}`);
-  console.log(`📡 Topics de diffusion:`);
-  console.log(`   - ${STATUS_TOPIC} : Statut des chauffeurs`);
-  console.log(`   - ${CHAUFFEUR_GENERAL_POSITION_TOPIC} : Position générale des chauffeurs`);
-  console.log(`   - ${RESERVATION_POSITION_TOPIC} : Position pendant réservation`);
-  console.log(`   - ${RESERVATIONS_RECENTES_TOPIC} : Nouvelles réservations`);
-  console.log(`   - ${RESERVATION_TOPIC_PREFIX}* : Messages de réservation`);
+// ---------------------- Endpoints ----------------------
+app.post('/api/ecouter-topic', (req, res) => {
+  const topic = req.body.topic;
+  if (!MQTT_ENABLED || !mqttClient) return res.status(503).json({ message: 'MQTT non disponible' });
+  if (!topic) return res.status(400).json({ message: 'Topic invalide' });
+
+  // seulement pour des topics non-reservation (reservation gérés ailleurs) : abonnement unique
+  mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+    if (err) return res.status(500).json({ message: 'Erreur abonnement' });
+    return res.json({ message: `Abonné à ${topic}` });
+  });
 });
 
-process.on('SIGINT', () => {
-  console.log('\n🛑 Arrêt du serveur...');
-  if (mqttClient) mqttClient.end();
-  if (mqttPublisher) mqttPublisher.end();
+app.get('/api/mqtt/status', (req, res) => {
+  res.json({
+    mqtt_enabled: MQTT_ENABLED,
+    publisher_enabled: MQTT_PUBLISHER_ENABLED,
+    listener_connected: !!(mqttClient && mqttClient.connected),
+    publisher_connected: !!(mqttPublisher && mqttPublisher.connected),
+    pending_messages: pendingMessages.length,
+    subscribed_reservations: Array.from(subscribedReservationTopics)
+  });
+});
+
+app.post('/api/reconnect-publisher', (req, res) => {
+  try {
+    if (!MQTT_ENABLED) return res.status(400).json({ message: 'MQTT désactivé' });
+    if (mqttPublisher) mqttPublisher.end(true);
+    mqttPublisher = null;
+    // recreate
+    mqttPublisher = createMqttClient('publisher', {
+      will: {
+        topic: 'ktur/server/status',
+        payload: JSON.stringify({ status: 'offline', timestamp: Date.now() }),
+        qos: 1,
+        retain: true
+      }
+    });
+    return res.json({ message: 'Reconnexion publisher initiée' });
+  } catch (err) {
+    logger.error('Erreur reconnexion publisher', err.message || err);
+    return res.status(500).json({ message: 'Erreur' });
+  }
+});
+
+app.post('/api/desabonner-topic', async (req, res) => {
+  const { topic } = req.body;
+  if (!MQTT_ENABLED || !mqttClient) return res.status(503).json({ message: 'MQTT non disponible' });
+  if (!topic) return res.status(400).json({ message: 'Topic invalide' });
+
+  mqttClient.unsubscribe(topic, {}, async (err) => {
+    if (err) return res.status(500).json({ message: 'Erreur désabonnement' });
+    // si c'était un topic de réservation, on l'enlève du set
+    if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) subscribedReservationTopics.delete(topic);
+    // si c'est un chauffeur/:id/status, on peut mettre à jour le statut
+    const parts = topic.split('/');
+    if (parts.length >= 3 && parts[0] === 'chauffeur') {
+      const chauffeurId = parts[1];
+      await updateStatut(chauffeurId, { disponible: false, en_ligne: false, en_course: false });
+    }
+    return res.json({ message: `Désabonné de ${topic}` });
+  });
+});
+
+app.post('/api/chauffeur/:id/subscribe-status', (req, res) => {
+  const { id } = req.params;
+  const statusTopic = `chauffeur/${id}/status`;
+  if (!MQTT_ENABLED || !mqttClient) return res.status(503).json({ message: 'MQTT non disponible' });
+
+  mqttClient.subscribe(statusTopic, { qos: 1 }, (err) => {
+    if (err) return res.status(500).json({ message: 'Erreur abonnement' });
+    return res.json({ message: `Abonné au topic ${statusTopic}` });
+  });
+});
+
+app.get('/api/chauffeurs/status', async (req, res) => {
+  try {
+    const keys = await scanKeys('chauffeur:*');
+    const chauffeurs = [];
+    for (const k of keys) {
+      const id = k.split(':')[1];
+      const s = await redis.hgetall(k);
+      if (!s || Object.keys(s).length === 0) continue;
+      chauffeurs.push({
+        id,
+        ...s,
+        disponible: s.disponible === '1',
+        en_ligne: s.en_ligne === '1',
+        en_course: s.en_course === '1'
+      });
+    }
+    res.json({ chauffeurs });
+  } catch (err) {
+    logger.error('Erreur récupération statuts', err.message || err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+app.post('/api/chauffeurs/:id/status', async (req, res) => {
+  const { id } = req.params;
+  const status = req.body;
+  if (typeof status.disponible !== 'boolean' || typeof status.en_ligne !== 'boolean') {
+    return res.status(400).json({ error: 'Statut invalide' });
+  }
+  try {
+    await updateStatut(id, status);
+    const current = await redis.hgetall(`chauffeur:${id}`);
+    res.json(current);
+  } catch (err) {
+    logger.error('Erreur statut', err.message || err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+app.post('/api/reservation/subscribe', (req, res) => {
+  const { reservation_id } = req.body;
+  if (!reservation_id) return res.status(400).json({ message: 'reservation_id manquant' });
+  const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
+  if (!MQTT_ENABLED || !mqttClient) return res.status(503).json({ message: 'MQTT non disponible' });
+
+  mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+    if (!err) {
+      subscribedReservationTopics.add(topic);
+      return res.json({ message: `Abonné au topic ${topic}` });
+    } else {
+      return res.status(500).json({ error: 'Erreur abonnement topic' });
+    }
+  });
+});
+
+app.post('/api/reservation/send-message', async (req, res) => {
+  const { reservation_id, message } = req.body;
+  const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
+  if (!MQTT_PUBLISHER_ENABLED) return res.status(503).json({ error: 'Publisher MQTT non disponible' });
+  try {
+    const payload = JSON.stringify({ type: 'chat', from: message.from, content: message.content });
+    await publishMQTTMessage(topic, payload, { qos: 1 });
+    return res.json({ success: true });
+  } catch (err) {
+    logger.error('Erreur envoi message', err.message || err);
+    return res.status(500).json({ error: 'Erreur envoi message' });
+  }
+});
+
+app.get('/api/chat/history/:reservationId', async (req, res) => {
+  const { reservationId } = req.params;
+  try {
+    const key = `chat:${reservationId}:messages`;
+    const messages = await redis.lrange(key, 0, -1);
+    const formatted = messages.map(m => {
+      try { return JSON.parse(m); } catch (e) { return null; }
+    }).filter(Boolean);
+    logger.debug('Historique chat récupéré', { reservationId, count: formatted.length });
+    res.json({ messages: formatted, reservation_id: reservationId, count: formatted.length });
+  } catch (err) {
+    logger.error('Erreur récupération historique chat', err.message || err);
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
+
+// ---------------------- Start ----------------------
+initializeMQTT();
+
+const server = app.listen(PORT, () => {
+  logger.info(`Serveur en écoute sur le port ${PORT}`);
+});
+
+// ---------------------- Cleanup ----------------------
+function shutdown() {
+  logger.info('Arrêt du serveur...');
+  if (mqttClient) mqttClient.end(true);
+  if (mqttPublisher) mqttPublisher.end(true);
   redis.disconnect();
-  process.exit(0);
-});
-
-process.on('SIGTERM', () => {
-  console.log('\n🛑 Arrêt du serveur...');
-  if (mqttClient) mqttClient.end();
-  if (mqttPublisher) mqttPublisher.end();
-  redis.disconnect();
-  process.exit(0);
-});
+  server.close(() => process.exit(0));
+}
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 process.on('uncaughtException', (err) => {
-  console.error('❌ Erreur non capturée:', err);
+  logger.error('Erreur non capturée', err.message || err);
   process.exit(1);
 });
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ Promesse rejetée non gérée:', reason);
+process.on('unhandledRejection', (reason) => {
+  logger.error('Promesse rejetée non gérée', reason);
   process.exit(1);
 });
