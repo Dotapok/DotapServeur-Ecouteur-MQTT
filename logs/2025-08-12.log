@@ -1,0 +1,6 @@
+2025-08-12 21:16:17 [INFO] Serveur en écoute sur le port 3000 
+2025-08-12 21:16:18 [INFO] Connecté à Redis 
+2025-08-12 21:16:18 [INFO] MQTT Listener connecté 
+2025-08-12 21:16:18 [INFO] MQTT Publisher connecté 
+2025-08-12 21:16:18 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-12 21:16:23 [INFO] Arrêt du serveur... 
