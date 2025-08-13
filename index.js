@@ -167,9 +167,10 @@ function initializeMQTT() {
   mqttClient.on('connect', () => {
     logger.info('MQTT Listener connecté');
     // abonnements "génériques"
-    mqttClient.subscribe([RESERVATIONS_RECENTES_TOPIC, STATUS_TOPIC_WILDCARD, POSITION_TOPIC_WILDCARD], { qos: 1 }, (err) => {
+    const wildcardTopics = [RESERVATIONS_RECENTES_TOPIC, STATUS_TOPIC_WILDCARD, POSITION_TOPIC_WILDCARD];
+    mqttClient.subscribe(wildcardTopics, { qos: 1 }, (err) => {
       if (err) logger.error('Erreur abonnement wildcard MQTT:', err.message);
-      else logger.info('Abonnements wildcard MQTT effectués');
+      else logger.info('Abonnements wildcard MQTT effectués', { topics: wildcardTopics });
     });
     processPendingMessages();
   });
@@ -206,7 +207,7 @@ function initializeMQTT() {
 
 // ---------------------- Message handling ----------------------
 async function onMqttMessage(topic, messageBuf) {
-  logger.debug('MQTT message reçu', { topic, size: messageBuf?.length || 0 });
+  logger.info('MQTT message reçu', { topic, size: messageBuf?.length || 0 });
   const data = safeJsonParse(messageBuf);
   if (!data) {
     logger.warn('Message MQTT non JSON ignoré', { topic });
@@ -357,7 +358,7 @@ async function handleReservationAcceptance(reservationId, data) {
       mqttClient.subscribe(reservationTopic, { qos: 1 }, (err) => {
         if (!err) {
           subscribedReservationTopics.add(reservationTopic);
-          logger.info('Abonné au topic réservation', reservationTopic);
+          logger.info('Abonné au topic réservation', { topic: reservationTopic });
         } else logger.error('Erreur abonnement reservation topic', err.message);
       });
     }
@@ -391,7 +392,10 @@ async function cleanupReservation(reservationId) {
   await redis.del(`reservation:${reservationId}:position`);
   const topic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
   if (subscribedReservationTopics.has(topic)) {
-    mqttClient.unsubscribe(topic, () => {});
+    mqttClient.unsubscribe(topic, (err) => {
+      if (err) logger.error('Erreur désabonnement topic réservation', { topic, error: err.message });
+      else logger.info('Désabonné du topic réservation', { topic });
+    });
     subscribedReservationTopics.delete(topic);
   }
 }
