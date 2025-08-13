@@ -167,10 +167,9 @@ function initializeMQTT() {
   mqttClient.on('connect', () => {
     logger.info('MQTT Listener connecté');
     // abonnements "génériques"
-    const wildcardTopics = [RESERVATIONS_RECENTES_TOPIC, STATUS_TOPIC_WILDCARD, POSITION_TOPIC_WILDCARD];
-    mqttClient.subscribe(wildcardTopics, { qos: 1 }, (err) => {
+    mqttClient.subscribe([RESERVATIONS_RECENTES_TOPIC, STATUS_TOPIC_WILDCARD, POSITION_TOPIC_WILDCARD], { qos: 1 }, (err) => {
       if (err) logger.error('Erreur abonnement wildcard MQTT:', err.message);
-      else logger.info('Abonnements wildcard MQTT effectués', { topics: wildcardTopics });
+      else logger.info('Abonnements wildcard MQTT effectués');
     });
     processPendingMessages();
   });
@@ -179,6 +178,27 @@ function initializeMQTT() {
   mqttClient.on('error', e => logger.error('MQTT Listener err:', e.message));
   mqttClient.on('close', () => logger.info('MQTT Listener fermé'));
   mqttClient.on('offline', () => logger.warn('MQTT Listener hors ligne'));
+  // Logs détaillés des souscriptions/désabonnements côté client
+  mqttClient.on('packetsend', (packet) => {
+    try {
+      if (packet && packet.cmd === 'subscribe') {
+        const topics = (packet.subscriptions || []).map(s => s.topic);
+        logger.info('Souscription envoyée', { topics });
+      } else if (packet && packet.cmd === 'unsubscribe') {
+        const topics = packet.unsubscriptions || [];
+        logger.info('Désabonnement envoyé', { topics });
+      }
+    } catch (_) {}
+  });
+  mqttClient.on('packetreceive', (packet) => {
+    try {
+      if (packet && packet.cmd === 'suback') {
+        logger.info('Souscription confirmée (SUBACK)');
+      } else if (packet && packet.cmd === 'unsuback') {
+        logger.info('Désabonnement confirmé (UNSUBACK)');
+      }
+    } catch (_) {}
+  });
 
   // Publisher (séparé pour statut/position)
   if (MQTT_PUBLISHER_ENABLED) {
@@ -358,7 +378,7 @@ async function handleReservationAcceptance(reservationId, data) {
       mqttClient.subscribe(reservationTopic, { qos: 1 }, (err) => {
         if (!err) {
           subscribedReservationTopics.add(reservationTopic);
-          logger.info('Abonné au topic réservation', { topic: reservationTopic });
+          logger.info('Abonné au topic réservation', reservationTopic);
         } else logger.error('Erreur abonnement reservation topic', err.message);
       });
     }
@@ -392,9 +412,8 @@ async function cleanupReservation(reservationId) {
   await redis.del(`reservation:${reservationId}:position`);
   const topic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
   if (subscribedReservationTopics.has(topic)) {
-    mqttClient.unsubscribe(topic, (err) => {
-      if (err) logger.error('Erreur désabonnement topic réservation', { topic, error: err.message });
-      else logger.info('Désabonné du topic réservation', { topic });
+    mqttClient.unsubscribe(topic, () => {
+      logger.info('Désabonné du topic réservation', { topic });
     });
     subscribedReservationTopics.delete(topic);
   }
