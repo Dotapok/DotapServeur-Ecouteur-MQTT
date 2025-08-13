@@ -291,16 +291,24 @@ async function archiveChatMessages(reservationId) {
 
 async function handleReservationPosition(reservationId, data) {
   const key = `reservation:${reservationId}:position`;
+  // Assouplir l'ingestion: accepter { lat,lng } OU { data:{ lat,lng } } OU { position:{ lat,lng } }
+  const src = (data && typeof data === 'object') ? data : {};
+  const pos = (src.position && typeof src.position === 'object')
+    ? src.position
+    : (src.data && typeof src.data === 'object')
+      ? src.data
+      : src;
+
   const positionData = {
-    lat: data.lat,
-    lng: data.lng,
-    chauffeur_id: data.chauffeur_id,
-    reservation_status: data.reservation_status || 'active',
+    lat: pos.lat,
+    lng: pos.lng,
+    chauffeur_id: src.chauffeur_id,
+    reservation_status: src.reservation_status || 'active',
     is_in_reservation: '1',
     updated_at: Date.now(),
-    accuracy: data.accuracy || '',
-    speed: data.speed || '',
-    heading: data.heading || ''
+    accuracy: pos.accuracy || '',
+    speed: pos.speed || '',
+    heading: pos.heading || ''
   };
   await redisHSetMulti(key, positionData);
 
@@ -309,8 +317,8 @@ async function handleReservationPosition(reservationId, data) {
   const payload = JSON.stringify({
     type: 'reservation_position',
     reservation_id: reservationId,
-    chauffeur_id: data.chauffeur_id,
-    position: { lat: data.lat, lng: data.lng, accuracy: data.accuracy },
+    chauffeur_id: positionData.chauffeur_id,
+    position: { lat: positionData.lat, lng: positionData.lng, accuracy: positionData.accuracy },
     timestamp: Date.now()
   });
   if (!mqttPublisher || !mqttPublisher.connected) {
@@ -333,8 +341,8 @@ async function handleReservationAcceptance(reservationId, data) {
       });
     }
 
-    // notifier Laravel
-    await notifyLaravel('/reservation/acceptation', { reservation_id: reservationId, chauffeur_id: data.chauffeur_id });
+    // notifier Laravel (paramètre attendu: resa_id)
+    await notifyLaravel('/reservation/acceptation', { resa_id: reservationId, chauffeur_id: data.chauffeur_id });
 
     // mettre à jour statut
     await updateStatut(data.chauffeur_id, { en_ligne: true, en_course: true, disponible: false });
@@ -350,7 +358,7 @@ async function handleReservationAcceptance(reservationId, data) {
 
 async function handleReservationStatusChange(reservationId, data) {
   const endpoint = data.type === 'debut' ? '/reservation/debut' : '/reservation/fin';
-  await notifyLaravel(endpoint, { reservation_id: reservationId });
+  await notifyLaravel(endpoint, { resa_id: reservationId });
   if (data.type === 'fin') {
     await cleanupReservation(reservationId);
   }
