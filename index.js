@@ -61,7 +61,6 @@ let mqttClient = null;
 let mqttPublisher = null;
 const pendingMessages = []; // FIFO
 const subscribedReservationTopics = new Set(); // on track uniquement des topics de réservation spécifiques
-const subscribedTopics = new Set();
 
 // caches en mémoire pour limiter accès Redis
 const lastPositionCache = new Map(); // chauffeurId -> { lat, lng, ts }
@@ -289,18 +288,22 @@ async function handleNewReservation(data) {
 
 async function handleReservationMessage(reservationId, data) {
   switch (data.type) {
-    case 'chat': 
-      await handleChatMessage(reservationId, data); break;
+    case 'chat':
+      await handleChatMessage(reservationId, data);
+      break;
     case 'position':
-    case 'reservation_position': 
-      await handleReservationPosition(reservationId, data); 
+    case 'reservation_position':
+      await handleReservationPosition(reservationId, data);
       break;
     case 'acceptation':
-    case 'debut':
-      await handleReservationAcceptance(reservationId, data); 
+      if (data.action === 'start') {
+        await handleReservationStart(reservationId, data);
+      } else {
+        await handleReservationAcceptance(reservationId, data);
+      }
       break;
-    case 'fin': 
-      await handleReservationStatusChange(reservationId, data); 
+    case 'fin':
+      await handleReservationEnd(reservationId, data);
       break;
     default:
       logger.warn('Type message réservation non géré', { reservationId, type: data.type });
@@ -406,9 +409,44 @@ async function handleReservationAcceptance(reservationId, data) {
   }
 }
 
+async function handleReservationStart(reservationId, data) {
+  try {
+    // 1. Notifier Laravel
+    await notifyLaravel('/reservation/acceptation', {
+      resa_id: reservationId,
+      chauffeur_id: data.chauffeur_id,
+      action: 'start'
+    });
+
+    // 2. Mettre à jour le statut du chauffeur
+    await updateStatut(data.chauffeur_id, {
+      en_ligne: true,
+      en_course: true,
+      disponible: false
+    });
+
+    // 3. Publier un message MQTT
+    const topic = `${RESERVATION_TOPIC_PREFIX}${reservationId}`;
+    const payload = JSON.stringify({
+      type: 'course_started',
+      reservation_id: reservationId,
+      chauffeur_id: data.chauffeur_id,
+      timestamp: Date.now()
+    });
+    await publishMQTTMessage(topic, payload, { qos: 1 });
+
+    logger.info('Course démarrée', { reservationId, chauffeur: data.chauffeur_id });
+  } catch (err) {
+    logger.error('Erreur démarrage course', err.message);
+  }
+}
+
 async function handleReservationStatusChange(reservationId, data) {
-  await notifyLaravel('/reservation/fin', { resa_id: reservationId });
-  await cleanupReservation(reservationId);
+  const endpoint = data.type === 'debut' ? '/reservation/debut' : '/reservation/fin';
+  await notifyLaravel(endpoint, { resa_id: reservationId });
+  if (data.type === 'fin') {
+    await cleanupReservation(reservationId);
+  }
 }
 
 async function cleanupReservation(reservationId) {
