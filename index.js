@@ -61,6 +61,7 @@ let mqttClient = null;
 let mqttPublisher = null;
 const pendingMessages = []; // FIFO
 const subscribedReservationTopics = new Set(); // on track uniquement des topics de réservation spécifiques
+const subscribedTopics = new Set();
 
 // caches en mémoire pour limiter accès Redis
 const lastPositionCache = new Map(); // chauffeurId -> { lat, lng, ts }
@@ -288,12 +289,19 @@ async function handleNewReservation(data) {
 
 async function handleReservationMessage(reservationId, data) {
   switch (data.type) {
-    case 'chat': await handleChatMessage(reservationId, data); break;
+    case 'chat': 
+      await handleChatMessage(reservationId, data); break;
     case 'position':
-    case 'reservation_position': await handleReservationPosition(reservationId, data); break;
-    case 'acceptation': await handleReservationAcceptance(reservationId, data); break;
+    case 'reservation_position': 
+      await handleReservationPosition(reservationId, data); 
+      break;
+    case 'acceptation':
     case 'debut':
-    case 'fin': await handleReservationStatusChange(reservationId, data); break;
+      await handleReservationAcceptance(reservationId, data); 
+      break;
+    case 'fin': 
+      await handleReservationStatusChange(reservationId, data); 
+      break;
     default:
       logger.warn('Type message réservation non géré', { reservationId, type: data.type });
   }
@@ -399,11 +407,8 @@ async function handleReservationAcceptance(reservationId, data) {
 }
 
 async function handleReservationStatusChange(reservationId, data) {
-  const endpoint = data.type === 'debut' ? '/reservation/debut' : '/reservation/fin';
-  await notifyLaravel(endpoint, { resa_id: reservationId });
-  if (data.type === 'fin') {
-    await cleanupReservation(reservationId);
-  }
+  await notifyLaravel('/reservation/fin', { resa_id: reservationId });
+  await cleanupReservation(reservationId);
 }
 
 async function cleanupReservation(reservationId) {
