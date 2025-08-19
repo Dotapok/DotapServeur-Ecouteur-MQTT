@@ -43,7 +43,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const MQTT_ENABLED = process.env.MQTT_ENABLED !== 'false';
 const MQTT_PUBLISHER_ENABLED = process.env.MQTT_PUBLISHER_ENABLED !== 'false';
 
-const MQTT_BROKER_URL = process.env.MQTT_BROKER_URL || 'mqtts://test.mosquitto.org:8883';
+const MQTT_BROKER_URL = 'mqtts://test.mosquitto.org:8883';
 const MQTT_USERNAME = process.env.MQTT_USERNAME || '';
 const MQTT_PASSWORD = process.env.MQTT_PASSWORD || '';
 
