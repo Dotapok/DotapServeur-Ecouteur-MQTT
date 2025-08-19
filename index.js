@@ -574,6 +574,21 @@ async function handleReservationPosition(reservationId, data) {
       timestamp: new Date().toISOString()
     });
     logger.debug('handleReservationPosition: écrit dans Redis', { key });
+
+    // 🔧 Mettre à jour le statut du chauffeur correspondant
+    if (positionData.chauffeur_id) {
+      const chauffeurKey = `chauffeur:${positionData.chauffeur_id}`;
+      await redisHSetMulti(chauffeurKey, {
+        latitude: positionData.lat,
+        longitude: positionData.lng,
+        en_ligne: '1',
+        disponible: '0',
+        en_course: '1',
+        updated_at: Date.now(),
+      });
+      // Republier le statut pour synchronisation
+      await publishChauffeurStatus(positionData.chauffeur_id, { source: 'server' });
+    }
   } catch (err) {
     console.error('💥 ERREUR ÉCRITURE REDIS POSITION RÉSERVATION:', {
       reservationId,
@@ -845,6 +860,9 @@ async function handlePosition(id, positionData) {
       speed: positionData.speed || '',
       heading: positionData.heading || '',
       is_in_reservation: '0',
+      en_ligne: '1',
+      disponible: '1',
+      en_course: '0',
       updated_at: Date.now()
     });
     
