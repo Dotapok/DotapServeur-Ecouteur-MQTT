@@ -932,6 +932,7 @@ app.post('/api/ecouter-topic', (req, res) => {
 
   // seulement pour des topics non-reservation (reservation gérés ailleurs) : abonnement unique
   mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+    console.log('🔔 API SUBSCRIBE DEMANDÉ:', { topic, timestamp: new Date().toISOString() });
     logger.info('API subscribe', { topic, err: err ? err.message : null });
     if (err) return res.status(500).json({ message: 'Erreur abonnement' });
     return res.json({ message: `Abonné à ${topic}` });
@@ -976,6 +977,7 @@ app.post('/api/desabonner-topic', async (req, res) => {
   if (!topic) return res.status(400).json({ message: 'Topic invalide' });
 
   mqttClient.unsubscribe(topic, {}, async (err) => {
+    console.log('🔕 API UNSUBSCRIBE DEMANDÉ:', { topic, timestamp: new Date().toISOString() });
     logger.info('API unsubscribe', { topic, err: err ? err.message : null });
     if (err) return res.status(500).json({ message: 'Erreur désabonnement' });
     // si c'était un topic de réservation, on l'enlève du set
