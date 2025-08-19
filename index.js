@@ -174,6 +174,7 @@ function processPendingMessages() {
 function createMqttClient(clientIdSuffix, extra = {}) {
   const clientId = `ktur_${clientIdSuffix}_${Math.random().toString(16).slice(2,8)}`;
   logger.info('Connexion au broker MQTT...', { url: MQTT_BROKER_URL, clientId: clientId, role: clientIdSuffix });
+  const rejectUnauthorized = process.env.MQTT_REJECT_UNAUTHORIZED === 'false' ? false : true;
   return mqtt.connect(MQTT_BROKER_URL, {
     username: MQTT_USERNAME || undefined,
     password: MQTT_PASSWORD || undefined,
@@ -182,6 +183,7 @@ function createMqttClient(clientIdSuffix, extra = {}) {
     keepalive: 60,
     clean: true,
     clientId,
+    rejectUnauthorized,
     ...extra
   });
 }
@@ -219,7 +221,16 @@ function initializeMQTT() {
   });
 
   mqttClient.on('message', onMqttMessage);
-  mqttClient.on('error', e => logger.error('MQTT Listener err:', e.message));
+  mqttClient.on('error', e => {
+    console.error('💥 MQTT Listener error detailed:', {
+      message: e && e.message,
+      code: e && e.code,
+      errno: e && e.errno,
+      stack: e && e.stack,
+      timestamp: new Date().toISOString()
+    });
+    logger.error('MQTT Listener err:', e && (e.message || e));
+  });
   mqttClient.on('close', () => logger.info('MQTT Listener fermé'));
   mqttClient.on('offline', () => logger.warn('MQTT Listener hors ligne'));
   // Logs détaillés des souscriptions/désabonnements côté client
@@ -261,7 +272,16 @@ function initializeMQTT() {
       processPendingMessages();
     });
 
-    mqttPublisher.on('error', e => logger.error('MQTT Publisher err:', e.message));
+    mqttPublisher.on('error', e => {
+      console.error('💥 MQTT Publisher error detailed:', {
+        message: e && e.message,
+        code: e && e.code,
+        errno: e && e.errno,
+        stack: e && e.stack,
+        timestamp: new Date().toISOString()
+      });
+      logger.error('MQTT Publisher err:', e && (e.message || e));
+    });
     mqttPublisher.on('close', () => logger.info('MQTT Publisher fermé'));
     mqttPublisher.on('offline', () => logger.warn('MQTT Publisher hors ligne'));
   } else {
