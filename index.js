@@ -43,7 +43,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 const MQTT_ENABLED = process.env.MQTT_ENABLED !== 'false';
 const MQTT_PUBLISHER_ENABLED = process.env.MQTT_PUBLISHER_ENABLED !== 'false';
 
-const MQTT_BROKER_URL = 'wss://test.mosquitto.org:8081';
+const MQTT_BROKER_URL = 'mqtts://test.mosquitto.org:8883';
 const MQTT_USERNAME = process.env.MQTT_USERNAME || '';
 const MQTT_PASSWORD = process.env.MQTT_PASSWORD || '';
 
@@ -173,9 +173,15 @@ function processPendingMessages() {
 // ---------------------- MQTT init ----------------------
 function createMqttClient(clientIdSuffix, extra = {}) {
   const clientId = `ktur_${clientIdSuffix}_${Math.random().toString(16).slice(2,8)}`;
-  logger.info('Connexion au broker MQTT...', { url: MQTT_BROKER_URL, clientId: clientId, role: clientIdSuffix });
+  // Normaliser l'URL pour WSS Mosquitto: ajouter /mqtt si manquant
+  let brokerUrl = MQTT_BROKER_URL;
+  if (brokerUrl.startsWith('wss://') && brokerUrl.includes('test.mosquitto.org:8081') && !brokerUrl.endsWith('/mqtt')) {
+    brokerUrl = brokerUrl + '/mqtt';
+  }
+  logger.info('Connexion au broker MQTT...', { url: brokerUrl, clientId: clientId, role: clientIdSuffix });
   const rejectUnauthorized = process.env.MQTT_REJECT_UNAUTHORIZED === 'false' ? false : true;
-  return mqtt.connect(MQTT_BROKER_URL, {
+  const isWss = brokerUrl.startsWith('wss://');
+  const conn = mqtt.connect(brokerUrl, {
     username: MQTT_USERNAME || undefined,
     password: MQTT_PASSWORD || undefined,
     reconnectPeriod: 5000,
@@ -184,8 +190,16 @@ function createMqttClient(clientIdSuffix, extra = {}) {
     clean: true,
     clientId,
     rejectUnauthorized,
+    protocolVersion: 4,
+    protocolId: 'MQTT',
+    // Pour WSS, certains brokers exigent un chemin explicite et options WS
+    ...(isWss ? { path: brokerUrl.endsWith('/mqtt') ? undefined : '/mqtt', wsOptions: { rejectUnauthorized } } : {}),
     ...extra
   });
+  // Aide au debug des frames réseau
+  conn.on('packetsend', (p) => { try { if (p && p.cmd) logger.debug('MQTT packet send', { role: clientIdSuffix, cmd: p.cmd }); } catch(_){} });
+  conn.on('packetreceive', (p) => { try { if (p && p.cmd) logger.debug('MQTT packet recv', { role: clientIdSuffix, cmd: p.cmd }); } catch(_){} });
+  return conn;
 }
 
 function initializeMQTT() {
