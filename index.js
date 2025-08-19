@@ -65,7 +65,6 @@ const RESERVATIONS_RECENTES_TOPIC = 'ktur/reservations/recentes';
 const RESERVATION_TOPIC_PREFIX = 'ktur/reservations/';
 const STATUS_TOPIC_WILDCARD = 'chauffeur/+/status';
 const POSITION_TOPIC_WILDCARD = 'chauffeur/+/position';
-const RESERVATION_POSITION_TOPIC_WILDCARD = 'ktur/reservations/+/position';
 const PASSAGER_STATUS_TOPIC = 'passager_mobile/status';
 const PASSAGER_POSITION_TOPIC = 'passager_mobile/position';
 
