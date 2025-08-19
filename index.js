@@ -32,6 +32,16 @@ const logger = createLogger({
   ]
 });
 
+// Verbosity flag
+const IS_DEBUG = (LOG_LEVEL || '').toLowerCase() === 'debug';
+
+// Helper debug logger to reduce console noise
+function logDebug(...args) {
+  if (IS_DEBUG) {
+    try { console.log(...args); } catch (_) {}
+  }
+}
+
 // ---------------------- App / Config ----------------------
 const app = express();
 app.use(cors());
@@ -315,7 +325,7 @@ function initializeMQTT() {
 // ---------------------- Message handling ----------------------
 async function onMqttMessage(topic, messageBuf) {
   // LOGGING DÉTAILLÉ : Capture tous les messages MQTT
-  console.log('🔍 MQTT MESSAGE RECU:', {
+  logDebug('🔍 MQTT MESSAGE RECU:', {
     topic,
     size: messageBuf?.length || 0,
     timestamp: new Date().toISOString(),
@@ -333,7 +343,7 @@ async function onMqttMessage(topic, messageBuf) {
 
   try {
     // LOGGING DÉTAILLÉ : Contenu de chaque message
-    console.log('📨 CONTENU MESSAGE MQTT:', {
+    logDebug('📨 CONTENU MESSAGE MQTT:', {
       topic,
       messageType: data.type || 'non défini',
       dataKeys: Object.keys(data),
@@ -345,7 +355,7 @@ async function onMqttMessage(topic, messageBuf) {
 
     // shortcuts to avoid repeated work
     if (topic === RESERVATIONS_RECENTES_TOPIC) {
-      console.log('🎯 ROUTAGE: Nouvelles réservations détectées');
+      logDebug('🎯 ROUTAGE: Nouvelles réservations détectées');
       logger.debug('Routage: nouvelles réservations');
       await handleNewReservation(data);
       return;
@@ -353,12 +363,12 @@ async function onMqttMessage(topic, messageBuf) {
 
     // Statut/position passager_mobile (nouvel alignement)
     if (topic === PASSAGER_STATUS_TOPIC) {
-      console.log('🎯 ROUTAGE: Statut passager_mobile', { passager_id: data.passager_id, status: data.status });
+      logDebug('🎯 ROUTAGE: Statut passager_mobile', { passager_id: data.passager_id, status: data.status });
       await handlePassagerStatus(data);
       return;
     }
     if (topic === PASSAGER_POSITION_TOPIC) {
-      console.log('🎯 ROUTAGE: Position passager_mobile', { passager_id: data.passager_id, lat: data?.data?.lat, lng: data?.data?.lng });
+      logDebug('🎯 ROUTAGE: Position passager_mobile', { passager_id: data.passager_id, lat: data?.data?.lat, lng: data?.data?.lng });
       await handlePassagerPosition(data);
       return;
     }
@@ -366,7 +376,7 @@ async function onMqttMessage(topic, messageBuf) {
     if (topic.startsWith(RESERVATION_TOPIC_PREFIX)) {
       const parts = topic.split('/');
       const reservationId = parts[2];
-      console.log('🎯 ROUTAGE: Message réservation', { reservationId, type: data?.type });
+      logDebug('🎯 ROUTAGE: Message réservation', { reservationId, type: data?.type });
       logger.debug('Routage: message de réservation', { reservationId, type: data?.type });
       await handleReservationMessage(reservationId, data);
       return;
@@ -375,7 +385,7 @@ async function onMqttMessage(topic, messageBuf) {
     // chauffeur topics (wildcards cover many cases)
     if (/^chauffeur\/.+\/status$/.test(topic)) {
       const chauffeurId = topic.split('/')[1];
-      console.log('🎯 ROUTAGE: Statut chauffeur', { chauffeurId, data });
+      logDebug('🎯 ROUTAGE: Statut chauffeur', { chauffeurId, data });
       logger.debug('Routage: statut chauffeur', { chauffeurId });
       await handleChauffeurStatusUpdate(chauffeurId, data);
       return;
@@ -384,7 +394,7 @@ async function onMqttMessage(topic, messageBuf) {
     if (/^chauffeur\/.+\/position$/.test(topic)) {
       const chauffeurId = topic.split('/')[1];
       const position = data.data || data;
-      console.log('🎯 ROUTAGE: Position chauffeur', { chauffeurId, hasData: !!position, position });
+      logDebug('🎯 ROUTAGE: Position chauffeur', { chauffeurId, hasData: !!position, position });
       logger.debug('Routage: position chauffeur', { chauffeurId, hasData: !!position });
       await handlePosition(chauffeurId, position);
       return;
@@ -392,14 +402,14 @@ async function onMqttMessage(topic, messageBuf) {
 
     if (/^ktur\/reservations\/.+\/position$/.test(topic)) {
       const reservationId = topic.split('/')[2];
-      console.log('🎯 ROUTAGE: Position réservation', { reservationId, data });
+      logDebug('🎯 ROUTAGE: Position réservation', { reservationId, data });
       logger.debug('Routage: position de réservation', { reservationId });
       await handleReservationPosition(reservationId, data);
       return;
     }
 
     // fallback: log as debug only
-    console.log('❓ TOPIC MQTT INCONNU:', { topic, data });
+    logDebug('❓ TOPIC MQTT INCONNU:', { topic, data });
     logger.debug('Topic MQTT inconnu reçu', { topic });
   } catch (err) {
     // LOGGING DÉTAILLÉ DES ERREURS : Capture toutes les erreurs silencieuses

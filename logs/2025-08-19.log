@@ -172,3 +172,82 @@
 2025-08-19 12:24:07 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
 2025-08-19 12:24:09 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":203}
 2025-08-19 12:24:11 [INFO] Arrêt du serveur... 
+2025-08-19 12:50:07 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_listener_f6763c","role":"listener"}
+2025-08-19 12:50:07 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_publisher_660cb0","role":"publisher"}
+2025-08-19 12:50:07 [INFO] Serveur en écoute sur le port 3000 
+2025-08-19 12:50:07 [INFO] Connecté à Redis 
+2025-08-19 12:50:08 [INFO] MQTT Publisher connecté 
+2025-08-19 12:50:08 [INFO] MQTT Listener connecté 
+2025-08-19 12:50:08 [INFO] Souscription envoyée {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2025-08-19 12:50:08 [INFO] Souscription confirmée (SUBACK) 
+2025-08-19 12:50:08 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-19 12:50:08 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
+2025-08-19 12:50:09 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 12:50:50 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":203}
+2025-08-19 12:50:56 [INFO] Arrêt du serveur... 
+2025-08-19 12:56:54 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_listener_292daa","role":"listener"}
+2025-08-19 12:56:54 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_publisher_ce4f9a","role":"publisher"}
+2025-08-19 12:56:54 [INFO] Serveur en écoute sur le port 3000 
+2025-08-19 12:56:55 [INFO] Connecté à Redis 
+2025-08-19 12:56:55 [INFO] MQTT Publisher connecté 
+2025-08-19 12:56:55 [INFO] MQTT Listener connecté 
+2025-08-19 12:56:55 [INFO] Souscription envoyée {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2025-08-19 12:56:56 [INFO] Souscription confirmée (SUBACK) 
+2025-08-19 12:56:56 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-19 12:56:56 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
+2025-08-19 12:56:57 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 12:57:01 [INFO] Arrêt du serveur... 
+2025-08-19 12:57:15 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_listener_fae8de","role":"listener"}
+2025-08-19 12:57:15 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_publisher_788616","role":"publisher"}
+2025-08-19 12:57:15 [INFO] Serveur en écoute sur le port 3000 
+2025-08-19 12:57:15 [INFO] Connecté à Redis 
+2025-08-19 12:57:16 [INFO] MQTT Listener connecté 
+2025-08-19 12:57:16 [INFO] Souscription envoyée {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2025-08-19 12:57:16 [INFO] MQTT Publisher connecté 
+2025-08-19 12:57:17 [INFO] Souscription confirmée (SUBACK) 
+2025-08-19 12:57:17 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-19 12:57:17 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
+2025-08-19 12:57:18 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 12:58:18 [WARN] MQTT Publisher hors ligne 
+2025-08-19 12:58:18 [INFO] MQTT Publisher fermé 
+2025-08-19 12:58:24 [INFO] MQTT Publisher connecté 
+2025-08-19 12:58:37 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 12:59:24 [WARN] MQTT Publisher hors ligne 
+2025-08-19 12:59:24 [INFO] MQTT Publisher fermé 
+2025-08-19 12:59:30 [INFO] MQTT Publisher connecté 
+2025-08-19 13:00:18 [WARN] MQTT Listener hors ligne 
+2025-08-19 13:00:18 [INFO] MQTT Listener fermé 
+2025-08-19 13:00:25 [INFO] Souscription envoyée {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2025-08-19 13:00:25 [INFO] MQTT Listener connecté 
+2025-08-19 13:00:25 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-19 13:00:26 [INFO] Souscription confirmée (SUBACK) 
+2025-08-19 13:00:26 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
+2025-08-19 13:00:26 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 13:01:27 [WARN] MQTT Publisher hors ligne 
+2025-08-19 13:01:27 [INFO] MQTT Publisher fermé 
+2025-08-19 13:01:33 [INFO] MQTT Publisher connecté 
+2025-08-19 13:01:42 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 13:02:33 [WARN] MQTT Publisher hors ligne 
+2025-08-19 13:02:33 [INFO] MQTT Publisher fermé 
+2025-08-19 13:02:39 [INFO] MQTT Publisher connecté 
+2025-08-19 13:03:26 [WARN] MQTT Listener hors ligne 
+2025-08-19 13:03:26 [INFO] MQTT Listener fermé 
+2025-08-19 13:03:32 [INFO] Souscription envoyée {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2025-08-19 13:03:32 [INFO] MQTT Listener connecté 
+2025-08-19 13:03:32 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-19 13:03:32 [INFO] Souscription confirmée (SUBACK) 
+2025-08-19 13:03:32 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
+2025-08-19 13:03:33 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 13:04:17 [INFO] Arrêt du serveur... 
+2025-08-19 13:04:21 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_listener_5c8204","role":"listener"}
+2025-08-19 13:04:21 [INFO] Connexion au broker MQTT... {"url":"mqtts://test.mosquitto.org:8883","clientId":"ktur_publisher_d503bf","role":"publisher"}
+2025-08-19 13:04:21 [INFO] Serveur en écoute sur le port 3000 
+2025-08-19 13:04:21 [INFO] Connecté à Redis 
+2025-08-19 13:04:22 [INFO] MQTT Listener connecté 
+2025-08-19 13:04:22 [INFO] Souscription envoyée {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2025-08-19 13:04:22 [INFO] Souscription confirmée (SUBACK) 
+2025-08-19 13:04:22 [INFO] Abonnements wildcard MQTT effectués 
+2025-08-19 13:04:22 [INFO] MQTT message reçu {"topic":"chauffeur/26/position","size":149}
+2025-08-19 13:04:23 [INFO] MQTT Publisher connecté 
+2025-08-19 13:04:28 [INFO] MQTT message reçu {"topic":"chauffeur/26/status","size":201}
+2025-08-19 13:05:00 [INFO] Arrêt du serveur... 
