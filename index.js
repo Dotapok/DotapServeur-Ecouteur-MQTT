@@ -735,12 +735,21 @@ app.post('/api/ecouter-topic', (req, res) => {
     return res.status(400).json({ message: 'Topic manquant' });
   }
 
-  mqttClient.subscribe(topic, { qos: 1 }, (err) => {
+  mqttClient.subscribe(topic, { qos: 1 }, async (err) => {
     if (err) {
       logger.error('Erreur abonnement topic', { topic, error: err.message });
       return res.status(500).json({ message: 'Erreur abonnement' });
     }
 
+    const topicParts = topic.split('/');
+    if (topicParts.length >= 3 && topicParts[0] === 'chauffeur') {
+      const chauffeurId = topicParts[1];
+      await updateChauffeurStatus(chauffeurId, {
+        en_ligne: true,
+        disponible: true,
+        en_course: false
+      });
+    }
     logger.info('Abonnement topic effectué', { topic });
     return res.json({ message: `Abonné à ${topic}` });
   });
