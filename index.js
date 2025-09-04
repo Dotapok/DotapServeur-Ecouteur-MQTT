@@ -216,10 +216,25 @@ function initializeMQTT() {
 
 // ---------------------- Message Handlers ----------------------
 async function handleMqttMessage(topic, messageBuffer) {
+  // Log raw reception with topic and payload size
+  try {
+    logger.info('MQTT message reçu', { topic, bytes: messageBuffer?.length || 0 });
+  } catch (_) {}
+
   const data = safeJsonParse(messageBuffer);
   if (!data) return;
 
   try {
+    // Optional: log parsed message meta
+    if (typeof data === 'object') {
+      const meta = {
+        topic,
+        type: data.type || null,
+        keys: Object.keys(data || {}).slice(0, 6)
+      };
+      logger.info('MQTT message parsé', meta);
+    }
+
     // Route messages based on topic patterns
     if (topic === RESERVATIONS_RECENTES_TOPIC) {
       await handleNewReservation(data);
@@ -335,16 +350,47 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
     const toBool = (v) => v === true || v === 1 || v === '1' || v === 'true' || v === 'online';
     const isOnline = toBool(data.statut) || toBool(data.en_ligne) || toBool(data.status) || toBool(data.online) || toBool(data.enLigne);
 
+    // Read current state to avoid overwriting unspecified fields
+    const current = await redis.hgetall(`chauffeur:${chauffeurId}`);
+
+    // Determine en_course and disponible from payload with sensible defaults
+    const hasEnCourse = (data.en_course !== undefined) || (data.in_course !== undefined) || (data.busy !== undefined) || (data.state !== undefined);
+    const enCourseFromPayload = toBool(data.en_course) || toBool(data.in_course) || toBool(data.busy) || (String(data.state).toLowerCase() === 'in_course');
+
+    let enCourse = hasEnCourse ? enCourseFromPayload : (current.en_course === '1');
+
+    let disponible;
+    if (data.disponible !== undefined) {
+      disponible = toBool(data.disponible);
+    } else if (hasEnCourse) {
+      disponible = isOnline && !enCourse;
+    } else {
+      // default: if online and not explicitly in course, keep current disponible if exists else true
+      disponible = (current.disponible !== undefined) ? (current.disponible === '1') : isOnline;
+    }
+
     const statusUpdate = {
       en_ligne: isOnline ? '1' : '0',
-      disponible: isOnline ? '1' : '0',
+      disponible: disponible ? '1' : '0',
+      en_course: enCourse ? '1' : '0',
       updated_at: Date.now()
     };
 
     // Update position if provided
-    if (data.position && typeof data.position.latitude === 'number' && typeof data.position.longitude === 'number') {
-      statusUpdate.latitude = data.position.latitude;
-      statusUpdate.longitude = data.position.longitude;
+    if (data.position) {
+      if (typeof data.position.latitude === 'number' && typeof data.position.longitude === 'number') {
+        statusUpdate.latitude = data.position.latitude;
+        statusUpdate.longitude = data.position.longitude;
+      } else if (typeof data.position.lat === 'number' && typeof data.position.lng === 'number') {
+        statusUpdate.latitude = data.position.lat;
+        statusUpdate.longitude = data.position.lng;
+      }
+    } else if (typeof data.latitude === 'number' && typeof data.longitude === 'number') {
+      statusUpdate.latitude = data.latitude;
+      statusUpdate.longitude = data.longitude;
+    } else if (typeof data.lat === 'number' && typeof data.lng === 'number') {
+      statusUpdate.latitude = data.lat;
+      statusUpdate.longitude = data.lng;
     }
 
     await redisUpdate(`chauffeur:${chauffeurId}`, statusUpdate);
@@ -854,13 +900,14 @@ app.post('/api/chauffeur/:id/subscribe-status', (req, res) => {
     return res.status(503).json({ message: 'MQTT non disponible' });
   }
 
-  mqttClient.subscribe(statusTopic, { qos: 1 }, (err) => {
+  mqttClient.subscribe(statusTopic, { qos: 1 }, (err, granted) => {
     if (err) {
       logger.error('Erreur abonnement statut chauffeur', { chauffeurId: id, error: err.message });
       return res.status(500).json({ message: 'Erreur abonnement' });
     }
 
-    logger.info('Abonnement statut chauffeur effectué', { chauffeurId: id });
+    const qos = Array.isArray(granted) && granted[0]?.qos !== undefined ? granted[0].qos : 1;
+    logger.info('Abonnement statut chauffeur effectué', { chauffeurId: id, topic: statusTopic, qos });
     return res.json({ message: `Abonné au statut du chauffeur ${id}` });
   });
 });
