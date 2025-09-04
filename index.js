@@ -283,15 +283,24 @@ async function handleChauffeurPosition(chauffeurId, positionData) {
 
   const now = Date.now();
   const cached = lastPositionCache.get(chauffeurId);
-  const newPosition = { lat: String(positionData.lat), lng: String(positionData.lng), ts: now };
+  const newPosition = { lat: positionData.lat, lng: positionData.lng, ts: now };
 
   // Throttling: skip if position unchanged and within throttle period
   if (cached && !hasPositionChanged(cached, newPosition) && (now - cached.ts) < POSITION_THROTTLE_MS) {
+    try {
+      await redisUpdate(`chauffeur:${chauffeurId}`, {
+        en_ligne: '1',
+        updated_at: now
+      });
+      await publishChauffeurStatus(chauffeurId, { source: 'server' });
+    } catch (err) {
+      logger.error('Erreur mise à jour throttle position chauffeur', { chauffeurId, error: err.message });
+    }
     return;
   }
 
   try {
-    // Update position and set driver as online and available
+    // Update position and set driver online; do not force availability here
     await redisUpdate(`chauffeur:${chauffeurId}`, {
       latitude: positionData.lat,
       longitude: positionData.lng,
@@ -299,7 +308,6 @@ async function handleChauffeurPosition(chauffeurId, positionData) {
       speed: positionData.speed || '',
       heading: positionData.heading || '',
       en_ligne: '1',
-      disponible: '1',
       updated_at: now
     });
 
@@ -324,7 +332,8 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
   }
 
   try {
-    const isOnline = data.statut === 1 || data.en_ligne === true;
+    const toBool = (v) => v === true || v === 1 || v === '1' || v === 'true' || v === 'online';
+    const isOnline = toBool(data.statut) || toBool(data.en_ligne) || toBool(data.status) || toBool(data.online) || toBool(data.enLigne);
 
     const statusUpdate = {
       en_ligne: isOnline ? '1' : '0',
@@ -333,7 +342,7 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
     };
 
     // Update position if provided
-    if (data.position?.latitude && data.position.longitude) {
+    if (data.position && typeof data.position.latitude === 'number' && typeof data.position.longitude === 'number') {
       statusUpdate.latitude = data.position.latitude;
       statusUpdate.longitude = data.position.longitude;
     }
@@ -586,17 +595,10 @@ async function notifyLaravel(endpoint, payload) {
 
 async function updateChauffeurStatus(chauffeurId, fields) {
   const key = `chauffeur:${chauffeurId}`;
-  const statusData = {
-    disponible: fields.disponible ? '1' : '0',
-    en_ligne: fields.en_ligne ? '1' : '0',
-    en_course: fields.en_course ? '1' : '0',
-    updated_at: Date.now()
-  };
-
-  // Remove undefined fields
-  Object.keys(statusData).forEach(k => {
-    if (statusData[k] === undefined) delete statusData[k];
-  });
+  const statusData = { updated_at: Date.now() };
+  if (fields.disponible !== undefined) statusData.disponible = fields.disponible ? '1' : '0';
+  if (fields.en_ligne !== undefined) statusData.en_ligne = fields.en_ligne ? '1' : '0';
+  if (fields.en_course !== undefined) statusData.en_course = fields.en_course ? '1' : '0';
 
   await redisUpdate(key, statusData);
   await publishChauffeurStatus(chauffeurId, { source: 'server' });
