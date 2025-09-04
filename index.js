@@ -73,7 +73,9 @@ function safeJsonParse(buffer) {
   try {
     return JSON.parse(buffer.toString());
   } catch (e) {
-    logger.warn('Message MQTT non-JSON ignoré');
+    if (IS_DEBUG) {
+      logger.warn('Message MQTT non-JSON ignoré');
+    }
     return null;
   }
 }
@@ -97,6 +99,18 @@ async function redisUpdate(key, data) {
   const pipeline = redis.multi();
   pipeline.hmset(key, data);
   await pipeline.exec();
+}
+
+// Compare current Redis hash with a proposed update (after completion)
+function isSameHash(current, next) {
+  const keys = Object.keys(next || {});
+  for (const k of keys) {
+    const cur = current?.[k];
+    // Redis returns strings; normalize to string for comparison
+    const nxt = next[k] !== undefined && next[k] !== null ? String(next[k]) : '';
+    if (String(cur ?? '') !== nxt) return false;
+  }
+  return true;
 }
 
 // Ensure chauffeur hashes always include required fields
@@ -231,23 +245,23 @@ function initializeMQTT() {
 
 // ---------------------- Message Handlers ----------------------
 async function handleMqttMessage(topic, messageBuffer) {
-  // Log raw reception with topic and payload size
+  // Log raw reception with topic and payload size (debug to réduire le bruit)
   try {
-    logger.info('MQTT message reçu', { topic, bytes: messageBuffer?.length || 0 });
+    logger.debug('MQTT message reçu', { topic, bytes: messageBuffer?.length || 0 });
   } catch (_) {}
 
   const data = safeJsonParse(messageBuffer);
   if (!data) return;
 
   try {
-    // Optional: log parsed message meta
+    // Optional: log parsed message meta (debug seulement)
     if (typeof data === 'object') {
       const meta = {
         topic,
         type: data.type || null,
         keys: Object.keys(data || {}).slice(0, 6)
       };
-      logger.info('MQTT message parsé', meta);
+      logger.debug('MQTT message parsé', meta);
     }
 
     // Route messages based on topic patterns
@@ -338,15 +352,20 @@ async function handleChauffeurPosition(chauffeurId, positionData) {
       accuracy: positionData.accuracy || '',
       speed: positionData.speed || '',
       heading: positionData.heading || '',
-      en_ligne: '1',
       updated_at: now
     };
     const current = await redis.hgetall(key);
     const complete = buildCompleteChauffeurHash(current || {}, positionUpdate, now);
-    logger.info('Préparation mise à jour position chauffeur', { key, chauffeurId, update: complete });
-    await redisUpdate(key, complete);
-    const after = await redis.hgetall(key);
-    logger.info('Mise à jour Redis position chauffeur effectuée', { key, fields: Object.keys(after) });
+
+    // Si rien n'a changé, éviter un write inutile et un log bruyant
+    if (!isSameHash(current, complete)) {
+      logger.info('Préparation mise à jour position chauffeur', { key, chauffeurId, update: complete });
+      await redisUpdate(key, complete);
+      const after = await redis.hgetall(key);
+      logger.info('Mise à jour Redis position chauffeur effectuée', { key, fields: Object.keys(after) });
+    } else if (IS_DEBUG) {
+      logger.debug('Position inchangée - mise à jour Redis ignorée', { key, chauffeurId });
+    }
 
     lastPositionCache.set(chauffeurId, newPosition);
 
@@ -419,10 +438,14 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
     const key = `chauffeur:${chauffeurId}`;
     const currentAfterPos = await redis.hgetall(key);
     const complete = buildCompleteChauffeurHash(currentAfterPos || {}, statusUpdate, Date.now());
-    logger.info('Préparation mise à jour statut chauffeur', { key, chauffeurId, update: complete });
-    await redisUpdate(key, complete);
-    const after = await redis.hgetall(key);
-    logger.info('Mise à jour Redis statut chauffeur effectuée', { key, fields: Object.keys(after), en_ligne: after.en_ligne, disponible: after.disponible, en_course: after.en_course });
+    if (!isSameHash(currentAfterPos, complete)) {
+      logger.info('Préparation mise à jour statut chauffeur', { key, chauffeurId, update: complete });
+      await redisUpdate(key, complete);
+      const after = await redis.hgetall(key);
+      logger.info('Mise à jour Redis statut chauffeur effectuée', { key, fields: Object.keys(after), en_ligne: after.en_ligne, disponible: after.disponible, en_course: after.en_course });
+    } else if (IS_DEBUG) {
+      logger.debug('Statut inchangé - mise à jour Redis ignorée', { key, chauffeurId });
+    }
     await publishChauffeurStatus(chauffeurId, { source: 'server' });
 
     logger.info('Statut chauffeur mis à jour', { chauffeurId, en_ligne: isOnline });
