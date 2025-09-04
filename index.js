@@ -316,7 +316,8 @@ async function handleChauffeurPosition(chauffeurId, positionData) {
 
   try {
     // Update position and set driver online; do not force availability here
-    await redisUpdate(`chauffeur:${chauffeurId}`, {
+    const key = `chauffeur:${chauffeurId}`;
+    const positionUpdate = {
       latitude: positionData.lat,
       longitude: positionData.lng,
       accuracy: positionData.accuracy || '',
@@ -324,7 +325,11 @@ async function handleChauffeurPosition(chauffeurId, positionData) {
       heading: positionData.heading || '',
       en_ligne: '1',
       updated_at: now
-    });
+    };
+    logger.info('Préparation mise à jour position chauffeur', { key, chauffeurId, update: positionUpdate });
+    await redisUpdate(key, positionUpdate);
+    const after = await redis.hgetall(key);
+    logger.info('Mise à jour Redis position chauffeur effectuée', { key, fields: Object.keys(after) });
 
     lastPositionCache.set(chauffeurId, newPosition);
 
@@ -375,6 +380,7 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
       en_course: enCourse ? '1' : '0',
       updated_at: Date.now()
     };
+    logger.info('Statut chauffeur calculé', { chauffeurId, isOnline, disponible, enCourse, statusUpdate });
 
     // Update position if provided
     if (data.position) {
@@ -393,7 +399,11 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
       statusUpdate.longitude = data.lng;
     }
 
-    await redisUpdate(`chauffeur:${chauffeurId}`, statusUpdate);
+    const key = `chauffeur:${chauffeurId}`;
+    logger.info('Préparation mise à jour statut chauffeur', { key, chauffeurId, update: statusUpdate });
+    await redisUpdate(key, statusUpdate);
+    const after = await redis.hgetall(key);
+    logger.info('Mise à jour Redis statut chauffeur effectuée', { key, fields: Object.keys(after), en_ligne: after.en_ligne, disponible: after.disponible, en_course: after.en_course });
     await publishChauffeurStatus(chauffeurId, { source: 'server' });
 
     logger.info('Statut chauffeur mis à jour', { chauffeurId, en_ligne: isOnline });
