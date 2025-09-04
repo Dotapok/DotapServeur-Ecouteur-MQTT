@@ -693,12 +693,16 @@ async function notifyLaravel(endpoint, payload) {
 
 async function updateChauffeurStatus(chauffeurId, fields) {
   const key = `chauffeur:${chauffeurId}`;
-  const statusData = { updated_at: Date.now() };
+  const now = Date.now();
+  const statusData = { updated_at: now };
   if (fields.disponible !== undefined) statusData.disponible = fields.disponible ? '1' : '0';
   if (fields.en_ligne !== undefined) statusData.en_ligne = fields.en_ligne ? '1' : '0';
   if (fields.en_course !== undefined) statusData.en_course = fields.en_course ? '1' : '0';
 
-  await redisUpdate(key, statusData);
+  // Écrire un hash COMPLET (ajoute latitude/longitude/etc. si manquants)
+  const current = await redis.hgetall(key);
+  const complete = buildCompleteChauffeurHash(current || {}, statusData, now);
+  await redisUpdate(key, complete);
   await publishChauffeurStatus(chauffeurId, { source: 'server' });
 }
 
