@@ -99,6 +99,21 @@ async function redisUpdate(key, data) {
   await pipeline.exec();
 }
 
+// Ensure chauffeur hashes always include required fields
+function buildCompleteChauffeurHash(current, update, nowTs) {
+  const result = {};
+  result.latitude = update.latitude !== undefined ? update.latitude : (current.latitude !== undefined ? current.latitude : '');
+  result.longitude = update.longitude !== undefined ? update.longitude : (current.longitude !== undefined ? current.longitude : '');
+  result.accuracy = update.accuracy !== undefined ? update.accuracy : (current.accuracy !== undefined ? current.accuracy : '');
+  result.speed = update.speed !== undefined ? update.speed : (current.speed !== undefined ? current.speed : '');
+  result.heading = update.heading !== undefined ? update.heading : (current.heading !== undefined ? current.heading : '');
+  result.en_ligne = update.en_ligne !== undefined ? update.en_ligne : (current.en_ligne !== undefined ? current.en_ligne : '0');
+  result.disponible = update.disponible !== undefined ? update.disponible : (current.disponible !== undefined ? current.disponible : '0');
+  result.en_course = update.en_course !== undefined ? update.en_course : (current.en_course !== undefined ? current.en_course : '0');
+  result.updated_at = update.updated_at !== undefined ? update.updated_at : (current.updated_at !== undefined ? current.updated_at : nowTs);
+  return result;
+}
+
 // ---------------------- MQTT Message Queue ----------------------
 function enqueuePendingMessage(topic, payload, options = { qos: 1, retain: false }) {
   if (pendingMessages.length >= MAX_PENDING_MESSAGES) {
@@ -326,8 +341,10 @@ async function handleChauffeurPosition(chauffeurId, positionData) {
       en_ligne: '1',
       updated_at: now
     };
-    logger.info('Préparation mise à jour position chauffeur', { key, chauffeurId, update: positionUpdate });
-    await redisUpdate(key, positionUpdate);
+    const current = await redis.hgetall(key);
+    const complete = buildCompleteChauffeurHash(current || {}, positionUpdate, now);
+    logger.info('Préparation mise à jour position chauffeur', { key, chauffeurId, update: complete });
+    await redisUpdate(key, complete);
     const after = await redis.hgetall(key);
     logger.info('Mise à jour Redis position chauffeur effectuée', { key, fields: Object.keys(after) });
 
@@ -385,8 +402,8 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
     // Update position if provided
     if (data.position) {
       if (typeof data.position.latitude === 'number' && typeof data.position.longitude === 'number') {
-        statusUpdate.latitude = data.position.latitude;
-        statusUpdate.longitude = data.position.longitude;
+      statusUpdate.latitude = data.position.latitude;
+      statusUpdate.longitude = data.position.longitude;
       } else if (typeof data.position.lat === 'number' && typeof data.position.lng === 'number') {
         statusUpdate.latitude = data.position.lat;
         statusUpdate.longitude = data.position.lng;
@@ -400,8 +417,10 @@ async function handleChauffeurStatusUpdate(chauffeurId, data) {
     }
 
     const key = `chauffeur:${chauffeurId}`;
-    logger.info('Préparation mise à jour statut chauffeur', { key, chauffeurId, update: statusUpdate });
-    await redisUpdate(key, statusUpdate);
+    const currentAfterPos = await redis.hgetall(key);
+    const complete = buildCompleteChauffeurHash(currentAfterPos || {}, statusUpdate, Date.now());
+    logger.info('Préparation mise à jour statut chauffeur', { key, chauffeurId, update: complete });
+    await redisUpdate(key, complete);
     const after = await redis.hgetall(key);
     logger.info('Mise à jour Redis statut chauffeur effectuée', { key, fields: Object.keys(after), en_ligne: after.en_ligne, disponible: after.disponible, en_course: after.en_course });
     await publishChauffeurStatus(chauffeurId, { source: 'server' });
