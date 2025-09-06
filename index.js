@@ -641,17 +641,39 @@ async function handlePassagerPosition(data) {
 // ---------------------- Chat Handlers ----------------------
 async function handleChatMessage(reservationId, data) {
   try {
+    // 🚨 CRITIQUE : Stockage Redis pour persistance
     const key = `chat:${reservationId}:messages`;
-    await redis.lpush(key, JSON.stringify({
+    const messageData = {
       from: data.from,
       content: data.content,
-      timestamp: Date.now()
-    }));
+      timestamp: data.timestamp || Date.now(),
+      reservation_id: reservationId
+    };
+    
+    await redis.lpush(key, JSON.stringify(messageData));
+
+    // 🚨 CRITIQUE : Rediffusion MQTT pour synchronisation temps réel
+    const topic = `ktur/reservations/${reservationId}`;
+    const mqttPayload = JSON.stringify({
+      type: 'chat',
+      from: data.from,
+      content: data.content,
+      timestamp: messageData.timestamp,
+      reservation_id: reservationId
+    });
+
+    await publishMqttMessage(topic, mqttPayload, { qos: 1 });
 
     const messageCount = await redis.llen(key);
     if (messageCount >= 100) {
       await archiveChatMessages(reservationId);
     }
+
+    logger.info('Message chat traité et rediffusé', { 
+      reservationId, 
+      from: data.from, 
+      messageCount 
+    });
   } catch (err) {
     logger.error('Erreur message chat', { reservationId, error: err.message });
   }
@@ -1065,16 +1087,17 @@ app.post('/api/reservation/send-message', async (req, res) => {
   }
 
   try {
-    const topic = `${RESERVATION_TOPIC_PREFIX}${reservation_id}`;
-    const payload = JSON.stringify({
-      type: 'chat',
+    // 🚨 CRITIQUE : Utiliser le handler unifié pour stockage Redis + MQTT
+    await handleChatMessage(reservation_id, {
       from: message.from,
       content: message.content,
-      timestamp: Date.now()
+      timestamp: message.timestamp || Date.now()
     });
 
-    await publishMqttMessage(topic, payload, { qos: 1 });
-    logger.info('Message chat envoyé', { reservationId: reservation_id, from: message.from });
+    logger.info('Message chat envoyé via système unifié', { 
+      reservationId: reservation_id, 
+      from: message.from 
+    });
 
     return res.json({ success: true });
   } catch (err) {
