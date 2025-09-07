@@ -489,10 +489,9 @@ async function handleReservationAcceptance(reservationId, data) {
 
 async function handleReservationStart(reservationId, data) {
   try {
-    await notifyLaravel('/reservation/acceptation', {
+    await notifyLaravel('/reservation/debut', {
       resa_id: reservationId,
-      chauffeur_id: data.chauffeur_id,
-      action: 'start'
+      chauffeur_id: data.chauffeur_id
     });
 
     await updateChauffeurStatus(data.chauffeur_id, {
@@ -683,10 +682,10 @@ async function archiveChatMessages(reservationId) {
   const key = `chat:${reservationId}:messages`;
   try {
     const messages = await redis.lrange(key, 0, -1);
-    await axios.post(`${process.env.LARAVEL_API_URL}/api/chat/archive`, {
+    await notifyLaravel('/chat/archive', {
       reservation_id: reservationId,
       messages: messages.map(m => JSON.parse(m))
-    }, { headers: { 'Content-Type': 'application/json' } });
+    });
 
     await redis.del(key);
     logger.info('Chat archivé', { reservationId });
