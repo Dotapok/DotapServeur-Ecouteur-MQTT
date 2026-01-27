@@ -1,0 +1,2798 @@
+2026-01-27 12:13:55 [INFO] Initialisation des services... 
+2026-01-27 12:13:55 [INFO] Connecté à Redis 
+2026-01-27 12:13:56 [ERROR] Erreur Redis: 
+2026-01-27 12:13:56 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:56 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:56 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:56 [INFO] Connecté à Redis 
+2026-01-27 12:13:56 [ERROR] Erreur Redis: 
+2026-01-27 12:13:56 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:56 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:56 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:56 [INFO] Connecté à Redis 
+2026-01-27 12:13:57 [ERROR] Erreur Redis: 
+2026-01-27 12:13:57 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:57 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:57 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:57 [INFO] Connecté à Redis 
+2026-01-27 12:13:57 [ERROR] Erreur Redis: 
+2026-01-27 12:13:57 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:57 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:57 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:57 [INFO] Connecté à Redis 
+2026-01-27 12:13:58 [ERROR] Erreur Redis: 
+2026-01-27 12:13:58 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:58 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:58 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:58 [INFO] Connecté à Redis 
+2026-01-27 12:13:58 [INFO] Connecté à Redis 
+2026-01-27 12:13:58 [ERROR] Erreur Redis: 
+2026-01-27 12:13:58 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:58 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:58 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:58 [INFO] Connecté à Redis 
+2026-01-27 12:13:58 [ERROR] Erreur Redis: 
+2026-01-27 12:13:58 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:58 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:58 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:58 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:58 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:58 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [ERROR] Erreur Redis: 
+2026-01-27 12:13:59 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:13:59 [WARN] Connexion Redis fermée 
+2026-01-27 12:13:59 [INFO] Reconnexion à Redis... 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:13:59 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [ERROR] Erreur Redis: 
+2026-01-27 12:14:00 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [ERROR] Erreur Redis: 
+2026-01-27 12:14:00 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:00 [ERROR] Erreur Redis: 
+2026-01-27 12:14:00 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:00 [INFO] Connecté à Redis 
+2026-01-27 12:14:00 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:00 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [INFO] Connecté à Redis 
+2026-01-27 12:14:01 [ERROR] Erreur Redis: 
+2026-01-27 12:14:01 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:01 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:01 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:02 [ERROR] Erreur Redis: 
+2026-01-27 12:14:02 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:02 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:02 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:02 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [ERROR] Erreur Redis: 
+2026-01-27 12:14:03 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [ERROR] Erreur Redis: 
+2026-01-27 12:14:03 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:03 [ERROR] Erreur Redis: 
+2026-01-27 12:14:03 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:03 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:03 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:03 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [ERROR] Erreur Redis: 
+2026-01-27 12:14:04 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [ERROR] Erreur Redis: 
+2026-01-27 12:14:04 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [ERROR] Erreur Redis: 
+2026-01-27 12:14:04 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [ERROR] Erreur Redis: 
+2026-01-27 12:14:04 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [ERROR] Erreur Redis: 
+2026-01-27 12:14:04 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [ERROR] Erreur Redis: 
+2026-01-27 12:14:04 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:04 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:04 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [ERROR] Erreur Redis: 
+2026-01-27 12:14:05 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [ERROR] Erreur Redis: 
+2026-01-27 12:14:05 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [ERROR] Erreur Redis: 
+2026-01-27 12:14:05 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [ERROR] Erreur Redis: 
+2026-01-27 12:14:05 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:05 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:05 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [ERROR] Erreur Redis: 
+2026-01-27 12:14:06 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [ERROR] Erreur Redis: 
+2026-01-27 12:14:06 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [ERROR] Erreur Redis: 
+2026-01-27 12:14:06 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [ERROR] Erreur Redis: 
+2026-01-27 12:14:06 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [ERROR] Erreur Redis: 
+2026-01-27 12:14:06 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [ERROR] Erreur Redis: 
+2026-01-27 12:14:06 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:06 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:06 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:07 [ERROR] Erreur Redis: 
+2026-01-27 12:14:07 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:07 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:07 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 4/5 dans 16000ms 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [WARN] Tentative de reconnexion 5/5 dans 32000ms 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [ERROR] Erreur Redis: 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [INFO] Connecté à Redis 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:08 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:08 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [ERROR] Erreur Redis: 
+2026-01-27 12:14:09 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:09 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:09 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:09 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:10 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:14:10 [ERROR] Erreur Redis: 
+2026-01-27 12:14:10 [WARN] Tentative de reconnexion 4/5 dans 16000ms 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:10 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [ERROR] Erreur Redis: 
+2026-01-27 12:14:11 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [ERROR] Erreur Redis: 
+2026-01-27 12:14:11 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [ERROR] Erreur Redis: 
+2026-01-27 12:14:11 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [ERROR] Erreur Redis: 
+2026-01-27 12:14:11 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [INFO] Connecté à Redis 
+2026-01-27 12:14:11 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:11 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 3/5 dans 8000ms 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 4/5 dans 16000ms 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 2/5 dans 4000ms 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [ERROR] Erreur Redis: 
+2026-01-27 12:14:12 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:12 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:12 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:12 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [ERROR] Erreur Redis: 
+2026-01-27 12:14:13 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [ERROR] Erreur Redis: 
+2026-01-27 12:14:13 [WARN] Tentative de reconnexion 1/5 dans 2000ms 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [WARN] Connexion Redis fermée 
+2026-01-27 12:14:13 [INFO] Reconnexion à Redis... 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:14:13 [INFO] Connecté à Redis 
+2026-01-27 12:21:54 [INFO] Initialisation des services... 
+2026-01-27 12:21:55 [INFO] Connecté à Redis 
+2026-01-27 12:21:56 [INFO] ✅ Service Redis initialisé 
+2026-01-27 12:21:56 [INFO] Consumer group Redis Stream initialisé {"stream":"ktur:mqtt:messages","group":"mqtt_publishers"}
+2026-01-27 12:21:56 [INFO] ✅ Service Queue initialisé 
+2026-01-27 12:21:56 [INFO] Création client MQTT {"role":"listener","clientId":"ktur_listener_a1919e"}
+2026-01-27 12:21:57 [INFO] Création client MQTT {"role":"publisher","clientId":"ktur_publisher_5f64c5"}
+2026-01-27 12:21:57 [INFO] ✅ Service MQTT initialisé 
+2026-01-27 12:21:57 [INFO] 🎯 Tous les services initialisés avec succès 
+2026-01-27 12:21:58 [INFO] 🚀 Serveur démarré sur le port 3000 
+2026-01-27 12:21:58 [INFO] 🌐 Environnement: development 
+2026-01-27 12:21:58 [INFO] 📊 Log level: info 
+2026-01-27 12:21:59 [INFO] MQTT Listener connecté 
+2026-01-27 12:21:59 [INFO] MQTT Publisher connecté 
+2026-01-27 12:21:59 [INFO] Traitement de 0 messages en attente 
+2026-01-27 12:21:59 [INFO] Abonnements MQTT effectués {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2026-01-27 12:22:30 [INFO] 📴 Reçu SIGINT, fermeture gracieuse... 
+2026-01-27 12:22:30 [INFO] Fermeture des clients MQTT 
+2026-01-27 12:22:30 [INFO] Client MQTT listener fermé 
+2026-01-27 12:22:30 [INFO] Client MQTT publisher fermé 
+2026-01-27 12:22:30 [INFO] MQTT Listener fermé 
+2026-01-27 12:22:30 [INFO] MQTT Publisher fermé 
+2026-01-27 12:22:30 [INFO] Connexion Redis fermée proprement 
+2026-01-27 12:25:26 [INFO] Initialisation des services... 
+2026-01-27 12:25:26 [INFO] Connecté à Redis 
+2026-01-27 12:25:27 [INFO] ✅ Service Redis initialisé 
+2026-01-27 12:25:27 [INFO] Consumer group existe déjà 
+2026-01-27 12:25:27 [INFO] ✅ Service Queue initialisé 
+2026-01-27 12:25:27 [INFO] Création client MQTT {"role":"listener","clientId":"ktur_listener_880119"}
+2026-01-27 12:25:27 [INFO] Création client MQTT {"role":"publisher","clientId":"ktur_publisher_498172"}
+2026-01-27 12:25:27 [INFO] ✅ Service MQTT initialisé 
+2026-01-27 12:25:27 [INFO] 🎯 Tous les services initialisés avec succès 
+2026-01-27 12:25:27 [INFO] 🚀 Serveur démarré sur le port 3000 
+2026-01-27 12:25:27 [INFO] 🌐 Environnement: development 
+2026-01-27 12:25:27 [INFO] 📊 Log level: info 
+2026-01-27 12:25:28 [INFO] MQTT Publisher connecté 
+2026-01-27 12:25:28 [INFO] Traitement de 0 messages en attente 
+2026-01-27 12:25:28 [INFO] MQTT Listener connecté 
+2026-01-27 12:25:28 [INFO] Traitement de 0 messages en attente 
+2026-01-27 12:25:43 [INFO] Abonnements MQTT effectués {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2026-01-27 12:28:15 [INFO] 📴 Reçu SIGINT, fermeture gracieuse... 
+2026-01-27 12:28:15 [INFO] Fermeture des clients MQTT 
+2026-01-27 12:28:15 [INFO] Client MQTT listener fermé 
+2026-01-27 12:28:15 [INFO] Client MQTT publisher fermé 
+2026-01-27 12:28:16 [INFO] MQTT Publisher fermé 
+2026-01-27 12:28:16 [INFO] MQTT Listener fermé 
+2026-01-27 12:28:16 [INFO] Connexion Redis fermée proprement 
+2026-01-27 12:28:22 [INFO] Initialisation des services... 
+2026-01-27 12:28:22 [INFO] Connecté à Redis 
+2026-01-27 12:28:23 [INFO] ✅ Service Redis initialisé 
+2026-01-27 12:28:23 [INFO] Consumer group existe déjà 
+2026-01-27 12:28:23 [INFO] ✅ Service Queue initialisé 
+2026-01-27 12:28:23 [INFO] Création client MQTT {"role":"listener","clientId":"ktur_listener_1e9fd4"}
+2026-01-27 12:28:23 [INFO] Création client MQTT {"role":"publisher","clientId":"ktur_publisher_313485"}
+2026-01-27 12:28:23 [INFO] ✅ Service MQTT initialisé 
+2026-01-27 12:28:23 [INFO] 🎯 Tous les services initialisés avec succès 
+2026-01-27 12:28:23 [INFO] 🚀 Serveur démarré sur le port 3000 
+2026-01-27 12:28:23 [INFO] 🌐 Environnement: development 
+2026-01-27 12:28:23 [INFO] 📊 Log level: info 
+2026-01-27 12:28:24 [INFO] MQTT Listener connecté 
+2026-01-27 12:28:24 [INFO] MQTT Publisher connecté 
+2026-01-27 12:28:24 [INFO] Traitement de 0 messages en attente 
+2026-01-27 12:28:25 [INFO] Abonnements MQTT effectués {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2026-01-27 13:01:00 [INFO] 📴 Reçu SIGINT, fermeture gracieuse... 
+2026-01-27 13:01:00 [INFO] Fermeture des clients MQTT 
+2026-01-27 13:01:00 [INFO] Client MQTT listener fermé 
+2026-01-27 13:01:00 [INFO] Client MQTT publisher fermé 
+2026-01-27 13:01:00 [INFO] MQTT Listener fermé 
+2026-01-27 13:01:18 [INFO] Initialisation des services... 
+2026-01-27 13:01:18 [INFO] Connecté à Redis 
+2026-01-27 13:01:19 [INFO] ✅ Service Redis initialisé 
+2026-01-27 13:01:19 [INFO] Consumer group existe déjà 
+2026-01-27 13:01:19 [INFO] ✅ Service Queue initialisé 
+2026-01-27 13:01:19 [INFO] Création client MQTT {"role":"listener","clientId":"ktur_listener_d8c298"}
+2026-01-27 13:01:20 [INFO] Création client MQTT {"role":"publisher","clientId":"ktur_publisher_c93039"}
+2026-01-27 13:01:20 [INFO] ✅ Service MQTT initialisé 
+2026-01-27 13:01:20 [INFO] 🎯 Tous les services initialisés avec succès 
+2026-01-27 13:01:20 [INFO] 🚀 Serveur démarré sur le port 3000 
+2026-01-27 13:01:20 [INFO] 🌐 Environnement: development 
+2026-01-27 13:01:20 [INFO] 📊 Log level: info 
+2026-01-27 13:01:21 [INFO] MQTT Publisher connecté 
+2026-01-27 13:01:21 [INFO] Traitement de 0 messages en attente 
+2026-01-27 13:01:21 [INFO] MQTT Listener connecté 
+2026-01-27 13:01:21 [INFO] Traitement de 0 messages en attente 
+2026-01-27 13:01:22 [INFO] Abonnements MQTT effectués {"topics":["ktur/reservations/recentes","chauffeur/+/status","chauffeur/+/position","passager_mobile/status","passager_mobile/position"]}
+2026-01-27 13:01:32 [INFO] 📴 Reçu SIGINT, fermeture gracieuse... 
+2026-01-27 13:01:32 [INFO] Fermeture des clients MQTT 
+2026-01-27 13:01:32 [INFO] Client MQTT listener fermé 
+2026-01-27 13:01:32 [INFO] Client MQTT publisher fermé 
+2026-01-27 13:01:32 [INFO] MQTT Publisher fermé 
+2026-01-27 13:01:32 [INFO] MQTT Listener fermé 
+2026-01-27 13:01:33 [INFO] Connexion Redis fermée proprement 
