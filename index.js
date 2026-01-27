@@ -25,24 +25,24 @@ async function initializeServices() {
     
     // Initialiser Redis en premier (dépendance pour les autres services)
     await redisService.initialize();
-    logger.info('✅ Service Redis initialisé');
+    logger.info('Service Redis initialisé');
     
     // Initialiser la queue Redis Streams
     await queueService.initialize();
-    logger.info('✅ Service Queue initialisé');
+    logger.info('Service Queue initialisé');
     
     // Initialiser MQTT
     if (config.isMQTTEnabled()) {
       mqttService.initialize();
-      logger.info('✅ Service MQTT initialisé');
+      logger.info('Service MQTT initialisé');
     } else {
-      logger.warn('⚠️  MQTT désactivé');
+      logger.warn('MQTT désactivé');
     }
     
-    logger.info('🎯 Tous les services initialisés avec succès');
+    logger.info('Tous les services initialisés avec succès');
     
   } catch (error) {
-    logger.error('❌ Erreur initialisation services:', error.message);
+    logger.error('Erreur initialisation services:', error.message);
     process.exit(1);
   }
 }
@@ -261,7 +261,7 @@ app.use('/api', apiRoutes);
 // ---------------------- Graceful Shutdown ----------------------
 
 async function gracefulShutdown(signal) {
-  logger.info(`📴 Reçu ${signal}, fermeture gracieuse...`);
+  logger.info(`Reçu ${signal}, fermeture gracieuse...`);
   
   try {
     // Fermer MQTT
@@ -272,11 +272,11 @@ async function gracefulShutdown(signal) {
     // Fermer Redis
     await redisService.shutdown();
     
-    logger.info('✅ Tous les services fermés proprement');
+    logger.info(' Tous les services fermés proprement');
     process.exit(0);
     
   } catch (error) {
-    logger.error('❌ Erreur lors de la fermeture gracieuse:', error.message);
+    logger.error(' Erreur lors de la fermeture gracieuse:', error.message);
     process.exit(1);
   }
 }
@@ -290,9 +290,9 @@ async function startServer() {
     
     // Démarrer le serveur
     app.listen(config.PORT, () => {
-      logger.info(`🚀 Serveur démarré sur le port ${config.PORT}`);
-      logger.info(`🌐 Environnement: ${config.NODE_ENV}`);
-      logger.info(`📊 Log level: ${config.LOG_LEVEL}`);
+      logger.info(` Serveur démarré sur le port ${config.PORT}`);
+      logger.info(` Environnement: ${config.NODE_ENV}`);
+      logger.info(` Log level: ${config.LOG_LEVEL}`);
     });
     
     // Gestion des signaux pour le graceful shutdown
@@ -301,7 +301,7 @@ async function startServer() {
     process.on('SIGUSR2', () => gracefulShutdown('SIGUSR2')); // Pour nodemon
     
   } catch (error) {
-    logger.error('❌ Erreur démarrage serveur:', error.message);
+    logger.error(' Erreur démarrage serveur:', error.message);
     process.exit(1);
   }
 }
