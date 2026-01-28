@@ -110,4 +110,51 @@ router.post('/message', async (req, res) => {
   }
 });
 
+/**
+ * @route GET /chat/sos/history/:sosId
+ * @description Récupérer l'historique du chat SOS (utilisateur ↔ admin)
+ * @param {string} sosId - ID du SOS
+ * @returns {Object} Historique des messages du chat SOS
+ */
+router.get('/sos/history/:sosId', async (req, res) => {
+  try {
+    const sosId = req.params.sosId;
+    
+    if (!sosId) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'ID SOS requis',
+        timestamp: Date.now()
+      });
+    }
+    
+    const key = `chat:sos_history:${sosId}`;
+    const chatHistory = await redisService.lrange(key, 0, -1);
+    
+    const messages = chatHistory.map(msg => {
+      try {
+        return JSON.parse(msg);
+      } catch {
+        return { message: msg, timestamp: Date.now() };
+      }
+    });
+    
+    res.json({
+      status: 'success',
+      sos_id: sosId,
+      messages,
+      count: messages.length,
+      timestamp: Date.now()
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      status: 'error',
+      message: 'Erreur lors de la récupération de l\'historique du chat SOS',
+      error: error.message,
+      timestamp: Date.now()
+    });
+  }
+});
+
 module.exports = router;

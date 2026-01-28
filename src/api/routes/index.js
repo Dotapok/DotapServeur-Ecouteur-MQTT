@@ -45,7 +45,8 @@ router.get('/', (req, res) => {
       reservation_position: '/reservations/:id/position',
       reservation_details: '/reservations/:id',
       chat_history: '/chat/history/:reservationId',
-      chat_send_message: '/chat/message'
+        chat_send_message: '/chat/message',
+        chat_sos_history: '/chat/sos/history/:sosId'
     }
   });
 });

@@ -182,6 +182,43 @@ class RedisService {
     }
   }
 
+  // List operations for chat history
+  async lpush(key, value) {
+    if (!this.isReady()) {
+      throw new Error('Redis non connecté');
+    }
+    try {
+      return await this.client.lpush(key, value);
+    } catch (err) {
+      logger.error('Erreur Redis lpush:', err.message);
+      throw err;
+    }
+  }
+
+  async ltrim(key, start, stop) {
+    if (!this.isReady()) {
+      throw new Error('Redis non connecté');
+    }
+    try {
+      return await this.client.ltrim(key, start, stop);
+    } catch (err) {
+      logger.error('Erreur Redis ltrim:', err.message);
+      throw err;
+    }
+  }
+
+  async lrange(key, start, stop) {
+    if (!this.isReady()) {
+      throw new Error('Redis non connecté');
+    }
+    try {
+      return await this.client.lrange(key, start, stop);
+    } catch (err) {
+      logger.error('Erreur Redis lrange:', err.message);
+      throw err;
+    }
+  }
+
   // Pipeline pour les opérations batch
   async pipeline(operations) {
     if (!this.isReady()) {
