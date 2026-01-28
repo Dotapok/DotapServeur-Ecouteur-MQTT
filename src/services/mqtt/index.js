@@ -1,5 +1,7 @@
 const mqtt = require('mqtt');
 const logger = require('../../utils/logger');
+const redisService = require('../redis');
+const config = require('../../config');
 
 class MQTTService {
   constructor() {
@@ -69,7 +71,9 @@ class MQTTService {
         'chauffeur/+/status',
         'chauffeur/+/position',
         'passager_mobile/status',
-        'passager_mobile/position'
+        'passager_mobile/position',
+        'ktur/reservations/+/chat',
+        'ktur/chat/sos/+'
       ];
 
       client.subscribe(topics, { qos: 1 }, (err) => {
@@ -86,6 +90,75 @@ class MQTTService {
     client.on('error', err => logger.error('MQTT Listener erreur:', err.message));
     client.on('close', () => logger.info('MQTT Listener fermé'));
     client.on('offline', () => logger.warn('MQTT Listener hors ligne'));
+
+    client.on('message', (topic, messageBuffer) => {
+      try {
+        const match = topic.match(/^ktur\/reservations\/([^/]+)\/chat$/);
+        if (match) {
+          const reservationId = match[1];
+          let data = null;
+          try {
+            data = JSON.parse(messageBuffer.toString());
+          } catch (e) {
+            data = { message: messageBuffer.toString(), type: 'chat_message', sender: 'unknown' };
+          }
+          const now = Date.now();
+          const msg = {
+            reservation_id: data?.reservation_id || reservationId,
+            message: data?.message || '',
+            sender: data?.sender || 'system',
+            type: data?.type || 'chat_message',
+            timestamp: data?.timestamp || now,
+            ...(data?.message_ts ? { message_ts: data.message_ts } : {})
+          };
+          (async () => {
+            try {
+              const key = `chat:history:${reservationId}`;
+              await redisService.lpush(key, JSON.stringify(msg));
+              await redisService.ltrim(key, 0, 999);
+              if (process.env.LOG_LEVEL === 'debug') {
+                logger.debug('Message chat stocké dans Redis', { reservationId, type: msg.type });
+              }
+            } catch (err) {
+              logger.error('Erreur stockage message chat', { reservationId, error: err.message });
+            }
+          })();
+        }
+        const sosMatch = topic.match(/^ktur\/chat\/sos\/([^/]+)$/);
+        if (sosMatch) {
+          const sosId = sosMatch[1];
+          let data = null;
+          try {
+            data = JSON.parse(messageBuffer.toString());
+          } catch (e) {
+            data = { message: messageBuffer.toString(), type: 'chat_message', sender: 'unknown' };
+          }
+          const now = Date.now();
+          const msg = {
+            sos_id: data?.sos_id || sosId,
+            message: data?.message || '',
+            sender: data?.sender || 'system',
+            type: data?.type || 'chat_message',
+            timestamp: data?.timestamp || now,
+            ...(data?.message_ts ? { message_ts: data.message_ts } : {})
+          };
+          (async () => {
+            try {
+              const key = `chat:sos_history:${sosId}`;
+              await redisService.lpush(key, JSON.stringify(msg));
+              await redisService.ltrim(key, 0, 999);
+              if (process.env.LOG_LEVEL === 'debug') {
+                logger.debug('Message chat SOS stocké dans Redis', { sosId, type: msg.type });
+              }
+            } catch (err) {
+              logger.error('Erreur stockage message chat SOS', { sosId, error: err.message });
+            }
+          })();
+        }
+      } catch (err) {
+        logger.error('Erreur traitement message MQTT', { error: err.message });
+      }
+    });
   }
 
   // Configuration du client publisher
